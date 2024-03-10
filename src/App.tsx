@@ -1,7 +1,7 @@
 import { useLocalstorage } from "./hooks/useLocalstorage";
 import { TaskProps } from "./interfaces/task.interface";
 import CreateTask from "./components/CreateTask";
-import { reorder } from "./services/Reorder";
+import { reorder } from "./services/reorder";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import TaskList from "./components/TaskList";
 import { useEffect, useState } from "react";

@@ -6,6 +6,7 @@ import { Droppable, Draggable } from "react-beautiful-dnd";
 import { TaskProps } from "../interfaces/task.interface";
 import Task from "./Task";
 import { itemListProps } from "../interfaces/itemList.interface";
+import { TASK_MAXWIDTH, TASK_MINWIDTH } from "../constants/base";
 
 const ItemList = memo(
   ({ item, style, index, provided, isDragging }: itemListProps) => {
@@ -20,7 +21,7 @@ const ItemList = memo(
       ...style,
       ...provided.draggableProps.style,
       userSelect: "none",
-      width: "640px",
+      width: `calc(clamp(${TASK_MINWIDTH}px, 100vw, ${TASK_MAXWIDTH}px) - 8px)`,
       left: "50%",
       transform: transform ? transform : "translateX(-50%)",
     };
@@ -81,7 +82,7 @@ const rowRenderer =
 
 const TaskList = memo(({ items }: { items: TaskProps[] }) => {
   return (
-    <div className="flex-1 border-black border ">
+    <div className="flex-1">
       <Droppable
         mode="virtual"
         direction="vertical"

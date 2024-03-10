@@ -28,6 +28,7 @@ const Task = ({ task /*, tasks, setTasks */ }: TaskComponentProps) => {
         <Box
           sx={{
             width: `calc(clamp(${TASK_MINWIDTH}px, 100vw, ${TASK_MAXWIDTH}px) - 50px)`,
+            maxWidth: `calc(clamp(${TASK_MINWIDTH}px, 100vw, ${TASK_MAXWIDTH}px) - 50px)`,
           }}
           className="whitespace-nowrap overflow-hidden text-ellipsis"
         >

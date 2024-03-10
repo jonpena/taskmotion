@@ -12,7 +12,7 @@ const CreateTask = ({ tasks, setTasks }: CreateTaskProps) => {
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && (e.target as HTMLInputElement).value !== "") {
-      // setInputData("");
+      setInputData("");
 
       setTasks([
         {
@@ -27,7 +27,7 @@ const CreateTask = ({ tasks, setTasks }: CreateTaskProps) => {
   };
 
   return (
-    <div className="sticky top-0 z-20 w-screen py-3 bg-red-500 flex items-center justify-center">
+    <div className="sticky top-0 z-20 w-screen py-3 bg-red-400 flex items-center justify-center">
       <input
         type="text"
         placeholder="Create new task"
