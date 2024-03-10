@@ -21,7 +21,7 @@ const CreateTask = () => {
   };
 
   return (
-    <div className="sticky top-0 z-20 w-screen py-3 bg-red-400 flex items-center justify-center">
+    <div className="sticky w-full py-3 bg-red-400 flex items-center justify-center z-[999]">
       <input
         type="text"
         placeholder="Create new task"

@@ -1,5 +1,5 @@
-export const TASK_MAXWIDTH = 620;
-export const TASK_MINWIDTH = 360;
+export const TASK_MAXWIDTH = 640;
+export const TASK_MINWIDTH = 375;
 
 export const DEFAULT_LIST = [
   {

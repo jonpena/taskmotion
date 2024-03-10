@@ -21,8 +21,10 @@ const ItemList = memo(
       ...style,
       ...provided.draggableProps.style,
       userSelect: "none",
-      width: `calc(clamp(${TASK_MINWIDTH}px, 100vw, ${TASK_MAXWIDTH}px) - 8px)`,
+      width: `calc(clamp(${TASK_MINWIDTH}px, 100vw, ${TASK_MAXWIDTH}px) - 10px)`,
       left: "50%",
+      margin: "0px",
+      padding: "0px",
       transform: transform ? transform : "translateX(-50%)",
     };
 
@@ -43,17 +45,7 @@ const ItemList = memo(
 );
 
 const Row = ({ item }: { item: TaskProps }) => {
-  return (
-    <Task
-      task={{
-        id: item.id,
-        name: item.name,
-        description: item.name,
-        status: false,
-        listId: "1",
-      }}
-    />
-  );
+  return <Task task={item} />;
 };
 
 const rowRenderer =
@@ -63,6 +55,11 @@ const rowRenderer =
 
     if (!item) return null;
 
+    const extendStyle = {
+      ...style,
+      left: "50%",
+    };
+
     return (
       <Draggable index={index} key={item.id} draggableId={item.id}>
         {(provided, snapshot) => {
@@ -70,7 +67,7 @@ const rowRenderer =
             <ItemList
               item={item}
               provided={provided}
-              style={style}
+              style={extendStyle}
               isDragging={snapshot.isDragging}
               index={0}
             />
@@ -84,7 +81,7 @@ const TaskList = memo(() => {
   const items = useTaskStore((state) => state.tasks);
 
   return (
-    <div className="flex-1">
+    <div className="flex flex-1 height-custom overflow-hidden">
       <Droppable
         mode="virtual"
         direction="vertical"
@@ -119,12 +116,6 @@ const TaskList = memo(() => {
                         droppableProvided.innerRef(whatHasMyLifeComeTo);
                       }
                     }
-                  }}
-                  style={{
-                    transition: "background-color 0.2s ease",
-                    backgroundColor: snapshot.isDraggingOver
-                      ? "#0a84e3"
-                      : "#74b9ff",
                   }}
                   rowRenderer={rowRenderer(items)}
                 />

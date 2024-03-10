@@ -31,9 +31,7 @@ const App = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <CreateTask />
-      <div className="flex h-screen">
-        <TaskList />
-      </div>
+      <TaskList />
     </DragDropContext>
   );
 };

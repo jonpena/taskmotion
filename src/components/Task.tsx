@@ -8,11 +8,9 @@ type TaskComponentProps = {
 };
 
 const Task = ({ task }: TaskComponentProps) => {
-  // const [checked, setChecked] = useState<boolean>(task.status === true);
-
   return (
-    <Box
-      className="h-[42PX] flex justify-between items-center
+    <div
+      className=" h-[42PX] flex justify-between items-center
       bg-white p-3 rounded-md shadow-md text-gray-500 my-2"
     >
       <div className="flex items-center">
@@ -22,16 +20,16 @@ const Task = ({ task }: TaskComponentProps) => {
           [--chkbg:theme(colors.blue.500)] [--chkfg:white]"
         />
         <Box
-          sx={{
-            width: `calc(clamp(${TASK_MINWIDTH}px, 100vw, ${TASK_MAXWIDTH}px) - 48px)`,
-          }}
           title={task.name}
-          className="whitespace-nowrap overflow-hidden text-ellipsis"
+          sx={{
+            width: `calc(clamp(${TASK_MINWIDTH}px, 100vw, ${TASK_MAXWIDTH}px) - 60px)`,
+          }}
+          className=" whitespace-nowrap overflow-hidden text-ellipsis"
         >
           {task.name}
         </Box>
       </div>
-    </Box>
+    </div>
   );
 };
 

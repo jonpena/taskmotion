@@ -4,40 +4,26 @@
 
 html {
   font-family: "Roboto", sans-serif;
-  background-color: #f0f9ff !important;
 }
 
+html,
 body {
-  overflow: hidden;
-  /* /o 'auto' según sea necesario */
+  /* overflow: hidden; */
+  background-color: royalblue;
 }
-
-/* Estilos específicos para la barra de desplazamiento en navegadores WebKit */
-/* body::-webkit-scrollbar {
-  width: 0.5px;
-} */
-
-/* Color del thumb (barra de desplazamiento) */
-/* body::-webkit-scrollbar-thumb {
-  background-color: #888; 
-} */
-
-/* Color de fondo del track (la parte no activa de la barra) */
-/* body::-webkit-scrollbar-track {
-  background-color: #eee;
-} */
 
 /* * {
-  scroll-behavior: smooth;
-  scrollbar-width: thin;
-  scrollbar-color: #373737 gray;
+  overflow-y: hidden;
+} */
+
+.height-custom {
+  /* scrollbar-gutter: stable; */
+  height: calc(100dvh - 72px);
 }
 
-*/
-
 ::-webkit-scrollbar {
-  width: 0.8rem;
-  height: 0.8rem;
+  width: 0.7rem;
+  height: 0.7rem;
 }
 
 ::-webkit-scrollbar-thumb {
