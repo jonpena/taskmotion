@@ -1,30 +1,37 @@
-# React + TypeScript + Vite
+# TaskMotion
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+TaskMotion is a personal task management app that helps you keep track of your progress and stay organized.
 
-Currently, two official plugins are available:
+## Technologies Used
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Front-end: React, Zustand, Tailwind CSS, MillionJS, Material-UI
+- Back-end: Node.js, Express.js
+- Database: MongoDB
 
-## Expanding the ESLint configuration
+## Description of Libraries
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- React: A JavaScript library for building interactive and reusable user interfaces.
+- Zustand: A lightweight and scalable state management library for React.
+- Tailwind CSS: A utility-first CSS framework that allows you to quickly build custom interfaces.
+- MillionJS: A minimalist JavaScript framework for building web applications.
+- Material-UI: A React component library that follows the Material Design guidelines.
 
-- Configure the top-level `parserOptions` property like this:
+## Installation
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+1. Clone the repository: `git clone https://github.com/your-username/your-repo.git`
+2. Install dependencies: `npm install`
+3. Start the server: `npm start`
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Usage
+
+1. Open the application in your web browser.
+2. Sign up or log in to your account.
+3. Start creating and managing your tasks.
+
+## Contributions
+
+Contributions are welcome! If you have any suggestions or find any issues, please open an issue or submit a pull request.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
