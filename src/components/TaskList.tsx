@@ -7,10 +7,10 @@ import { TaskProps } from "../interfaces/task.interface";
 import Task from "./Task";
 import { itemListProps } from "../interfaces/itemList.interface";
 import { TASK_MAXWIDTH, TASK_MINWIDTH } from "../constants/base";
+import { useTaskStore } from "../store/taskStore";
 
 const ItemList = memo(
   ({ item, style, index, provided, isDragging }: itemListProps) => {
-    // Restrict dragging to vertical axis
     let transform = provided.draggableProps.style?.transform;
 
     if (transform) {
@@ -80,7 +80,9 @@ const rowRenderer =
     );
   };
 
-const TaskList = memo(({ items }: { items: TaskProps[] }) => {
+const TaskList = memo(() => {
+  const items = useTaskStore((state) => state.tasks);
+
   return (
     <div className="flex-1">
       <Droppable

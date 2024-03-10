@@ -1,28 +1,22 @@
 import { useState } from "react";
-import { TaskProps } from "../interfaces/task.interface";
 import { v4 as uuid } from "uuid";
+import { useTaskStore } from "../store/taskStore";
 
-type CreateTaskProps = {
-  tasks: TaskProps[];
-  setTasks: React.Dispatch<React.SetStateAction<TaskProps[]>>;
-};
-
-const CreateTask = ({ tasks, setTasks }: CreateTaskProps) => {
+const CreateTask = () => {
   const [inputData, setInputData] = useState("");
+
+  const { addTask } = useTaskStore();
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && (e.target as HTMLInputElement).value !== "") {
       setInputData("");
 
-      setTasks([
-        {
-          name: (e.target as HTMLInputElement).value,
-          id: uuid().slice(0, 18),
-          status: false,
-          listId: "todo",
-        },
-        ...tasks,
-      ]);
+      addTask({
+        name: (e.target as HTMLInputElement).value,
+        id: uuid().slice(0, 18),
+        status: false,
+        listId: "todo",
+      });
     }
   };
 

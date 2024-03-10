@@ -5,11 +5,9 @@ import { Box } from "@mui/material";
 
 type TaskComponentProps = {
   task: TaskProps;
-  // tasks: TaskProps[];
-  // setTasks: React.Dispatch<React.SetStateAction<TaskProps[]>>;
 };
 
-const Task = ({ task /*, tasks, setTasks */ }: TaskComponentProps) => {
+const Task = ({ task }: TaskComponentProps) => {
   // const [checked, setChecked] = useState<boolean>(task.status === true);
 
   return (
@@ -20,16 +18,14 @@ const Task = ({ task /*, tasks, setTasks */ }: TaskComponentProps) => {
       <div className="flex items-center">
         <input
           type="checkbox"
-          // checked={checked}
-          // onChange={handleChange}
           className="mr-2 checkbox checkbox-sm border-gray-400 border-2 checked:border-none
           [--chkbg:theme(colors.blue.500)] [--chkfg:white]"
         />
         <Box
           sx={{
-            width: `calc(clamp(${TASK_MINWIDTH}px, 100vw, ${TASK_MAXWIDTH}px) - 50px)`,
-            maxWidth: `calc(clamp(${TASK_MINWIDTH}px, 100vw, ${TASK_MAXWIDTH}px) - 50px)`,
+            width: `calc(clamp(${TASK_MINWIDTH}px, 100vw, ${TASK_MAXWIDTH}px) - 48px)`,
           }}
+          title={task.name}
           className="whitespace-nowrap overflow-hidden text-ellipsis"
         >
           {task.name}
