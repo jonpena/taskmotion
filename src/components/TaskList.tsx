@@ -6,7 +6,6 @@ import { Droppable, Draggable } from "react-beautiful-dnd";
 import { TaskProps } from "../interfaces/task.interface";
 import Task from "./Task";
 import { itemListProps } from "../interfaces/itemList.interface";
-import { TASK_MAXWIDTH, TASK_MINWIDTH } from "../constants/base";
 import { useTaskStore } from "../store/taskStore";
 
 const ItemList = memo(
@@ -14,18 +13,18 @@ const ItemList = memo(
     let transform = provided.draggableProps.style?.transform;
 
     if (transform) {
-      transform = transform.replace(/\(.+\,/, "(-50%,");
+      transform = transform.replace(/\(.+\,/, "(0,");
     }
 
     const styleExtended = {
       ...style,
       ...provided.draggableProps.style,
       userSelect: "none",
-      width: `calc(clamp(${TASK_MINWIDTH}px, 100vw, ${TASK_MAXWIDTH}px) - 10px)`,
-      left: "50%",
-      margin: "0px",
-      padding: "0px",
-      transform: transform ? transform : "translateX(-50%)",
+      "pointer-events": "none",
+      cursor: "default",
+      display: "flex",
+      justifyContent: "center",
+      transform: transform ? transform : "translateX(0px)",
     };
 
     return (
@@ -38,15 +37,11 @@ const ItemList = memo(
         data-is-dragging={isDragging}
         style={styleExtended as CSSProperties}
       >
-        <Row item={item} />
+        <Task task={item} />
       </div>
     );
   }
 );
-
-const Row = ({ item }: { item: TaskProps }) => {
-  return <Task task={item} />;
-};
 
 const rowRenderer =
   (items: TaskProps[]) =>
@@ -55,19 +50,20 @@ const rowRenderer =
 
     if (!item) return null;
 
-    const extendStyle = {
-      ...style,
-      left: "50%",
-    };
-
     return (
-      <Draggable index={index} key={item.id} draggableId={item.id}>
+      <Draggable
+        index={index}
+        key={item.id}
+        draggableId={item.id}
+        disableInteractiveElementBlocking
+        touchStartTime={0}
+      >
         {(provided, snapshot) => {
           return (
             <ItemList
-              item={item}
               provided={provided}
-              style={extendStyle}
+              item={item}
+              style={{ ...style }}
               isDragging={snapshot.isDragging}
               index={0}
             />
@@ -85,13 +81,13 @@ const TaskList = memo(() => {
       <Droppable
         mode="virtual"
         direction="vertical"
-        droppableId={"droppable"}
+        droppableId={"TASK_LIST"}
         renderClone={(provided, snapshot, rubric) => (
           <ItemList
             provided={provided}
             isDragging={snapshot.isDragging}
             item={items[rubric.source.index]}
-            style={undefined}
+            style={{}}
             index={0}
           />
         )}

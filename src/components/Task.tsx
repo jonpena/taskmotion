@@ -9,9 +9,12 @@ type TaskComponentProps = {
 
 const Task = ({ task }: TaskComponentProps) => {
   return (
-    <div
+    <Box
+      sx={{
+        width: `calc(clamp(${TASK_MINWIDTH}px, 100vw, ${TASK_MAXWIDTH}px) - 60px)`,
+      }}
       className=" h-[42PX] flex justify-between items-center
-      bg-white p-3 rounded-md shadow-md text-gray-500 my-2"
+      bg-white p-3 rounded-md shadow-md text-gray-500 my-2 cursor-pointer pointer-events-auto"
     >
       <div className="flex items-center">
         <input
@@ -29,7 +32,7 @@ const Task = ({ task }: TaskComponentProps) => {
           {task.name}
         </Box>
       </div>
-    </div>
+    </Box>
   );
 };
 
