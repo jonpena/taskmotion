@@ -56,7 +56,6 @@ const rowRenderer =
         key={item.id}
         draggableId={item.id}
         disableInteractiveElementBlocking
-        touchStartTime={0}
       >
         {(provided, snapshot) => {
           return (

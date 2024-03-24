@@ -1,7 +1,7 @@
 {
   "name": "taskmotion",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,9 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.14.20",
     "lodash": "^4.17.21",
     "million": "^2.6.4",
     "react": "^18.2.0",
