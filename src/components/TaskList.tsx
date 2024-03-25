@@ -5,8 +5,16 @@ import { memo, CSSProperties, ReactInstance } from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import { TaskProps } from "../interfaces/task.interface";
 import Task from "./Task";
-import { itemListProps } from "../interfaces/itemList.interface";
 import { useTaskStore } from "../store/taskStore";
+import { DraggableProvided } from "react-beautiful-dnd";
+
+export type itemListProps = {
+  item: TaskProps;
+  style: CSSStyleRule | undefined | CSSProperties;
+  index: number;
+  provided: DraggableProvided;
+  isDragging: boolean;
+};
 
 const ItemList = memo(
   ({ item, style, index, provided, isDragging }: itemListProps) => {

@@ -1,17 +1,17 @@
+import { ListProps } from "../interfaces/list.interface";
+
 export const TASK_MAXWIDTH = 640;
 export const TASK_MINWIDTH = 375;
 
-export const DEFAULT_LIST = [
+export const LIST_DEFAULT: ListProps[] = [
   {
+    id: "1",
     name: "home",
-    listId: "1",
+    tasks: [],
   },
   {
+    id: "2",
     name: "personal",
-    listId: "2",
-  },
-  {
-    name: "completed",
-    listId: "3",
+    tasks: [],
   },
 ];

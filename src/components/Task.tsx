@@ -12,7 +12,8 @@ const Task = ({ task }: TaskComponentProps) => {
         width: `calc(clamp(${TASK_MINWIDTH}px, 100vw, ${TASK_MAXWIDTH}px))`,
       }}
       className=" h-[42PX] flex justify-between items-center
-      bg-white p-3 rounded-md shadow-md text-gray-500 my-2 cursor-pointer pointer-events-auto"
+      bg-white p-3 rounded-md border border-gray-200 shadow-md 
+      text-gray-500 my-2 cursor-pointer pointer-events-auto"
     >
       <div className="flex items-center">
         <input
