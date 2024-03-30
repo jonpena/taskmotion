@@ -29,3 +29,19 @@ body {
 ::-webkit-scrollbar-thumb {
   background-color: #373737;
 }
+
+.testing-fog::before {
+  content: "";
+  /* position: sticky; */
+  /* border: 2px solid #00f; */
+  /* width: 95%; */
+  width: calc(clamp(650px, 100vw, 375px));
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  translate: -50%;
+  border-bottom: 6rem solid #fff;
+  filter: blur(1.8rem);
+  z-index: 30;
+  pointer-events: none;
+}

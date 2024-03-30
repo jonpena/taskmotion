@@ -10,7 +10,7 @@ import TaskList from "@/components/TaskList";
 // import { CSSProperties, memo, useEffect, useState } from "react";
 import { useTaskStore } from "@/store/taskStore";
 // import { useEffect } from "react";
-// import Lists from "./components/Table";
+import Table from "@/components/Table";
 
 const Board = () => {
   // const [data] = useLocalstorage("data");
@@ -26,7 +26,7 @@ const Board = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <CreateTask />
-      {/* <Lists /> */}
+      <Table />
       <TaskList />
     </DragDropContext>
   );

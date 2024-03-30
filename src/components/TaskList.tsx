@@ -84,7 +84,7 @@ const TaskList = memo(() => {
   const items = useTaskStore((state) => state.tasks);
 
   return (
-    <div className="flex flex-1 height-custom overflow-hidden">
+    <div className="testing-fog flex flex-1 height-custom overflow-hidden">
       <Droppable
         mode="virtual"
         direction="vertical"
