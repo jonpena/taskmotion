@@ -1,44 +1,33 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable max-lines */
+import { useState } from "react";
+import { createRange } from "./utils/utilities";
+import { SortableList } from "./components/SortableList";
+import Task from "./components/Task";
 
-// import { useLocalstorage } from "./hooks/useLocalstorage";
-// import { TaskProps } from "./interfaces/task.interface";
-import CreateTask from "./components/CreateTask";
-import { reorder } from "./services/reorder";
-import { DragDropContext, DropResult } from "react-beautiful-dnd";
-import TaskList from "./components/TaskList";
-// import { CSSProperties, memo, useEffect, useState } from "react";
-import { useTaskStore } from "./store/taskStore";
-// import { useEffect } from "react";
-// import Lists from "./components/Table";
+function getMockItems() {
+  return createRange(1000, (index) => ({ id: index + 1 }));
+}
 
-const App = () => {
-  // const [data] = useLocalstorage("data");
-
-  const { tasks, initTasks } = useTaskStore();
-
-  const onDragEnd = (result: DropResult) => {
-    const { source, destination } = result;
-    if (!destination) return;
-    initTasks(reorder(tasks, source.index, destination.index));
-  };
-
-  // useEffect(() => {
-  //   localStorage.setItem("data", JSON.stringify(tasks));
-  // }, [tasks]);
-
-  // useEffect(() => {
-  //   initTasks(data as TaskProps[]);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [data]);
+export function App() {
+  const [items, setItems] = useState(getMockItems);
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <CreateTask />
-      {/* <Lists /> */}
-      <TaskList />
-    </DragDropContext>
+    <SortableList
+      items={items}
+      onChange={setItems}
+      renderItem={(item) => (
+        <SortableList.Item id={item.id}>
+          <Task
+            task={{
+              id: item.id.toString(),
+              name: `Task ${item.id}`,
+              listId: "1",
+            }}
+          />
+          <SortableList.DragHandle />
+        </SortableList.Item>
+      )}
+    />
   );
-};
+}
 
 export default App;
