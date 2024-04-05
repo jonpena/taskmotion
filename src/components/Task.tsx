@@ -9,9 +9,9 @@ const Task = ({ task }: TaskComponentProps) => {
   return (
     <div
       style={{
-        width: `calc(clamp(${TASK_MINWIDTH}px, 100vw, ${TASK_MAXWIDTH}px))`,
+        maxWidth: `calc(clamp(${TASK_MINWIDTH}px, 100vw, ${TASK_MAXWIDTH}px))`,
       }}
-      className=" h-[42PX] flex justify-between items-center
+      className="h-full overflow-x-hidden flex justify-between items-center
       bg-white p-3 rounded-md 
       text-gray-500 my-2 cursor-pointer pointer-events-auto"
     >
@@ -24,7 +24,7 @@ const Task = ({ task }: TaskComponentProps) => {
         <div
           title={task.name}
           style={{
-            maxWidth: `calc(clamp(${TASK_MINWIDTH}px, 100vw, ${TASK_MAXWIDTH}px) - 50px)`,
+            maxWidth: `calc(clamp(${TASK_MINWIDTH}px, 100vw, ${TASK_MAXWIDTH}px) - 120px)`,
           }}
           className=" whitespace-nowrap overflow-hidden text-ellipsis"
         >
