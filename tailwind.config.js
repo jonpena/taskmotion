@@ -1,9 +1,12 @@
 /* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      height: {
+        custom: 'calc(100vh - 4rem)',
+      },
+    },
   },
-  plugins: [require("daisyui")],
 };

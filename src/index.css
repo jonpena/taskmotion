@@ -3,17 +3,12 @@
 @tailwind utilities;
 
 html {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 html,
 body {
   background-color: rgb(236, 238, 239);
-}
-
-.height-custom {
-  /* scrollbar-gutter: stable; */
-  height: calc(100dvh - 72px);
 }
 
 ::-webkit-scrollbar {
@@ -26,7 +21,7 @@ body {
 }
 
 .testing-fog::before {
-  content: "";
+  content: '';
   /* position: sticky; */
   /* border: 2px solid #00f; */
   /* width: 95%; */
@@ -42,14 +37,6 @@ body {
 }
 
 /* check */
-
-.SortableList {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 0;
-  list-style: none;
-}
 
 .SortableItem {
   display: flex;

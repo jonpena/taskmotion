@@ -1,30 +1,27 @@
-import { useMemo, useState } from "react";
-import { ReactNode } from "react";
+import { useMemo, useState } from 'react';
+import { ReactNode } from 'react';
 import {
   DndContext,
   KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
-} from "@dnd-kit/core";
-import { Active, Over, UniqueIdentifier } from "@dnd-kit/core";
+  Active,
+  Over,
+} from '@dnd-kit/core';
 import {
   SortableContext,
   arrayMove,
   sortableKeyboardCoordinates,
-} from "@dnd-kit/sortable";
+} from '@dnd-kit/sortable';
 
-import { SortableOverlay } from "./SortableOverlay";
-import { DragHandle, SortableItem } from "./SortableItem";
-import { Virtuoso } from "react-virtuoso";
-import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
-import { TASK_MAXWIDTH, TASK_MINWIDTH } from "@/constants/base";
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
+import { SortableOverlay } from './SortableOverlay';
+import { DragHandle, SortableItem } from './SortableItem';
+import { Virtuoso } from 'react-virtuoso';
+import { TaskProps } from '@/interfaces/task.interface';
 
-type BaseItem = {
-  id: UniqueIdentifier;
-};
-
-type Props<T extends BaseItem> = {
+type Props<T extends TaskProps> = {
   items: T[];
   onChange(items: T[]): void;
   renderItem(item: T): ReactNode;
@@ -35,7 +32,7 @@ type handleDragEndProps = {
   over: Over | null;
 };
 
-export function SortableList<T extends BaseItem>({
+export function SortableList<T extends TaskProps>({
   items,
   onChange,
   renderItem,
@@ -64,12 +61,7 @@ export function SortableList<T extends BaseItem>({
   };
 
   return (
-    <div
-      style={{
-        width: `calc(clamp(${TASK_MINWIDTH}px, 100vw, ${TASK_MAXWIDTH}px))`,
-      }}
-      className="m-auto"
-    >
+    <div className="w-full">
       <DndContext
         sensors={sensors}
         modifiers={[restrictToVerticalAxis]}
@@ -79,7 +71,7 @@ export function SortableList<T extends BaseItem>({
       >
         <SortableContext items={items}>
           <Virtuoso
-            className="!h-[calc(100vh)]"
+            className="!h-custom"
             totalCount={items.length}
             itemContent={(index: number) => (
               <div key={items[index].id}>{renderItem(items[index])}</div>

@@ -9,7 +9,7 @@ import CreateTask from "@/components/CreateTask";
 // import { CSSProperties, memo, useEffect, useState } from "react";
 // import { useTaskStore } from "@/store/taskStore";
 // import { useEffect } from "react";
-import Table from "@/components/Table";
+import Table from "@/components/ListCollection";
 
 const Board = () => {
   // const [data] = useLocalstorage("data");

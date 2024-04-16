@@ -5,6 +5,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { PiDotsSixVerticalBold } from "react-icons/pi";
 import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
+import { TASK_MAXWIDTH, TASK_MINWIDTH } from "@/constants/base";
 
 type Props = {
   id: UniqueIdentifier;
@@ -43,12 +44,15 @@ export function SortableItem({ children, id }: PropsWithChildren<Props>) {
   const style: CSSProperties = {
     opacity: isDragging ? 0.4 : undefined,
     transform: CSS.Translate.toString(transform),
+    maxWidth: `calc(clamp(${TASK_MINWIDTH}px, 100vw, ${TASK_MAXWIDTH}px))`,
+    margin: "0 auto",
+    userSelect: "none",
     transition,
   };
 
   return (
     <SortableItemContext.Provider value={context}>
-      <li className="SortableItem" ref={setNodeRef} style={style}>
+      <li className="SortableItem border" ref={setNodeRef} style={style}>
         {children}
       </li>
     </SortableItemContext.Provider>
