@@ -1,26 +1,19 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable max-lines */
-
-// import { useLocalstorage } from "@/hooks/useLocalstorage";
-// import { TaskProps } from "@/interfaces/task.interface";
-import CreateTask from "@/components/CreateTask";
-// import { DragDropContext, DropResult } from "react-beautiful-dnd";
-// import TaskList from "@/components/TaskList";
-// import { CSSProperties, memo, useEffect, useState } from "react";
-// import { useTaskStore } from "@/store/taskStore";
-// import { useEffect } from "react";
-import Table from "@/components/ListCollection";
+import CreateTask from '@/components/CreateTask';
+import List from '@/components/List';
+import ListCollection from '@/components/ListCollection';
+import { UserAuth } from '@/context/AuthContext';
 
 const Board = () => {
-  // const [data] = useLocalstorage("data");
-
-  // const { tasks, initTasks } = useTaskStore();
+  const { signout } = UserAuth();
 
   return (
     <div>
       <CreateTask />
-      <Table />
-      {/* <TaskList /> */}
+      <ListCollection />
+      <List />
+      <div className="absolute top-0 right-0 z-[999] border border-gray-500 px-4 py-3 rounded-md text-white hover:bg-blue-500">
+        <button onClick={signout}>Cerrar sesión</button>
+      </div>
     </div>
   );
 };

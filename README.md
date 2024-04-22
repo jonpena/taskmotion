@@ -18,7 +18,7 @@ TaskMotion is a personal task management app that helps you keep track of your p
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/your-username/your-repo.git`
+1. Clone the repository: `git clone https://github.com/jonpena/your-repo.git`
 2. Install dependencies: `npm install`
 3. Start the server: `npm start`
 

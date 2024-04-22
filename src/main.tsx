@@ -1,20 +1,13 @@
-import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
-import "./index.css";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Board from "@/pages/Board.tsx";
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import { BrowserRouter } from 'react-router-dom';
+import { AuthContextProvider } from './context/AuthContext.tsx';
+import App from './App.tsx';
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-  },
-  {
-    path: "/:id",
-    element: <Board />,
-  },
-]);
-
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <RouterProvider router={router} />
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <BrowserRouter>
+    <AuthContextProvider>
+      <App />
+    </AuthContextProvider>
+  </BrowserRouter>
 );
