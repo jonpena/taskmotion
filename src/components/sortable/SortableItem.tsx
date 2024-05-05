@@ -1,11 +1,11 @@
-import { createContext, useContext, useMemo } from "react";
-import type { CSSProperties, PropsWithChildren } from "react";
-import type { DraggableAttributes, UniqueIdentifier } from "@dnd-kit/core";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { PiDotsSixVerticalBold } from "react-icons/pi";
-import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
-import { TASK_MAXWIDTH, TASK_MINWIDTH } from "@/constants/base";
+import { createContext, useContext, useMemo } from 'react';
+import type { CSSProperties, PropsWithChildren } from 'react';
+import type { DraggableAttributes, UniqueIdentifier } from '@dnd-kit/core';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
+import { TASK_MAXWIDTH, TASK_MINWIDTH } from '@/constants/base';
+import { GripVertical } from 'lucide-react';
 
 type Props = {
   id: UniqueIdentifier;
@@ -45,8 +45,8 @@ export function SortableItem({ children, id }: PropsWithChildren<Props>) {
     opacity: isDragging ? 0.4 : undefined,
     transform: CSS.Translate.toString(transform),
     maxWidth: `calc(clamp(${TASK_MINWIDTH}px, 100vw, ${TASK_MAXWIDTH}px))`,
-    margin: "0 auto",
-    userSelect: "none",
+    margin: '0 auto',
+    userSelect: 'none',
     transition,
   };
 
@@ -64,7 +64,7 @@ export function DragHandle() {
 
   return (
     <button className="DragHandle" {...attributes} {...listeners} ref={ref}>
-      <PiDotsSixVerticalBold />
+      <GripVertical strokeWidth={3} />
     </button>
   );
 }

@@ -44,7 +44,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       async (event, session) => {
         console.log(event, session);
         if (session === null) {
-          navigate('/login', { replace: true });
+          // navigate('/', { replace: true });
         } else {
           const { user } = session;
           setUser({
