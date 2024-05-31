@@ -61,7 +61,7 @@ export function SortableList<T extends TaskProps>({
   };
 
   return (
-    <div className="w-full">
+    <div className='w-full'>
       <DndContext
         sensors={sensors}
         modifiers={[restrictToVerticalAxis]}
@@ -71,7 +71,7 @@ export function SortableList<T extends TaskProps>({
       >
         <SortableContext items={items}>
           <Virtuoso
-            className="!h-custom"
+            className='!h-custom'
             totalCount={items.length}
             itemContent={(index: number) => (
               <div key={items[index].id}>{renderItem(items[index])}</div>

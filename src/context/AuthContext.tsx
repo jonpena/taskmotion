@@ -12,7 +12,11 @@ import { userProps } from '@/interfaces/user.interface';
 const AuthContext = createContext({
   signInWithGoogle: () => {},
   signout: async () => {},
-  user: {} as userProps,
+  user: {
+    email: '',
+    fullname: '',
+    picture: '',
+  } as userProps,
 });
 
 export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
@@ -44,7 +48,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       async (event, session) => {
         console.log(event, session);
         if (session === null) {
-          // navigate('/', { replace: true });
+          navigate('/');
         } else {
           const { user } = session;
           setUser({
@@ -52,7 +56,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
             fullname: user.user_metadata.full_name,
             picture: user.user_metadata.picture,
           });
-
+          console.log(user);
           navigate('/board');
         }
       }

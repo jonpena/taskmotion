@@ -12,19 +12,19 @@ const CreateTask = () => {
       setInputData('');
 
       addTask({
-        id: uuid().slice(0, 18),
+        id: uuid(),
         name: (e.target as HTMLInputElement).value,
-        status: false,
+        checked: false,
       });
     }
   };
 
   return (
-    <div className="sticky w-full h-16 bg-red-400 flex items-center justify-center z-[999]">
+    <div className='sticky w-full h-16 bg-red-400 flex items-center justify-center z-[999]'>
       <input
-        type="text"
-        placeholder="Create new task"
-        className="z-20 border-none py-2 rounded pl-2 outline-none bg-white w-full max-w-xs"
+        type='text'
+        placeholder='Create new task'
+        className='z-20 border-none py-2 rounded pl-2 outline-none bg-white w-full max-w-xs'
         onKeyDown={handleKeyPress}
         onChange={(e) => setInputData(e.target.value)}
         value={inputData}

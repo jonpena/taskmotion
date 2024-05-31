@@ -52,7 +52,7 @@ export function SortableItem({ children, id }: PropsWithChildren<Props>) {
 
   return (
     <SortableItemContext.Provider value={context}>
-      <li className="SortableItem border" ref={setNodeRef} style={style}>
+      <li className='SortableItem border' ref={setNodeRef} style={style}>
         {children}
       </li>
     </SortableItemContext.Provider>
@@ -63,8 +63,8 @@ export function DragHandle() {
   const { attributes, listeners, ref } = useContext(SortableItemContext);
 
   return (
-    <button className="DragHandle" {...attributes} {...listeners} ref={ref}>
-      <GripVertical strokeWidth={3} />
+    <button className='DragHandle' {...attributes} {...listeners} ref={ref}>
+      <GripVertical color='gray' strokeWidth={2} />
     </button>
   );
 }
