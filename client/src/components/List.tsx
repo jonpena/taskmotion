@@ -3,18 +3,18 @@ import { SortableList } from './sortable/SortableList';
 import Task from './Task';
 import { useTaskStore } from '@/store/taskStore';
 import { useListStore } from '@/store/listStore';
+import { useParams } from 'react-router-dom';
 
 const List = () => {
   const tasks = useTaskStore((state) => state.tasks);
   const lists = useListStore((state) => state.lists);
-
   const { setTasks } = useTaskStore();
+  const { listId } = useParams();
 
   useEffect(() => {
-    if (lists.length > 0) {
-      setTasks(lists[0].tasks);
-    }
-  }, [lists]);
+    const getList = lists.find((list) => list.listId === listId);
+    setTasks(getList?.tasks || []);
+  }, [listId, lists]);
 
   return (
     <SortableList

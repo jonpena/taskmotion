@@ -1,7 +1,6 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 
-
 import { appUser } from "./routes/users";
 import { appList } from "./routes/lists";
 

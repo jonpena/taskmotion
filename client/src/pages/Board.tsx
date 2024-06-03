@@ -2,19 +2,9 @@ import CreateTask from '@/components/CreateTask';
 import List from '@/components/List';
 import ListCollection from '@/components/ListCollection';
 import { UserAuth } from '@/context/AuthContext';
-import { fetcherUserLists } from '@/services/fetcherUserLists';
-import { useListStore } from '@/store/listStore';
-import { useEffect } from 'react';
 
 const Board = () => {
-  const { signout, user } = UserAuth();
-  const { setLists } = useListStore();
-
-  useEffect(() => {
-    fetcherUserLists(user.email).then((lists) => {
-      if (lists) setLists(lists);
-    });
-  }, [user]);
+  const { signout } = UserAuth();
 
   return (
     <div>

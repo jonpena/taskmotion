@@ -6,8 +6,10 @@ import {
   useState,
 } from 'react';
 import { supabase } from '@/supabase/supabase.config';
-import { useNavigate } from 'react-router-dom';
 import { userProps } from '@/interfaces/user.interface';
+import { fetcherUserLists } from '@/services/fetcherUserLists';
+import { useListStore } from '@/store/listStore';
+import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext({
   signInWithGoogle: () => {},
@@ -22,6 +24,7 @@ const AuthContext = createContext({
 export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState({} as userProps);
+  const { setLists } = useListStore();
 
   async function signInWithGoogle() {
     try {
@@ -49,6 +52,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
         console.log(event, session);
         if (session === null) {
           navigate('/');
+          setUser({} as userProps);
         } else {
           const { user } = session;
           setUser({
@@ -56,8 +60,13 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
             fullname: user.user_metadata.full_name,
             picture: user.user_metadata.picture,
           });
-          console.log(user);
-          navigate('/board');
+
+          fetcherUserLists(user.user_metadata.email).then((lists) => {
+            if (lists) {
+              navigate(`/list/${lists[0].listId}`);
+              setLists(lists);
+            }
+          });
         }
       }
     );
