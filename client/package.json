@@ -16,6 +16,7 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@supabase/supabase-js": "^2.42.5",
     "axios": "^1.6.8",
+    "date-fns": "^3.6.0",
     "lodash": "^4.17.21",
     "lucide-react": "^0.378.0",
     "million": "^2.6.4",

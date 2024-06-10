@@ -10,3 +10,4 @@ export const useListStore = create<ListState>()((set) => ({
   lists: [],
   setLists: (lists) => set({ lists }),
 }));
+  

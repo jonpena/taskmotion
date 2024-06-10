@@ -1,21 +1,28 @@
 import { useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { useTaskStore } from '../store/taskStore';
+import { useParams } from 'react-router-dom';
+import { fetcherUpdateList } from '@/services/fetcherUpdateList';
 
 const CreateTask = () => {
   const [inputData, setInputData] = useState('');
-
-  const { addTask } = useTaskStore();
+  const { setTasks } = useTaskStore();
+  const tasks = useTaskStore((state) => state.tasks);
+  const { listId } = useParams();
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (!listId) return;
+
     if (e.key === 'Enter' && (e.target as HTMLInputElement).value !== '') {
       setInputData('');
-
-      addTask({
+      const newTasks = {
         id: uuid(),
         name: (e.target as HTMLInputElement).value,
         checked: false,
-      });
+      };
+      const aux = [...tasks, newTasks];
+      fetcherUpdateList(listId, { tasks: aux });
+      setTasks(aux);
     }
   };
 

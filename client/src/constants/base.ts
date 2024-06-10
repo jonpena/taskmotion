@@ -5,13 +5,9 @@ export const TASK_MINWIDTH = 375;
 
 export const LIST_DEFAULT: ListProps[] = [
   {
-    listId: '1',
-    name: 'home',
+    listId: '0',
+    name: 'Home',
     tasks: [],
-  },
-  {
-    listId: '2',
-    name: 'personal',
-    tasks: [],
+    created_at: '',
   },
 ];

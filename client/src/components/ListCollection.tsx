@@ -37,7 +37,7 @@ const ListCollection = () => {
           id={list.listId}
           key={list.listId}
           onClick={handleClick}
-          className={`mx-auto flex items-center justify-between px-4 text-gray-500 bg-gray-100 pl-2 w-80 h-12 rounded-xl ${
+          className={`mx-auto cursor-pointer flex items-center justify-between px-4 text-gray-500 bg-gray-100 pl-2 w-80 h-12 rounded-xl ${
             listId === list.listId && 'bg-gray-300'
           }`}
         >

@@ -12,13 +12,13 @@ const List = () => {
   const { listId } = useParams();
 
   useEffect(() => {
-    const getList = lists.find((list) => list.listId === listId);
-    setTasks(getList?.tasks || []);
+    const findList = lists.find((list) => list.listId === listId);
+    setTasks(findList?.tasks || []);
   }, [listId, lists]);
 
   return (
     <SortableList
-      items={tasks}
+      items={tasks || []}
       onChange={setTasks}
       renderItem={(item) => (
         <SortableList.Item id={item.id}>

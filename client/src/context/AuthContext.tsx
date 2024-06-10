@@ -63,8 +63,8 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
           fetcherUserLists(user.user_metadata.email).then((lists) => {
             if (lists) {
-              navigate(`/list/${lists[0].listId}`);
               setLists(lists);
+              navigate(`/list/${lists[0].listId}`);
             }
           });
         }

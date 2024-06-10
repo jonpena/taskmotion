@@ -20,6 +20,10 @@ import { SortableOverlay } from './SortableOverlay';
 import { DragHandle, SortableItem } from './SortableItem';
 import { Virtuoso } from 'react-virtuoso';
 import { TaskProps } from '@/interfaces/task.interface';
+import { reorder } from '@/services/reorder';
+import { useTaskStore } from '@/store/taskStore';
+import { useParams } from 'react-router-dom';
+import { fetcherUpdateList } from '@/services/fetcherUpdateList';
 
 type Props<T extends TaskProps> = {
   items: T[];
@@ -38,6 +42,7 @@ export function SortableList<T extends TaskProps>({
   renderItem,
 }: Props<T>) {
   const [active, setActive] = useState<Active | null>(null);
+  const { listId } = useParams();
 
   const activeItem = useMemo(
     () => items.find((item) => item.id === active?.id),
@@ -52,10 +57,13 @@ export function SortableList<T extends TaskProps>({
   );
 
   const handleDragEnd = ({ active, over }: handleDragEndProps) => {
+    if (!listId) return;
     if (over && active.id !== over.id) {
       const activeIndex = items.findIndex(({ id }) => id === active.id);
       const overIndex = items.findIndex(({ id }) => id === over.id);
-      onChange(arrayMove(items, activeIndex, overIndex));
+      const newOrder = arrayMove(items, activeIndex, overIndex);
+      onChange(newOrder);
+      fetcherUpdateList(listId, { tasks: newOrder });
     }
     setActive(null);
   };
