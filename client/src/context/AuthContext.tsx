@@ -9,7 +9,7 @@ import { supabase } from '@/supabase/supabase.config';
 import { userProps } from '@/interfaces/user.interface';
 import { fetcherUserLists } from '@/services/fetcherUserLists';
 import { useListStore } from '@/store/listStore';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const AuthContext = createContext({
   signInWithGoogle: () => {},
@@ -25,6 +25,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState({} as userProps);
   const { setLists } = useListStore();
+  const location = useLocation();
 
   async function signInWithGoogle() {
     try {
@@ -64,7 +65,10 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
           fetcherUserLists(user.user_metadata.email).then((lists) => {
             if (lists) {
               setLists(lists);
-              navigate(`/list/${lists[0].listId}`);
+              const regex = /^\/list\/.+/;
+              if (!regex.test(location.pathname)) {
+                navigate(`/list/${lists[0].listId}`);
+              }
             }
           });
         }

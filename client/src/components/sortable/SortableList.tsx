@@ -20,8 +20,6 @@ import { SortableOverlay } from './SortableOverlay';
 import { DragHandle, SortableItem } from './SortableItem';
 import { Virtuoso } from 'react-virtuoso';
 import { TaskProps } from '@/interfaces/task.interface';
-import { reorder } from '@/services/reorder';
-import { useTaskStore } from '@/store/taskStore';
 import { useParams } from 'react-router-dom';
 import { fetcherUpdateList } from '@/services/fetcherUpdateList';
 

@@ -86,7 +86,7 @@ export default function Footer() {
         </div>
 
         <div className='text-sm py-8 text-center text-gray-600 dark:text-gray-400'>
-          Copyright © {new Date().getFullYear()}. Made with
+          Made with
           <Heart
             className='text-red-600 mx-2 inline-block'
             size={14}
@@ -94,13 +94,14 @@ export default function Footer() {
           />
           by
           <a
-            className='ml-1'
+            className='mx-1'
             href='https://web3templates.com/'
             target='_blank'
             rel='noopener'
           >
-            community.
+            community
           </a>
+          {new Date().getFullYear()}
         </div>
       </>
     </div>

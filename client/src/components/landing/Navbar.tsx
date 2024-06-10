@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 const Navbar = () => {
   const [starCount, setStarCount] = useState(0);
-  const anchors = ['Home', 'Features'];
+  const anchors = ['Home', 'Features', 'FAQ'];
   const navigate = useNavigate();
 
   useEffect(() => {
