@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { useTaskStore } from '../store/taskStore';
 import { useParams } from 'react-router-dom';
-import { fetcherUpdateList } from '@/services/fetcherUpdateList';
+import { requestUpdateList } from '@/services/requestUpdateList';
 
 const CreateTask = () => {
   const [inputData, setInputData] = useState('');
@@ -21,7 +21,7 @@ const CreateTask = () => {
         checked: false,
       };
       const aux = [...tasks, newTasks];
-      fetcherUpdateList(listId, { tasks: aux });
+      requestUpdateList(listId, { tasks: aux });
       setTasks(aux);
     }
   };

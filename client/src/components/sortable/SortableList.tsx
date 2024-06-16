@@ -21,7 +21,7 @@ import { DragHandle, SortableItem } from './SortableItem';
 import { Virtuoso } from 'react-virtuoso';
 import { TaskProps } from '@/interfaces/task.interface';
 import { useParams } from 'react-router-dom';
-import { fetcherUpdateList } from '@/services/fetcherUpdateList';
+import { requestUpdateList } from '@/services/requestUpdateList';
 
 type Props<T extends TaskProps> = {
   items: T[];
@@ -61,7 +61,7 @@ export function SortableList<T extends TaskProps>({
       const overIndex = items.findIndex(({ id }) => id === over.id);
       const newOrder = arrayMove(items, activeIndex, overIndex);
       onChange(newOrder);
-      fetcherUpdateList(listId, { tasks: newOrder });
+      requestUpdateList(listId, { tasks: newOrder });
     }
     setActive(null);
   };

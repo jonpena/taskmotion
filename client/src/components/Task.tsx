@@ -2,7 +2,7 @@ import { Trash } from 'lucide-react';
 import { TaskProps } from '../interfaces/task.interface';
 import { useTaskStore } from '@/store/taskStore';
 import { useParams } from 'react-router-dom';
-import { fetcherUpdateList } from '@/services/fetcherUpdateList';
+import { requestUpdateList } from '@/services/requestUpdateList';
 
 type TaskComponentProps = {
   task: TaskProps;
@@ -15,11 +15,8 @@ const Task = ({ task }: TaskComponentProps) => {
 
   const handleDelete = () => {
     if (!listId) return;
-
     const newTasks = tasks.filter((elem) => elem.id !== task.id);
-
-    fetcherUpdateList(listId, { tasks: newTasks });
-
+    requestUpdateList(listId, { tasks: newTasks });
     setTasks(newTasks);
   };
 
@@ -30,7 +27,7 @@ const Task = ({ task }: TaskComponentProps) => {
     >
       <input
         type='checkbox'
-        // checked={task.checked}
+        defaultChecked={task.checked}
         className='mr-2 border-gray-400'
       />
       <span

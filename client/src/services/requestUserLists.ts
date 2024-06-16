@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { ListProps } from '@/interfaces/list.interface';
 
-export const fetcherUserLists = async (email: string) => {
+export const requestUpdateList = async (email: string) => {
   try {
     if (import.meta.env.DEV) {
       const { data } = await axios.get(

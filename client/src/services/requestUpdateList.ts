@@ -1,20 +1,17 @@
 import { TaskProps } from '@/interfaces/task.interface';
 import axios from 'axios';
 
-type TaskFetcherPros = {
+type BodyProps = {
+  name?: string;
   tasks: TaskProps[];
 };
 
-export const fetcherUpdateList = async (
-  listId: string,
-  tasks: TaskFetcherPros
-) => {
-
+export const requestUpdateList = async (listId: string, body: BodyProps) => {
   try {
     if (import.meta.env.DEV) {
       const { data } = await axios.put(
         'http://localhost:8787/api/lists/' + listId,
-        tasks
+        body
       );
       return data;
     }

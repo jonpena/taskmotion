@@ -1,126 +1,105 @@
 import { Hono } from 'hono';
-import { getSupabase, supabaseMiddleware } from '../middleware/supabase';
+import { supabaseMiddleware } from '../middleware/supabase';
 import { zListValidator } from '../validators/list.validator';
 import { UserProps } from '../interfaces/user.interface';
-import { zTaskValidator } from '../validators/task.validator';
 import { ListProps } from '../interfaces/list.interface';
+import {
+  createNewList,
+  deleteListByListId,
+  getAllLists,
+  getListInUser,
+  getUserByEmail,
+  getUsersByListId,
+  updateList,
+  updateListsInUser,
+  updateUsersWithNewList,
+} from '../services/lists';
 
-export const appList = new Hono();
+export const listApp = new Hono();
 
-appList.use('*', supabaseMiddleware);
+listApp.use('*', supabaseMiddleware);
 
-appList.get('/', async (c) => {
-  const supabase = getSupabase(c);
-  const { data, error } = await supabase.from('lists').select('*');
+listApp.get('/', async (c) => {
+  const { data, error } = await getAllLists(c);
   return c.json({ data, error });
 });
 
-// GETTING A LIST FOR A USER USING EMAIL
-appList.get('/:email', async (c) => {
-  const supabase = getSupabase(c);
-
+// GETTING A LIST OF USERS USING EMAIL
+listApp.get('/:email', async (c) => {
   const email = c.req.param('email');
 
-  const users = await supabase
-    .from('users')
-    .select(`*`)
-    .eq(`email`, `${email}`);
+  const users = await getUserByEmail(c, email);
 
   const user = users.data?.[0] as UserProps;
 
-  if (!user) {
-    return c.json({ error: 'User does not exist' });
-  }
+  if (!user) return c.json({ error: 'User does not exist' }, 404);
 
   const lists = JSON.parse(user.lists.toString());
 
-  const { data, error } = await supabase
-    .from('lists')
-    .select('*')
-    .in('listId', lists);
+  const { data, error } = await getListInUser(c, lists);
 
-  return c.json({ data, error });
+  if (error) return c.json({ error }, 400);
+
+  return c.json({ data }, 200);
 });
 
 // CREATE A NEW LIST
-appList.post('/:email', zListValidator, async (c) => {
+listApp.post('/:email', zListValidator, async (c) => {
   const body = (await c.req.json()) as ListProps;
   const email = c.req.param('email');
 
-  const register = await getSupabase(c)
-    .from('users')
-    .select('*')
-    .eq('email', email);
+  const users = await getUserByEmail(c, email);
 
-  if (register.data?.[0]) {
-    const user = register.data[0] as UserProps;
+  const user = users.data?.[0] as UserProps;
 
-    await getSupabase(c)
-      .from('users')
-      .update({
-        lists: [...JSON.parse(user.lists.toString()), body.listId],
-      })
-      .eq('email', email);
+  if (!user) return c.json({ error: 'User does not exist' }, 404);
 
-    const { data, error } = await getSupabase(c)
-      .from('lists')
-      .insert(body)
-      .select();
+  await updateListsInUser(c, user, body.listId as string, email);
 
-    return c.json({ data, error });
-  }
+  const { data, error } = await createNewList(c, body);
+
+  if (error) return c.json({ error }, 400);
+
+  return c.json({ data });
 });
 
 // UPDATE A LIST
-appList.put('/:listId', zTaskValidator, async (c) => {
+listApp.put('/:listId', zListValidator, async (c) => {
+  const body = (await c.req.json()) as ListProps;
   const listId = c.req.param('listId');
-  const { tasks } = (await c.req.json()) as ListProps;
 
-  const { data, error } = await getSupabase(c)
-    .from('lists')
-    .update({ tasks })
-    .eq('listId', listId);
+  const { data, error } = await updateList(c, listId, body);
 
-  return c.json({ data, error });
+  if (error) return c.json({ error }, 400);
+
+  return c.json({ data }, 200);
 });
 
 // DELETE A LIST
-appList.delete('/:listId', async (c) => {
+listApp.delete('/:listId', async (c) => {
   const listId = c.req.param('listId');
 
-  const { data: users, error: getUsersError } = await getSupabase(c)
-    .from('users')
-    .select('*')
-    .filter('lists', 'like', `%${listId}%`);
+  const { data: users, error: usersError } = await getUsersByListId(c, listId);
 
-  if (getUsersError) {
-    return c.json({ error: getUsersError.message }, 400);
-  }
+  if (usersError) return c.json({ error: usersError.message }, 400);
 
-  // Actualizar el array lists de cada usuario eliminando listId
-  for (const user of users) {
+  for (const user of users as UserProps[]) {
     const lists = JSON.parse(user.lists.toString()) as string[];
 
-    const newLists = lists.filter((id) => id !== listId);
+    const newLists = lists.filter((id) => id !== listId.toString());
 
-    const { error: updateUserError } = await getSupabase(c)
-      .from('users')
-      .update({ lists: newLists })
-      .eq('id', user.id);
+    const { error: updateUserError } = await updateUsersWithNewList(
+      c,
+      newLists,
+      user.id
+    );
 
-    if (updateUserError) {
-      return c.json({ error: updateUserError.message }, 400);
-    }
+    if (updateUserError) return c.json({ error: updateUserError }, 400);
   }
 
-  const { data, error } = await getSupabase(c)
-    .from('lists')
-    .delete()
-    .eq('listId', listId);
+  const { data, error } = await deleteListByListId(c, listId);
 
-  if (error) {
-    return c.json({ error: error.message }, 400);
-  }
+  if (error) return c.json({ error: error.message }, 400);
 
   return c.json({ data });
 });

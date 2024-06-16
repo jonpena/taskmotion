@@ -7,6 +7,7 @@
     "dev": "pnpm --filter ** dev"
   },
   "devDependencies": {
+    "zod": "^3.23.6",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
     "eslint": "^8.55.0",
