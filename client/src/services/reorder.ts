@@ -1,4 +1,4 @@
-import { TaskProps } from "../interfaces/task.interface";
+import { TaskProps } from '../interfaces/task.interface';
 
 export const reorder = (
   list: TaskProps[],

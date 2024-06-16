@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { TaskProps } from "../interfaces/task.interface";
+import { useEffect, useState } from 'react';
+import { TaskProps } from '../interfaces/task.interface';
 
 // hook de react que me permite guardar en el localstorage y
 //obtener los datos del localstorage y si no exite me crea un estado

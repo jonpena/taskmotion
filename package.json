@@ -6,6 +6,13 @@
   "scripts": {
     "dev": "pnpm --filter ** dev"
   },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "eslint": "^8.55.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC"
