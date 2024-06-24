@@ -15,7 +15,11 @@ export const getUserByEmail = async (c: ctx, email: string) => {
 };
 
 export const getListInUser = async (c: ctx, lists: any) => {
-  return getSupabase(c).from('lists').select('*').in('listId', lists);
+  return getSupabase(c)
+    .from('lists')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .in('listId', lists);
 };
 
 export const updateListsInUser = async (

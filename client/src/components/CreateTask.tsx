@@ -3,11 +3,14 @@ import { v4 as uuid } from 'uuid';
 import { useTaskStore } from '../store/taskStore';
 import { useParams } from 'react-router-dom';
 import { requestUpdateList } from '@/services/requestUpdateList';
+import { useListStore } from '@/store/listStore';
 
 const CreateTask = () => {
   const [inputData, setInputData] = useState('');
   const { setTasks } = useTaskStore();
   const tasks = useTaskStore((state) => state.tasks);
+  const { setLists } = useListStore();
+  const lists = useListStore((state) => state.lists);
   const { listId } = useParams();
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -15,14 +18,18 @@ const CreateTask = () => {
 
     if (e.key === 'Enter' && (e.target as HTMLInputElement).value !== '') {
       setInputData('');
-      const newTasks = {
+      const newTask = {
         id: uuid(),
         name: (e.target as HTMLInputElement).value,
         checked: false,
       };
-      const aux = [...tasks, newTasks];
-      requestUpdateList(listId, { tasks: aux });
-      setTasks(aux);
+      const newTasksArray = [...tasks, newTask];
+      requestUpdateList(listId, { tasks: newTasksArray });
+      const updateLists = [...lists];
+      const index = lists.findIndex((l) => l.listId === listId);
+      updateLists[index].tasks = newTasksArray;
+      setTasks(newTasksArray);
+      setLists([...updateLists]);
     }
   };
 

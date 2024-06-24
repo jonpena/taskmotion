@@ -7,7 +7,7 @@ import {
 } from 'react';
 import { supabase } from '@/supabase/supabase.config';
 import { userProps } from '@/interfaces/user.interface';
-import { requestUpdateList } from '@/services/requestUserLists';
+import { requestUserLists } from '@/services/requestUserLists';
 import { useListStore } from '@/store/listStore';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -62,12 +62,12 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
             picture: user.user_metadata.picture,
           });
 
-          const lists = await requestUpdateList(user.user_metadata.email);
+          const lists = await requestUserLists(user.user_metadata.email);
           if (lists) {
             setLists(lists);
             const regex = /^\/list\/.+/;
             if (!regex.test(location.pathname)) {
-              navigate(`/list/${lists[0].listId}`);
+              navigate(`/list/home`);
             }
           }
         }

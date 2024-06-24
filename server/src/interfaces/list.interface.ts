@@ -1,7 +1,7 @@
 import { TaskProps } from './task.interface';
 
 export interface ListProps {
-  name?: string;
   listId?: string;
+  name?: string;
   tasks: TaskProps[];
 }

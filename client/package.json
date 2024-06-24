@@ -15,9 +15,9 @@
     "@dnd-kit/sortable": "^8.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "@supabase/supabase-js": "^2.42.5",
+    "@uidotdev/usehooks": "^2.4.1",
     "axios": "^1.6.8",
     "date-fns": "^3.6.0",
-    "lodash": "^4.17.21",
     "lucide-react": "^0.378.0",
     "million": "^2.6.4",
     "react": "^18.2.0",
@@ -28,7 +28,6 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.202",
     "@types/node": "^20.11.30",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",

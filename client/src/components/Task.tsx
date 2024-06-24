@@ -20,19 +20,32 @@ const Task = ({ task }: TaskComponentProps) => {
     setTasks(newTasks);
   };
 
+  const handleChange = () => {
+    if (!listId) return;
+    const aux = [...tasks];
+    const findTaskIndex = tasks.findIndex((elem) => elem.id === task.id);
+    aux[findTaskIndex].checked = !task.checked;
+    setTasks(aux);
+    requestUpdateList(listId, { tasks: aux });
+  };
+
   return (
     <div
       className='h-full overflow-x-hidden flex justify-between items-center 
-      text-gray-500 my-2 cursor-pointer pointer-events-auto border-2 border-red-500'
+      text-gray-500 my-2 cursor-pointer pointer-events-auto'
     >
       <input
+        disabled={listId === 'home'}
         type='checkbox'
         defaultChecked={task.checked}
+        onChange={handleChange}
         className='mr-2 border-gray-400'
       />
       <span
         title={task.name}
-        className=' whitespace-nowrap overflow-hidden text-ellipsis'
+        className={`whitespace-nowrap overflow-hidden text-ellipsis ${
+          task.checked && 'line-through'
+        }`}
       >
         {task.name}
       </span>
