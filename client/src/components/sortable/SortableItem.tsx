@@ -15,12 +15,14 @@ type Context = {
   attributes: DraggableAttributes | object;
   listeners: SyntheticListenerMap | undefined;
   ref: (element: HTMLElement | null) => void;
+  isDragging: boolean;
 };
 
 const SortableItemContext = createContext<Context>({
   attributes: {},
   listeners: undefined,
   ref() {},
+  isDragging: false,
 });
 
 export function SortableItem({ children, id }: PropsWithChildren<Props>) {
@@ -38,21 +40,26 @@ export function SortableItem({ children, id }: PropsWithChildren<Props>) {
       attributes,
       listeners,
       ref: setActivatorNodeRef,
+      isDragging,
     }),
-    [attributes, listeners, setActivatorNodeRef]
+    [attributes, listeners, setActivatorNodeRef, isDragging]
   );
   const style: CSSProperties = {
     opacity: isDragging ? 0.4 : undefined,
     transform: CSS.Translate.toString(transform),
     maxWidth: `calc(clamp(${TASK_MINWIDTH}px, 100vw, ${TASK_MAXWIDTH}px))`,
     margin: '0 auto',
+    paddingLeft: '10px',
+    paddingRight: '10px',
     userSelect: 'none',
     transition,
+    height: '48px',
+    borderRadius: '8px',
   };
 
   return (
     <SortableItemContext.Provider value={context}>
-      <li className='SortableItem border' ref={setNodeRef} style={style}>
+      <li className={`SortableItem`} ref={setNodeRef} style={style}>
         {children}
       </li>
     </SortableItemContext.Provider>
@@ -60,11 +67,17 @@ export function SortableItem({ children, id }: PropsWithChildren<Props>) {
 }
 
 export function DragHandle() {
-  const { attributes, listeners, ref } = useContext(SortableItemContext);
+  const { attributes, listeners, ref, isDragging } =
+    useContext(SortableItemContext);
 
   return (
-    <button className='DragHandle' {...attributes} {...listeners} ref={ref}>
-      <GripVertical color='gray' strokeWidth={2} />
+    <button
+      className={`DragHandle ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+      {...attributes}
+      {...listeners}
+      ref={ref}
+    >
+      <GripVertical color='gray' width={20} strokeWidth={2} />
     </button>
   );
 }

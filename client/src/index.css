@@ -22,9 +22,6 @@ body {
 
 .testing-fog::before {
   content: '';
-  /* position: sticky; */
-  /* border: 2px solid #00f; */
-  /* width: 95%; */
   width: calc(clamp(650px, 100vw, 375px));
   position: fixed;
   left: 50%;
@@ -64,7 +61,6 @@ body {
   justify-content: center;
   flex: 0 0 auto;
   touch-action: none;
-  cursor: var(--cursor, pointer);
   border-radius: 5px;
   border: none;
   outline: none;

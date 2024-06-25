@@ -34,7 +34,7 @@ const CreateTask = () => {
   };
 
   return (
-    <div className='sticky w-full h-16 bg-red-400 flex items-center justify-center z-[999]'>
+    <div className='sticky w-max mx-auto h-16 flex items-center justify-center z-[999]'>
       <input
         type='text'
         placeholder='Create new task'

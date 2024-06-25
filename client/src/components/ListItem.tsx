@@ -66,7 +66,7 @@ const ListItem = ({ list }: ListItemProps) => {
       onMouseLeave={() => setHover(false)}
       className={`mx-auto mt-1 cursor-pointer flex items-center justify-between px-4 text-gray-500 
     bg-gray-100 pl-2 w-80 h-12 rounded-xl hover:bg-gray-200 transition-colors duration-200
-    ${listId === list.listId && 'bg-gray-300'}`}
+    ${listId === list.listId && 'bg-gray-200'}`}
     >
       <input
         title={name}
@@ -74,7 +74,7 @@ const ListItem = ({ list }: ListItemProps) => {
         className={`w-[90%] whitespace-nowrap overflow-hidden text-ellipsis text-sm h-7 pl-2 outline-none cursor-pointer rounded ${
           listId !== list.listId
             ? 'bg-inherit  pointer-events-none'
-            : '[&:not(:focus)]:bg-gray-300'
+            : '[&:not(:focus)]:bg-inherit'
         } `}
         value={name}
         onChange={handleChange}
