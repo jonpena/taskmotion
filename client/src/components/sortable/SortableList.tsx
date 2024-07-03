@@ -17,7 +17,7 @@ import {
 
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { SortableOverlay } from './SortableOverlay';
-import { DragHandle, SortableItem } from './SortableItem';
+import { SortableItem } from './SortableItem';
 import { Virtuoso } from 'react-virtuoso';
 import { TaskProps } from '@/interfaces/task.interface';
 import { useParams } from 'react-router-dom';
@@ -80,7 +80,9 @@ export function SortableList<T extends TaskProps>({
             className='!h-custom'
             totalCount={items.length}
             itemContent={(index: number) => (
-              <div key={items[index].id}>{renderItem(items[index])}</div>
+              <div className='mt-1' key={items[index].id}>
+                {renderItem(items[index])}
+              </div>
             )}
           />
         </SortableContext>
@@ -93,4 +95,3 @@ export function SortableList<T extends TaskProps>({
 }
 
 SortableList.Item = SortableItem;
-SortableList.DragHandle = DragHandle;

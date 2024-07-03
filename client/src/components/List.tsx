@@ -30,7 +30,6 @@ const List = () => {
       renderItem={(item) => (
         <SortableList.Item id={item.id}>
           <Task task={item} />
-          <SortableList.DragHandle />
         </SortableList.Item>
       )}
     />

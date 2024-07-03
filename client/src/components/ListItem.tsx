@@ -80,7 +80,7 @@ const ListItem = ({ list }: ListItemProps) => {
         onChange={handleChange}
       />
       <span
-        title='Al hacer clic aquí, se eliminará la lista seleccionada'
+        title='Eliminar lista'
         className='min-w-6 w-max h-8 flex justify-center items-center text-sm font-medium bg-white rounded-lg'
       >
         {isTyping ? (

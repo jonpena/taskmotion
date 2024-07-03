@@ -46,28 +46,35 @@ const Task = ({ task }: TaskComponentProps) => {
   return (
     <div
       className='w-full h-full overflow-x-hidden flex justify-between items-center 
-      text-gray-500 my-2 cursor-pointer pointer-events-auto'
+      text-gray-500 my-2'
     >
       <input
-        name='name'
+        name='checked'
         disabled={listId === 'home'}
         type='checkbox'
         checked={checked}
         onChange={handleChange}
-        className='mr-2 cursor-pointer'
+        className='mr-2 cursor-pointer disabled:cursor-default'
       />
 
       <input
-        name='checked'
+        name='name'
         title={name}
         type='text'
         disabled={listId === 'home'}
-        className={`w-full whitespace-nowrap overflow-hidden text-ellipsis text-sm h-7 pl-2 outline-none cursor-pointer rounded  `}
+        className={`w-[90%] whitespace-nowrap overflow-hidden text-ellipsis text-sm h-7 pl-2 outline-none cursor-pointer rounded disabled:bg-white disabled:pointer-events-none focus:bg-gray-300`}
         value={name}
         onChange={handleInputChange}
       />
 
-      <Trash2 className='w-6 cursor-pointer' onClick={handleDelete} />
+      <button
+        disabled={listId === 'home'}
+        title='Eliminar tarea'
+        onClick={handleDelete}
+        className='group h-8 w-8 flex flex-shrink-0 cursor-pointer items-center justify-center rounded-lg bg-black/5 transition-all hover:bg-black/10 disabled:opacity-50 disabled:pointer-events-none'
+      >
+        <Trash2 className='w-4 group-hover:text-red-400' />
+      </button>
     </div>
   );
 };
