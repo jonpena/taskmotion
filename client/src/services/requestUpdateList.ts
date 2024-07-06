@@ -8,13 +8,14 @@ type BodyProps = {
 
 export const requestUpdateList = async (listId: string, body: BodyProps) => {
   try {
+    let apiUrl = '';
     if (import.meta.env.DEV) {
-      const { data } = await axios.put(
-        'http://localhost:8787/api/lists/' + listId,
-        body
-      );
-      return data;
+      apiUrl = import.meta.env.VITE_TASKMOTION_API_DEV;
+    } else {
+      apiUrl = import.meta.env.VITE_TASKMOTION_API_PROD;
     }
+    const { data } = await axios.put(apiUrl + listId, body);
+    return data;
   } catch (error) {
     console.log(error);
   }

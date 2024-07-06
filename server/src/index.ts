@@ -6,10 +6,18 @@ import { listApp } from './routes/lists';
 
 const app = new Hono().basePath('/api');
 
-app.use(cors());
-
-app.route('/users', userApp);
+// Configurar CORS para permitir cualquier origen
+app.use(
+  '*',
+  cors({
+    origin: '*',
+    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowHeaders: ['Content-Type', 'Authorization'],
+  })
+);
 
 app.route('/lists', listApp);
+
+app.route('/users', userApp);
 
 export default app;
