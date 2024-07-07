@@ -5,7 +5,7 @@ const Trusted = () => {
     <section className='bg-white dark:bg-gray-900'>
       <div className='items-center max-w-screen-xl px-4 py-8 mx-auto lg:grid lg:grid-cols-4 lg:gap-16 xl:gap-24 lg:py-24 lg:px-6'>
         <div className='col-span-2 mb-8'>
-          <p className='text-lg font-medium text-purple-600 dark:text-purple-500'>
+          <p className='text-lg font-medium text-indigo-600 dark:text-indigo-500'>
             Open source
           </p>
           <h2 className='mt-3 mb-4 text-3xl font-extrabold tracking-tight text-gray-900 md:text-3xl dark:text-white'>
@@ -19,7 +19,7 @@ const Trusted = () => {
         </div>
         <div className='col-span-2 space-y-8 md:grid md:grid-cols-2 md:gap-12 md:space-y-0'>
           <div>
-            <Github className='w-10 h-10 mb-2 text-purple-600 md:w-12 md:h-12 dark:text-purple-500' />
+            <Github className='w-10 h-10 mb-2 text-indigo-600 md:w-12 md:h-12 dark:text-indigo-500' />
             <h3 className='mb-2 text-2xl font-bold dark:text-white'>
               100% open source
             </h3>
@@ -29,7 +29,7 @@ const Trusted = () => {
           </div>
           <div>
             <svg
-              className='w-10 h-10 mb-2 text-purple-600 md:w-12 md:h-12 dark:text-purple-500'
+              className='w-10 h-10 mb-2 text-indigo-600 md:w-12 md:h-12 dark:text-indigo-500'
               fill='currentColor'
               viewBox='0 0 20 20'
               xmlns='http://www.w3.org/2000/svg'
@@ -44,7 +44,7 @@ const Trusted = () => {
             </p>
           </div>
           <div>
-            <HeartHandshake className='w-10 h-10 mb-2 text-purple-600 md:w-12 md:h-12 dark:text-purple-500' />
+            <HeartHandshake className='w-10 h-10 mb-2 text-indigo-600 md:w-12 md:h-12 dark:text-indigo-500' />
             <h3 className='mb-2 text-2xl font-bold dark:text-white'>
               Collaboration
             </h3>
@@ -53,7 +53,7 @@ const Trusted = () => {
             </p>
           </div>
           <div>
-            <Bot className='w-10 h-10 mb-2 text-purple-600 md:w-12 md:h-12 dark:text-purple-500' />
+            <Bot className='w-10 h-10 mb-2 text-indigo-600 md:w-12 md:h-12 dark:text-indigo-500' />
             <h3 className='mb-2 text-2xl font-bold dark:text-white'>
               Artificial intelligence
             </h3>

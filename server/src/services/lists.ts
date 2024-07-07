@@ -6,10 +6,6 @@ import { ListProps } from '../interfaces/list.interface';
 
 type ctx = Context<BlankEnv, '/', BlankInput>;
 
-export const getAllLists = async (c: ctx) => {
-  return getSupabase(c).from('lists').select('*');
-};
-
 export const getUserByEmail = async (c: ctx, email: string) => {
   return getSupabase(c).from('users').select(`*`).eq(`email`, `${email}`);
 };

@@ -11,7 +11,6 @@ export default defineConfig({
     process.env.NODE_ENV !== 'production'
       ? [react()]
       : [million.vite({ auto: true }), react()],
-  base: './',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

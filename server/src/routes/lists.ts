@@ -1,12 +1,11 @@
 import { Hono } from 'hono';
-import { supabaseMiddleware } from '../middleware/supabase';
+import { getSupabase, supabaseMiddleware } from '../middleware/supabase';
 import { zListValidator } from '../validators/list.validator';
 import { UserProps } from '../interfaces/user.interface';
 import { ListProps } from '../interfaces/list.interface';
 import {
   createNewList,
   deleteListByListId,
-  getAllLists,
   getListInUser,
   getUserByEmail,
   getUsersByListId,
@@ -15,24 +14,31 @@ import {
   updateUsersWithNewList,
 } from '../services/lists';
 
+import { jwtDecode } from 'jwt-decode';
+
 export const listApp = new Hono();
 
 listApp.use('*', supabaseMiddleware);
 
-listApp.get('/', async (c) => {
-  const { data, error } = await getAllLists(c);
-  return c.json({ data, error });
-});
+// GETTING A LIST OF USERS USING GOOGLE TOKEN
+listApp.get('/:token', async (c) => {
+  const token = c.req.param('token');
 
-// GETTING A LIST OF USERS USING EMAIL
-listApp.get('/:email', async (c) => {
-  const email = c.req.param('email');
+  const decoded = jwtDecode(token) as any;
 
-  const users = await getUserByEmail(c, email);
+  const users = await getUserByEmail(c, decoded.user_metadata.email);
 
   const user = users.data?.[0] as UserProps;
 
-  if (!user) return c.json({ error: 'User does not exist' }, 404);
+  if (!user) {
+    const body = {
+      name: decoded.user_metadata.full_name,
+      email: decoded.user_metadata.email,
+      lists: [],
+    };
+
+    await getSupabase(c).from('users').insert(body).select();
+  }
 
   const lists = JSON.parse(user.lists.toString());
 

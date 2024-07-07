@@ -81,6 +81,17 @@ body {
   fill: #919eab;
 }
 
-/* button:hover > svg {
-  color: #f87171;
-} */
+.animation-fade-in {
+  animation: fade-in 2s ease-in-out infinite;
+}
+@keyframes fade-in {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(25px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}

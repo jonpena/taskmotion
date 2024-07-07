@@ -1,11 +1,10 @@
-import { z } from "zod";
-import { zValidator } from "@hono/zod-validator";
-import { UserProps } from "../interfaces/user.interface";
+import { z } from 'zod';
+import { zValidator } from '@hono/zod-validator';
 
-const userSchema: z.ZodType<UserProps> = z.object({
+const userSchema = z.object({
   name: z.string(),
   email: z.string().email(),
   lists: z.string().array(),
-} );
+});
 
-export const zUserValidator = zValidator("json", userSchema);
+export const zUserValidator = zValidator('json', userSchema);

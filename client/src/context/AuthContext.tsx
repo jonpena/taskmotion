@@ -49,8 +49,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log(event, session);
+      async (_, session) => {
         if (session === null) {
           navigate('/');
           setUser({} as userProps);
@@ -62,7 +61,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
             picture: user.user_metadata.picture,
           });
 
-          const lists = await requestUserLists(user.user_metadata.email);
+          const lists = await requestUserLists(session.access_token);
           if (lists) {
             setLists(lists);
             const regex = /^\/list\/.+/;

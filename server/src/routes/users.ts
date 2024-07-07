@@ -6,12 +6,6 @@ export const userApp = new Hono();
 
 userApp.use('*', supabaseMiddleware);
 
-userApp.get('/', async (c) => {
-  const supabase = getSupabase(c);
-  const { data, error } = await supabase.from('users').select('*');
-  return c.json({ data, error });
-});
-
 userApp.post('/', zUserValidator, async (c) => {
   const body = await c.req.json();
 

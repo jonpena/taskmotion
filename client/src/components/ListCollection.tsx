@@ -64,13 +64,12 @@ const ListCollection = () => {
         >
           <span className='text-sm pl-2'>Todas las listas de tareas</span>
           <span className='text-sm font-medium flex justify-center items-center bg-white min-w-6 w-max h-8 rounded-lg'>
-            {lists.reduce((acc, list) => acc + list.tasks.length, 0)}
+            {lists && lists.reduce((acc, list) => acc + list.tasks.length, 0)}
           </span>
         </li>
 
-        {lists.map((list) => (
-          <ListItem list={list} key={list.listId} />
-        ))}
+        {lists &&
+          lists.map((list) => <ListItem list={list} key={list.listId} />)}
       </ul>
     </div>
   );
