@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { requestUpdateList } from '@/services/requestUpdateList';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { useDebounce } from '@uidotdev/usehooks';
+import { useListStore } from '@/store/listStore';
 
 type TaskComponentProps = {
   task: TaskProps;
@@ -16,15 +17,21 @@ const Task = ({ task }: TaskComponentProps) => {
   const { listId } = useParams();
   const [name, setName] = useState(task.name);
   const [checked, setChecked] = useState(task.checked);
-  const debouncedName = useDebounce(name, 400);
+  const debouncedName = useDebounce(name, 500);
   const debouncedChecked = useDebounce(checked, 200);
   const inputRef =
     useRef<HTMLInputElement>() as MutableRefObject<HTMLInputElement>;
+  const { setLists } = useListStore();
+  const lists = useListStore((state) => state.lists);
 
   const handleDelete = () => {
     if (!listId) return;
     const newTasks = tasks.filter((elem) => elem.id !== task.id);
     requestUpdateList(listId, { tasks: newTasks });
+    const updateLists = [...lists];
+    const index = lists.findIndex((l) => l.listId === listId);
+    updateLists[index].tasks = newTasks;
+    setLists([...updateLists]);
     setTasks(newTasks);
   };
 
@@ -42,13 +49,25 @@ const Task = ({ task }: TaskComponentProps) => {
   };
 
   useEffect(() => {
-    if (!listId) return;
+    if (!listId || debouncedName === task.name) return;
     const aux = [...tasks];
     const findTaskIndex = tasks.findIndex((elem) => elem.id === task.id);
     aux[findTaskIndex].name = name;
+    requestUpdateList(listId, { tasks: aux });
+  }, [debouncedName]);
+
+  useEffect(() => {
+    if (!listId || listId === 'home' || debouncedChecked === task.checked)
+      return;
+    const aux = [...tasks];
+    const findTaskIndex = tasks.findIndex((elem) => elem.id === task.id);
     aux[findTaskIndex].checked = checked;
     requestUpdateList(listId, { tasks: aux });
-  }, [debouncedName, debouncedChecked]);
+    const updateLists = [...lists];
+    const index = lists.findIndex((l) => l.listId === listId);
+    updateLists[index].tasks = aux;
+    setLists([...updateLists]);
+  }, [debouncedChecked]);
 
   return (
     <div

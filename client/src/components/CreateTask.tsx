@@ -23,7 +23,7 @@ const CreateTask = () => {
         name: (e.target as HTMLInputElement).value,
         checked: false,
       };
-      const newTasksArray = [...tasks, newTask];
+      const newTasksArray = [newTask, ...tasks];
       requestUpdateList(listId, { tasks: newTasksArray });
       const updateLists = [...lists];
       const index = lists.findIndex((l) => l.listId === listId);

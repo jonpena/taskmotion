@@ -3,6 +3,8 @@ import { requestDeleteList } from '@/services/requestDeleteList';
 import { requestUpdateList } from '@/services/requestUpdateList';
 import { useListStore } from '@/store/listStore';
 import { useTaskStore } from '@/store/taskStore';
+import { ListLength } from '@/utils/ListLength';
+import { ListLengthCompleted } from '@/utils/ListLengthCompleted';
 import { useDebounce } from '@uidotdev/usehooks';
 import { Disc3, Trash2 } from 'lucide-react';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
@@ -21,13 +23,27 @@ const ListItem = ({ list }: ListItemProps) => {
   const [hover, setHover] = useState(false);
   const [name, setName] = useState(list.name);
   const [isTyping, setIsTyping] = useState(false);
-  const debouncedName = useDebounce(name, 400);
+  const debouncedName = useDebounce(name, 500);
   const inputRef =
     useRef<HTMLInputElement>() as MutableRefObject<HTMLInputElement>;
+  const [countTasks, setCountTasks] = useState({
+    numerator: 0,
+    denominator: 0,
+  });
 
   const handleClick = (event: React.MouseEvent<HTMLLIElement>) => {
     const newlistId = event.currentTarget.getAttribute('id');
     navigate(`/list/${newlistId}`);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsTyping(true);
+    setName(e.target.value);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (!inputRef || !inputRef.current) return;
+    if (e.key === 'Enter') inputRef.current.blur();
   };
 
   const handleDeleteList = (
@@ -41,21 +57,7 @@ const ListItem = ({ list }: ListItemProps) => {
     requestDeleteList(_listId);
   };
 
-  const listLength = (list: ListProps) =>
-    list.listId === listId ? tasks.length : list.tasks.length;
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsTyping(true);
-    setName(e.target.value);
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (!inputRef || !inputRef.current) return;
-    if (e.key === 'Enter') inputRef.current.blur();
-  };
-
   useEffect(() => {
-    ``;
     if (!listId || listId !== list.listId || !isTyping) return;
     setIsTyping(false);
     requestUpdateList(listId, {
@@ -63,6 +65,14 @@ const ListItem = ({ list }: ListItemProps) => {
       tasks,
     });
   }, [debouncedName]);
+
+  useEffect(() => {
+    if (!listId) return;
+    setCountTasks({
+      numerator: ListLength(list, tasks, listId),
+      denominator: ListLengthCompleted(list, tasks, listId),
+    });
+  }, [lists]);
 
   return (
     <li
@@ -101,7 +111,14 @@ const ListItem = ({ list }: ListItemProps) => {
             }
           />
         ) : (
-          listLength(list)
+          <span className='text-center inline-block align-middle text-xs text-gray-500'>
+            {countTasks.numerator !== countTasks.denominator && (
+              <span className='block border-b border-gray-500 w-full'>
+                {countTasks.numerator}
+              </span>
+            )}
+            <span className='block'>{countTasks.denominator}</span>
+          </span>
         )}
       </span>
     </li>

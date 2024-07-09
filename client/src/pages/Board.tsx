@@ -11,7 +11,7 @@ const Board = () => {
       <CreateTask />
       <ListCollection />
       <List />
-      <div className='absolute text-white top-2 right-3 z-[999] border border-gray-500 px-4 py-3 rounded-md bg-blue-400'>
+      <div className='absolute text-white top-2 right-3 z-[999] border border-gray-500 px-3 py-2 rounded-md bg-indigo-500'>
         <button onClick={signout}>Signout</button>
       </div>
     </div>

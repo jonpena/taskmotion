@@ -24,15 +24,23 @@ const List = () => {
   }, [listId, lists]);
 
   return (
-    <SortableList
-      items={tasks || []}
-      onChange={setTasks}
-      renderItem={(item) => (
-        <SortableList.Item id={item.id}>
-          <Task task={item} />
-        </SortableList.Item>
+    <>
+      {tasks.length > 0 ? (
+        <SortableList
+          items={tasks || []}
+          onChange={setTasks}
+          renderItem={(item) => (
+            <SortableList.Item id={item.id}>
+              <Task task={item} />
+            </SortableList.Item>
+          )}
+        />
+      ) : (
+        <span className='text-gray-400 fixed top-36 left-1/2 -translate-x-1/2'>
+          You're all done!
+        </span>
       )}
-    />
+    </>
   );
 };
 
