@@ -5,7 +5,7 @@ import { useListStore } from '@/store/listStore';
 import { useTaskStore } from '@/store/taskStore';
 import { useDebounce } from '@uidotdev/usehooks';
 import { Disc3, Trash2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 type ListItemProps = {
@@ -21,7 +21,9 @@ const ListItem = ({ list }: ListItemProps) => {
   const [hover, setHover] = useState(false);
   const [name, setName] = useState(list.name);
   const [isTyping, setIsTyping] = useState(false);
-  const debouncedName = useDebounce(name, 500);
+  const debouncedName = useDebounce(name, 400);
+  const inputRef =
+    useRef<HTMLInputElement>() as MutableRefObject<HTMLInputElement>;
 
   const handleClick = (event: React.MouseEvent<HTMLLIElement>) => {
     const newlistId = event.currentTarget.getAttribute('id');
@@ -47,6 +49,11 @@ const ListItem = ({ list }: ListItemProps) => {
     setName(e.target.value);
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (!inputRef || !inputRef.current) return;
+    if (e.key === 'Enter') inputRef.current.blur();
+  };
+
   useEffect(() => {
     ``;
     if (!listId || listId !== list.listId || !isTyping) return;
@@ -60,7 +67,6 @@ const ListItem = ({ list }: ListItemProps) => {
   return (
     <li
       id={list.listId}
-      key={list.listId}
       onClick={handleClick}
       onMouseOver={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -69,6 +75,7 @@ const ListItem = ({ list }: ListItemProps) => {
     ${listId === list.listId && 'bg-gray-200'}`}
     >
       <input
+        ref={inputRef}
         title={name}
         type='text'
         className={`w-[90%] whitespace-nowrap overflow-hidden text-ellipsis text-sm h-7 pl-2 outline-none cursor-pointer rounded ${
@@ -78,9 +85,10 @@ const ListItem = ({ list }: ListItemProps) => {
         } `}
         value={name}
         onChange={handleChange}
+        onKeyDown={handleKeyPress}
       />
       <span
-        title='Eliminar lista'
+        title='Delete list'
         className='min-w-6 w-max h-8 flex justify-center items-center text-sm font-medium bg-white rounded-lg'
       >
         {isTyping ? (
