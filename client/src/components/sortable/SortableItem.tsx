@@ -49,7 +49,7 @@ export function SortableItem({ children, id }: PropsWithChildren<Props>) {
 
   return (
     <li
-      className={`!mt-1 SortableItem bg-gray-200 flex justify-between items-center flex-grow list-none`}
+      className={`SortableItem bg-gray-200 flex justify-between items-center flex-grow list-none`}
       ref={setNodeRef}
       style={style}
     >

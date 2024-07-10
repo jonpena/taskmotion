@@ -4,25 +4,23 @@ export default function Footer() {
   const navigation = ['Features', 'FAQ'];
   const legal = ['Privacy', 'Terms'];
   return (
-    <div className='relative dark:bg-gray-800'>
+    <div className='relative bg-gray-100 dark:bg-gray-800'>
       <>
         <div className='grid max-w-screen-xl grid-cols-1 gap-8 pt-10 ml-4 lg:mx-auto lg:grid-cols-5'>
-          <div className='lg:col-span-2'>
-            <div>
-              <a
-                href='/'
-                className='flex items-center text-2xl font-medium text-indigo-500 dark:text-gray-100'
-              >
-                <img
-                  src='logo.png'
-                  alt='N'
-                  width='32'
-                  height='32'
-                  className='w-8 mr-2'
-                />
-                <span translate='no'>Taskmotion</span>
-              </a>
-            </div>
+          <div className='lg:col-span-2 lg:ml-6'>
+            <a
+              href='/'
+              className='flex items-center text-2xl font-medium text-indigo-500 dark:text-gray-100'
+            >
+              <img
+                src='logo.png'
+                alt='N'
+                width='32'
+                height='32'
+                className='w-8 mr-2'
+              />
+              <span translate='no'>Taskmotion</span>
+            </a>
 
             <div className='max-w-sm mt-2 text-pretty text-gray-800 dark:text-gray-400'>
               Open-source task management app focusing on enhancing productivity

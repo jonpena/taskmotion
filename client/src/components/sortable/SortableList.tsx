@@ -80,7 +80,7 @@ export function SortableList<T extends TaskProps>({
             className='!h-custom'
             totalCount={items.length}
             itemContent={(index: number) => (
-              <div className='' key={items[index].id}>
+              <div className='py-[2px]' key={items[index].id}>
                 {renderItem(items[index])}
               </div>
             )}

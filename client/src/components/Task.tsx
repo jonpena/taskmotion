@@ -89,7 +89,7 @@ const Task = ({ task }: TaskComponentProps) => {
         title={name}
         type='text'
         disabled={listId === 'home'}
-        className={`w-[90%] whitespace-nowrap overflow-hidden text-ellipsis text-sm h-7 pl-2 outline-none cursor-pointer rounded disabled:bg-white disabled:pointer-events-none bg-gray-200 focus:bg-gray-50
+        className={`w-[90%] whitespace-nowrap overflow-hidden text-ellipsis text-sm h-7 pl-2 outline-none cursor-pointer rounded disabled:pointer-events-none bg-gray-200 focus:bg-gray-50
          ${checked && 'line-through'} 
         `}
         value={name}
