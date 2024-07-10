@@ -6,6 +6,7 @@ import { requestUpdateList } from '@/services/requestUpdateList';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { useDebounce } from '@uidotdev/usehooks';
 import { useListStore } from '@/store/listStore';
+import Checkbox from './UI/Checkbox';
 
 type TaskComponentProps = {
   task: TaskProps;
@@ -72,12 +73,11 @@ const Task = ({ task }: TaskComponentProps) => {
   return (
     <div
       className='w-full h-full overflow-x-hidden flex justify-between items-center 
-      text-gray-500 my-2'
+      text-gray-500 my-2 bg-gray-200'
     >
-      <input
+      <Checkbox
         name='checked'
         disabled={listId === 'home'}
-        type='checkbox'
         checked={checked}
         onChange={handleChecked}
         className='mr-2 cursor-pointer disabled:cursor-default'
@@ -89,7 +89,7 @@ const Task = ({ task }: TaskComponentProps) => {
         title={name}
         type='text'
         disabled={listId === 'home'}
-        className={`w-[90%] whitespace-nowrap overflow-hidden text-ellipsis text-sm h-7 pl-2 outline-none cursor-pointer rounded disabled:bg-white disabled:pointer-events-none focus:bg-gray-300
+        className={`w-[90%] whitespace-nowrap overflow-hidden text-ellipsis text-sm h-7 pl-2 outline-none cursor-pointer rounded disabled:bg-white disabled:pointer-events-none bg-gray-200 focus:bg-gray-50
          ${checked && 'line-through'} 
         `}
         value={name}

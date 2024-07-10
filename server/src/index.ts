@@ -6,11 +6,12 @@ import { listApp } from './routes/lists';
 
 const app = new Hono().basePath('/api');
 
-// Configurar CORS para permitir cualquier origen
+// Configurar CORS para permitir solo el localhost:3000
+//y taskmotion.pages.dev puedan acceder a la API
 app.use(
   '*',
   cors({
-    origin: '*',
+    origin: ['http://localhost:5173', 'https://taskmotion.pages.dev'],
     allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowHeaders: ['Content-Type', 'Authorization'],
   })

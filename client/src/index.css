@@ -8,7 +8,7 @@ html {
 
 html,
 body {
-  background-color: rgb(236, 238, 239);
+  @apply bg-gray-400;
 }
 
 ::-webkit-scrollbar {
@@ -33,24 +33,9 @@ body {
   pointer-events: none;
 }
 
-/* check */
-
 .SortableItem {
-  display: flex;
-  justify-content: space-between;
-  flex-grow: 1;
-  align-items: center;
-  padding: 5px 20px;
-  background-color: #fff;
   box-shadow: 0 0 0 calc(1px / var(--scale-x, 1)) rgba(63, 63, 68, 0.05),
     0 1px calc(3px / var(--scale-x, 1)) 0 rgba(34, 33, 81, 0.15);
-  border-radius: calc(4px / var(--scale-x, 1));
-  box-sizing: border-box;
-  list-style: none;
-  color: #333;
-  font-weight: 400;
-  font-size: 1rem;
-  font-family: sans-serif;
 }
 
 .DragHandle {
@@ -65,20 +50,7 @@ body {
   border: none;
   outline: none;
   appearance: none;
-  background-color: transparent;
   -webkit-tap-highlight-color: transparent;
-}
-
-.DragHandle:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-}
-
-.DragHandle svg {
-  flex: 0 0 auto;
-  margin: auto;
-  height: 1.2rem;
-  overflow: visible;
-  fill: #919eab;
 }
 
 .animation-fade-in {
