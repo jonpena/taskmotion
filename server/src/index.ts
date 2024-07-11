@@ -11,7 +11,11 @@ const app = new Hono().basePath('/api');
 app.use(
   '*',
   cors({
-    origin: ['http://localhost:5173', 'https://taskmotion.pages.dev'],
+    origin: [
+      'http://localhost:5173',
+      'http://localhost:4173',
+      'https://taskmotion.pages.dev',
+    ],
     allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowHeaders: ['Content-Type', 'Authorization'],
   })
