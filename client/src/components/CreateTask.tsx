@@ -36,6 +36,7 @@ const CreateTask = () => {
   return (
     <div className='sticky w-max mx-auto h-16 flex items-center justify-center z-[999]'>
       <input
+        disabled={listId === 'home'}
         type='text'
         placeholder='Create new task'
         className='z-20 border-none py-2 rounded pl-2 outline-none bg-white w-full max-w-xs'
