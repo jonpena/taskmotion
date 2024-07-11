@@ -25,28 +25,41 @@ const Task = ({ task }: TaskComponentProps) => {
   const { setLists } = useListStore();
   const lists = useListStore((state) => state.lists);
 
-  const handleDelete = () => {
+  const handleDelete = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     if (!listId) return;
-    const newTasks = tasks.filter((elem) => elem.id !== task.id);
-    requestUpdateList(listId, { tasks: newTasks });
-    const updateLists = [...lists];
-    const index = lists.findIndex((l) => l.listId === listId);
-    updateLists[index].tasks = newTasks;
-    setLists([...updateLists]);
-    setTasks(newTasks);
+
+    if (e.detail === 1) {
+      const newTasks = tasks.filter((elem) => elem.id !== task.id);
+      requestUpdateList(listId, { tasks: newTasks });
+      const updateLists = [...lists];
+      const index = lists.findIndex((l) => l.listId === listId);
+      updateLists[index].tasks = newTasks;
+      setLists([...updateLists]);
+      setTasks(newTasks);
+    } else if (e.detail === 2) e.stopPropagation();
   };
 
   const handleChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.stopPropagation();
     setChecked(e.target.checked);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (!inputRef || !inputRef.current) return;
     if (e.key === 'Enter') inputRef.current.blur();
+  };
+
+  const handleDoubleClick = () => {
+    inputRef.current?.focus();
+    inputRef.current?.select();
+  };
+
+  const handleClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    if (e.detail === 2) handleDoubleClick();
   };
 
   useEffect(() => {
@@ -73,14 +86,15 @@ const Task = ({ task }: TaskComponentProps) => {
   return (
     <div
       className='w-full h-full overflow-x-hidden flex justify-between items-center 
-      text-gray-500 my-2 bg-gray-200'
+      text-gray-500 my-2 bg-gray-200 cursor-pointer'
+      onClick={(e) => handleClick(e)}
     >
       <Checkbox
         name='checked'
         disabled={listId === 'home'}
         checked={checked}
-        onChange={handleChecked}
-        className='mr-2 cursor-pointer disabled:cursor-default'
+        onChange={(e) => handleChecked(e)}
+        className='mr-2 disabled:cursor-default'
       />
 
       <input
@@ -89,18 +103,19 @@ const Task = ({ task }: TaskComponentProps) => {
         title={name}
         type='text'
         disabled={listId === 'home'}
-        className={`w-[90%] whitespace-nowrap overflow-hidden text-ellipsis text-sm h-7 pl-2 outline-none cursor-pointer rounded disabled:pointer-events-none bg-gray-200 focus:bg-gray-50
+        className={`w-[90%] pointer-events-none whitespace-nowrap overflow-hidden text-ellipsis text-sm h-7 pl-2 outline-none cursor-pointer rounded disabled:pointer-events-none bg-gray-200 focus:bg-gray-50
          ${checked && 'line-through'} 
         `}
         value={name}
-        onChange={handleInputChange}
+        onChange={handleTextChange}
         onKeyDown={handleKeyPress}
+        onClick={(e) => handleClick(e)}
       />
 
       <button
         disabled={listId === 'home'}
         title='Delete task'
-        onClick={handleDelete}
+        onClick={(e) => handleDelete(e)}
         className='group h-8 w-8 flex flex-shrink-0 cursor-pointer items-center justify-center rounded-lg bg-black/5 transition-all hover:bg-black/10 disabled:opacity-50 disabled:pointer-events-none'
       >
         <Trash2 className='w-4 group-hover:text-red-400' />

@@ -31,11 +31,6 @@ const ListItem = ({ list }: ListItemProps) => {
     denominator: 0,
   });
 
-  const handleClick = (event: React.MouseEvent<HTMLLIElement>) => {
-    const newlistId = event.currentTarget.getAttribute('id');
-    navigate(`/list/${newlistId}`);
-  };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsTyping(true);
     setName(e.target.value);
@@ -47,23 +42,45 @@ const ListItem = ({ list }: ListItemProps) => {
   };
 
   const handleDeleteList = (
-    event: React.MouseEvent<SVGSVGElement, MouseEvent>,
+    e: React.MouseEvent<HTMLElement, MouseEvent>,
     _listId: string
   ) => {
-    event.stopPropagation();
-    const filteredLists = lists.filter((l) => l.listId !== _listId);
-    if (_listId === listId) navigate('/list/home');
-    setLists(filteredLists);
-    requestDeleteList(_listId);
+    if (e.detail === 1) {
+      const filteredLists = lists.filter((l) => l.listId !== _listId);
+      if (_listId === listId) navigate('/list/home');
+      setLists(filteredLists);
+      requestDeleteList(_listId);
+    } else if (e.detail === 2) e.stopPropagation();
+  };
+
+  const handleRoute = (event: React.MouseEvent<HTMLInputElement>) => {
+    const newlistId = event.currentTarget.getAttribute('id');
+    navigate(`/list/${newlistId}`);
+  };
+
+  const handleDoubleClick = () => {
+    inputRef.current?.focus();
+    inputRef.current?.select();
+  };
+
+  const handleClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    switch (event.detail) {
+      case 1:
+        handleRoute(event as unknown as React.MouseEvent<HTMLInputElement>);
+        return;
+      case 2:
+        handleDoubleClick();
+        return;
+    }
   };
 
   useEffect(() => {
     if (!listId || listId !== list.listId || !isTyping) return;
-    setIsTyping(false);
     requestUpdateList(listId, {
       name: debouncedName,
       tasks,
     });
+    setIsTyping(false);
   }, [debouncedName]);
 
   useEffect(() => {
@@ -77,39 +94,35 @@ const ListItem = ({ list }: ListItemProps) => {
   return (
     <li
       id={list.listId}
-      onClick={handleClick}
+      onClick={(e) => handleClick(e)}
       onMouseOver={() => setHover(true)}
       onMouseOut={() => setHover(false)}
       className={`mx-auto mt-1 cursor-pointer flex items-center justify-between px-4 text-gray-500 
-    bg-gray-100 pl-2 w-80 h-12 rounded-xl hover:bg-gray-200 transition-colors duration-200
+    bg-gray-100 pl-2 w-80 h-12 rounded-xl hover:bg-gray-200 transition-colors duration-200 select-none
     ${listId === list.listId && 'bg-gray-200'}`}
     >
       <input
         ref={inputRef}
         title={name}
         type='text'
-        className={`w-[265px] whitespace-nowrap overflow-hidden text-ellipsis text-sm h-7 pl-2 outline-none cursor-pointer rounded ${
-          listId !== list.listId
-            ? 'bg-inherit pointer-events-none'
-            : '[&:not(:focus)]:bg-inherit'
-        } `}
+        className={`w-[265px] pointer-events-none whitespace-nowrap overflow-hidden text-ellipsis text-sm h-7 pl-2
+          outline-none cursor-pointer rounded ${
+            listId !== list.listId ? 'bg-inherit' : '[&:not(:focus)]:bg-inherit'
+          } `}
         value={name}
+        onClick={(e) => handleClick(e)}
         onChange={handleChange}
         onKeyDown={handleKeyPress}
       />
       <span
+        onClick={(e) => handleDeleteList(e, list.listId)}
         title='Delete list'
-        className='min-w-6 w-max h-8 flex justify-center items-center text-sm font-medium bg-white rounded-lg'
+        className='min-w-6 w-max h-8 flex justify-center items-center text-sm font-medium bg-white rounded-lg select-none'
       >
         {isTyping ? (
           <Disc3 className='text-gray-400 w-4 animate-spin' />
         ) : hover ? (
-          <Trash2
-            className='text-red-400 w-4'
-            onClick={(e: React.MouseEvent<SVGSVGElement, MouseEvent>) =>
-              handleDeleteList(e, list.listId)
-            }
-          />
+          <Trash2 className='text-red-400 w-4' />
         ) : (
           <span className='text-center inline-block align-middle text-xs text-gray-500'>
             {countTasks.numerator !== countTasks.denominator && (

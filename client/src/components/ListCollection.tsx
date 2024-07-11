@@ -27,7 +27,7 @@ const ListCollection = () => {
           id='home'
           onClick={handleClick}
           className={`mx-auto cursor-pointer flex items-center justify-between px-4 text-gray-500 
-            bg-gray-100 pl-2 w-80 h-12 rounded-xl hover:bg-gray-200
+            bg-gray-100 pl-2 w-80 h-12 rounded-xl hover:bg-gray-200 select-none
              ${listId === 'home' && 'bg-gray-300'}`}
         >
           <span className='text-sm pl-2'>All task lists</span>
