@@ -4,7 +4,6 @@ import { requestUpdateList } from '@/services/requestUpdateList';
 import { useListStore } from '@/store/listStore';
 import { useTaskStore } from '@/store/taskStore';
 import { ListLength } from '@/utils/ListLength';
-import { ListLengthCompleted } from '@/utils/ListLengthCompleted';
 import { useDebounce } from '@uidotdev/usehooks';
 import { Disc3, Trash2 } from 'lucide-react';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
@@ -26,10 +25,8 @@ const ListItem = ({ list }: ListItemProps) => {
   const debouncedName = useDebounce(name, 500);
   const inputRef =
     useRef<HTMLInputElement>() as MutableRefObject<HTMLInputElement>;
-  const [countTasks, setCountTasks] = useState({
-    numerator: 0,
-    denominator: 0,
-  });
+  const [countTasks, setCountTasks] = useState(0);
+  const [isFocused, setIsFocused] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsTyping(true);
@@ -56,17 +53,25 @@ const ListItem = ({ list }: ListItemProps) => {
   const handleRoute = (event: React.MouseEvent<HTMLInputElement>) => {
     const newlistId = event.currentTarget.getAttribute('id');
     navigate(`/list/${newlistId}`);
+    inputRef.current?.blur();
   };
 
   const handleDoubleClick = () => {
     inputRef.current?.focus();
-    inputRef.current?.select();
+    if (!isFocused) {
+      inputRef.current?.setSelectionRange(
+        inputRef.current?.value.length,
+        inputRef.current?.value.length
+      );
+    }
+    setIsFocused(true);
   };
 
   const handleClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     switch (event.detail) {
       case 1:
-        handleRoute(event as unknown as React.MouseEvent<HTMLInputElement>);
+        if (!isFocused)
+          handleRoute(event as unknown as React.MouseEvent<HTMLInputElement>);
         return;
       case 2:
         handleDoubleClick();
@@ -85,10 +90,7 @@ const ListItem = ({ list }: ListItemProps) => {
 
   useEffect(() => {
     if (!listId) return;
-    setCountTasks({
-      numerator: ListLength(list, tasks, listId),
-      denominator: ListLengthCompleted(list, tasks, listId),
-    });
+    setCountTasks(ListLength(list, tasks, listId));
   }, [lists]);
 
   return (
@@ -105,14 +107,17 @@ const ListItem = ({ list }: ListItemProps) => {
         ref={inputRef}
         title={name}
         type='text'
-        className={`w-[265px] pointer-events-none whitespace-nowrap overflow-hidden text-ellipsis text-sm h-7 pl-2
+        className={`w-[265px] h-7 whitespace-nowrap overflow-hidden text-ellipsis text-sm pl-2
           outline-none cursor-pointer rounded ${
             listId !== list.listId ? 'bg-inherit' : '[&:not(:focus)]:bg-inherit'
-          } `}
+          } 
+          ${!isFocused && 'pointer-events-none'}
+          `}
         value={name}
         onClick={(e) => handleClick(e)}
         onChange={handleChange}
         onKeyDown={handleKeyPress}
+        onBlur={() => setIsFocused(false)}
       />
       <span
         onClick={(e) => handleDeleteList(e, list.listId)}
@@ -125,12 +130,7 @@ const ListItem = ({ list }: ListItemProps) => {
           <Trash2 className='text-red-400 w-4' />
         ) : (
           <span className='text-center inline-block align-middle text-xs text-gray-500'>
-            {countTasks.numerator !== countTasks.denominator && (
-              <span className='block border-b border-gray-500 w-full'>
-                {countTasks.numerator}
-              </span>
-            )}
-            <span className='block'>{countTasks.denominator}</span>
+            <span className='w-full'>{countTasks}</span>
           </span>
         )}
       </span>

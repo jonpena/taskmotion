@@ -24,6 +24,7 @@ const Task = ({ task }: TaskComponentProps) => {
     useRef<HTMLInputElement>() as MutableRefObject<HTMLInputElement>;
   const { setLists } = useListStore();
   const lists = useListStore((state) => state.lists);
+  const [isFocused, setIsFocused] = useState(false);
 
   const handleDelete = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     if (!listId) return;
@@ -55,7 +56,13 @@ const Task = ({ task }: TaskComponentProps) => {
 
   const handleDoubleClick = () => {
     inputRef.current?.focus();
-    inputRef.current?.select();
+    if (!isFocused) {
+      inputRef.current?.setSelectionRange(
+        inputRef.current?.value.length,
+        inputRef.current?.value.length
+      );
+    }
+    setIsFocused(true);
   };
 
   const handleClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
@@ -103,13 +110,15 @@ const Task = ({ task }: TaskComponentProps) => {
         title={name}
         type='text'
         disabled={listId === 'home'}
-        className={`w-[90%] pointer-events-none whitespace-nowrap overflow-hidden text-ellipsis text-sm h-7 pl-2 outline-none cursor-pointer rounded disabled:pointer-events-none bg-gray-200 focus:bg-gray-50
+        className={`w-[90%] whitespace-nowrap overflow-hidden text-ellipsis text-sm h-7 pl-2 outline-none cursor-pointer rounded disabled:pointer-events-none bg-gray-200 focus:bg-gray-50
          ${checked && 'line-through'} 
+         ${!isFocused && 'pointer-events-none'}
         `}
         value={name}
         onChange={handleTextChange}
         onKeyDown={handleKeyPress}
         onClick={(e) => handleClick(e)}
+        onBlur={() => setIsFocused(false)}
       />
 
       <button
