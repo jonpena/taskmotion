@@ -1,7 +1,6 @@
 
-<img  alt="Star on GitHub to support the project" src="star_repo.gif" width="50%">
-
 # Taskmotion
+<img  alt="Star on GitHub to support the project" src="star_repo.gif" width="250px">
 
 This is a task management project developed using React for the frontend and Node.js for the backend. We have integrated Honojs as our server framework, Supabase as our database, and Million.js to optimize React performance.
 
