@@ -94,6 +94,7 @@ const Task = ({ task }: TaskComponentProps) => {
     <div
       className='w-full h-full overflow-x-hidden flex justify-between items-center 
       text-gray-500 my-2 bg-gray-200 cursor-pointer'
+      title={name}
       onClick={(e) => handleClick(e)}
     >
       <Checkbox
@@ -107,7 +108,6 @@ const Task = ({ task }: TaskComponentProps) => {
       <input
         ref={inputRef}
         name='name'
-        title={name}
         type='text'
         disabled={listId === 'home'}
         className={`w-[90%] whitespace-nowrap overflow-hidden text-ellipsis text-sm h-7 pl-2 outline-none cursor-pointer rounded disabled:pointer-events-none bg-gray-200 focus:bg-gray-50

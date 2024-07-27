@@ -6,7 +6,7 @@ import { useTaskStore } from '@/store/taskStore';
 import { ListLength } from '@/utils/ListLength';
 import { useDebounce } from '@uidotdev/usehooks';
 import { Disc3, Trash2 } from 'lucide-react';
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 type ListItemProps = {
@@ -24,7 +24,7 @@ const ListItem = ({ list }: ListItemProps) => {
   const [isTyping, setIsTyping] = useState(false);
   const debouncedName = useDebounce(name, 500);
   const inputRef =
-    useRef<HTMLInputElement>() as MutableRefObject<HTMLInputElement>;
+    useRef<HTMLInputElement>() as React.MutableRefObject<HTMLInputElement>;
   const [countTasks, setCountTasks] = useState(0);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -99,13 +99,13 @@ const ListItem = ({ list }: ListItemProps) => {
       onClick={(e) => handleClick(e)}
       onMouseOver={() => setHover(true)}
       onMouseOut={() => setHover(false)}
+      title={name}
       className={`mx-auto mt-1 cursor-pointer flex items-center justify-between px-4 text-gray-500 
     bg-gray-100 pl-2 w-80 h-12 rounded-xl hover:bg-gray-200 transition-colors duration-200 select-none
     ${listId === list.listId && 'bg-gray-200'}`}
     >
       <input
         ref={inputRef}
-        title={name}
         type='text'
         className={`w-[265px] h-7 whitespace-nowrap overflow-hidden text-ellipsis text-sm pl-2
           outline-none cursor-pointer rounded ${
