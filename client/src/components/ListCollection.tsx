@@ -30,7 +30,7 @@ const ListCollection = () => {
             bg-gray-100 pl-2 w-80 h-12 rounded-xl hover:bg-gray-200 select-none
              ${listId === 'home' && 'bg-gray-300'}`}
         >
-          <span className='text-sm pl-2'>All task lists</span>
+          <span className='text-sm pl-2'>Home</span>
           <span className='text-xs font-medium flex justify-center items-center bg-white min-w-6 w-max h-8 rounded-lg'>
             {lists && lists.reduce((acc, list) => acc + list.tasks.length, 0)}
           </span>
