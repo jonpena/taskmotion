@@ -28,23 +28,24 @@ const Navbar = () => {
             </span>
           </a>
           <div className='flex items-center lg:order-2 gap-x-3'>
-            <div
-              className='h-9 pl-3 flex items-center rounded bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 cursor-pointer
-            '
+            <a
+              className='text-gray-300 flex items-center'
+              href='https://github.com/jonpena/taskmotion'
+              target='_blank'
             >
-              <Github className='w-4 h-4 mr-2 text-gray-800 dark:text-gray-200 ' />
-              <a
-                className='text-gray-300 flex items-center'
-                href='https://github.com/jonpena/taskmotion'
+              <div
+                className='h-9 pl-3 flex items-center rounded bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 cursor-pointer
+            '
               >
+                <Github className='w-4 h-4 mr-2 text-gray-800 dark:text-gray-200 ' />
                 <div className='hidden mr-2 sm:inline-block text-gray-800 dark:text-white'>
                   Star
                 </div>
                 <span className='h-9 font-medium text-sm bg-gray-500 text-white dark:text-gray-800 dark:bg-gray-500 rounded-r border-gray-700 px-3 flex items-center '>
                   {starCount}
                 </span>
-              </a>
-            </div>
+              </div>
+            </a>
             <button
               onClick={() => navigate('/login')}
               className='text-white bg-indigo-500 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800'
