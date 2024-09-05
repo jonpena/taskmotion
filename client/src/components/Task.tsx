@@ -6,7 +6,7 @@ import { requestUpdateList } from '@/services/requestUpdateList';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { useDebounce } from '@uidotdev/usehooks';
 import { useListStore } from '@/store/listStore';
-import Checkbox from './UI/Checkbox';
+import Checkbox from './UI/checkbox';
 
 type TaskComponentProps = {
   task: TaskProps;

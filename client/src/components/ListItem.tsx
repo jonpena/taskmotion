@@ -100,8 +100,8 @@ const ListItem = ({ list }: ListItemProps) => {
       onMouseOver={() => setHover(true)}
       onMouseOut={() => setHover(false)}
       title={name}
-      className={`mx-auto mt-1 cursor-pointer flex items-center justify-between px-4 text-gray-500 
-    bg-gray-100 pl-2 w-80 h-12 rounded-xl hover:bg-gray-200 transition-colors duration-200 select-none
+      className={`w-80 h-12 mx-auto mt-1 cursor-pointer flex items-center justify-between px-4 text-gray-500 
+    bg-gray-100 pl-2  rounded-xl hover:bg-gray-200 transition-colors duration-200 select-none
     ${listId === list.listId && 'bg-gray-200'}`}
     >
       <input
@@ -122,7 +122,8 @@ const ListItem = ({ list }: ListItemProps) => {
       <span
         onClick={(e) => handleDeleteList(e, list.listId)}
         title='Delete list'
-        className='min-w-6 w-max h-8 flex justify-center items-center text-sm font-medium bg-white rounded-lg select-none'
+        className='min-w-6 w-max h-8 flex justify-center items-center 
+        text-sm font-medium bg-white rounded-lg select-none'
       >
         {isTyping ? (
           <Disc3 className='text-gray-400 w-4 animate-spin' />

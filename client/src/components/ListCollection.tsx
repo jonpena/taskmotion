@@ -20,8 +20,6 @@ const ListCollection = () => {
        shadow-md absolute rounded-md'
       style={{ height: 'calc(100dvh - 88px)' }}
     >
-      <CreateList />
-
       <ul>
         <li
           id='home'
@@ -39,6 +37,7 @@ const ListCollection = () => {
         {lists &&
           lists.map((list) => <ListItem list={list} key={list.listId} />)}
       </ul>
+      <CreateList />
     </div>
   );
 };
