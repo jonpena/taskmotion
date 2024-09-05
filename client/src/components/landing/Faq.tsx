@@ -13,7 +13,7 @@ const Faq = () => {
   };
 
   return (
-    <section id='faq' className='pt-16 bg-white dark:bg-gray-900'>
+    <section id='about' className='pt-16 bg-white dark:bg-gray-900'>
       <div className='max-w-screen-xl px-4 pb-8 mx-auto lg:pb-24 lg:px-6 '>
         <h2 className='mb-6 text-3xl font-extrabold tracking-tight text-center text-gray-900 lg:mb-8 lg:text-3xl dark:text-white'>
           Frequently asked questions

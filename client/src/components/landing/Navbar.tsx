@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Github } from 'lucide-react';
+import { Button } from '../UI/button';
 const Navbar = () => {
   const [starCount, setStarCount] = useState(0);
-  const anchors = ['Home', 'Features', 'FAQ'];
+  const anchors = ['Home', 'Features', 'About'];
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,12 +47,13 @@ const Navbar = () => {
                 </span>
               </div>
             </a>
-            <button
+            <Button
+              variant='secondary'
               onClick={() => navigate('/login')}
-              className='text-white bg-indigo-500 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800'
+              className='dark:text-white dark:bg-indigo-600'
             >
               Login
-            </button>
+            </Button>
           </div>
           <div
             className='items-center justify-between hidden w-full lg:flex lg:w-auto lg:order-1'
