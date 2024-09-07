@@ -1,5 +1,5 @@
 import { UserAuth } from '@/context/AuthContext';
-import { ListProps } from '@/interfaces/list.interface';
+import { ListProps } from '@shared/list.interface';
 import { requestCreateList } from '@/services/requestCreateList';
 import { useListStore } from '@/store/listStore';
 import { Plus } from 'lucide-react';
@@ -32,7 +32,7 @@ const CreateList = () => {
     e.key === 'Enter' && createList();
 
   return (
-    <div className='mt-1 mx-auto flex w-80 relative'>
+    <div className='mt-1 mx-auto flex w-80 sticky bottom-0'>
       <Input
         type='text'
         value={listName}
