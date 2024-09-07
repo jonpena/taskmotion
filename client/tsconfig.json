@@ -21,9 +21,15 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@shared/*": ["../shared/interfaces/*"]
     }
   },
-  "include": ["src", "declarations.d.ts", "src/interfaces"],
+  "include": [
+    "src",
+    "declarations.d.ts",
+    "src/interfaces",
+    "../shared/interfaces/*"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

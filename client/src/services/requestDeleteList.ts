@@ -11,6 +11,6 @@ export const requestDeleteList = async (listId: string) => {
     const { data } = await axios.delete(apiUrl + listId);
     return data;
   } catch (error) {
-    console.log(error);
+    throw new Error('A ocurrido un error durante la eliminación de la lista');
   }
 };

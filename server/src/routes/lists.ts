@@ -2,7 +2,7 @@ import { Hono } from 'hono';
 import { getSupabase, supabaseMiddleware } from '../middleware/supabase';
 import { zListValidator } from '../validators/list.validator';
 import { UserProps } from '../interfaces/user.interface';
-import { ListProps } from '../interfaces/list.interface';
+import { ListProps } from '../../../shared/interfaces/list.interface';
 import {
   createNewList,
   deleteListByListId,
@@ -20,7 +20,7 @@ export const listApp = new Hono();
 
 listApp.use('*', supabaseMiddleware);
 
-// GETTING A LIST OF USERS USING GOOGLE TOKEN
+// GET A LIST OF USERS USING GOOGLE TOKEN
 listApp.get('/:token', async (c) => {
   const token = c.req.param('token');
 
@@ -46,7 +46,12 @@ listApp.get('/:token', async (c) => {
 
   if (error) return c.json({ error }, 400);
 
-  return c.json({ data }, 200);
+  const order = (data as ListProps[]).map((list) => ({
+    ...list,
+    tasks: list.tasks.sort((a, b) => (a.checked ? 1 : b.checked ? -1 : 0)),
+  }));
+
+  return c.json({ data: order }, 200);
 });
 
 // CREATE A NEW LIST

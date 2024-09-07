@@ -1,8 +1,8 @@
 import { BlankEnv, BlankInput } from 'hono/types';
 import { getSupabase } from '../middleware/supabase';
 import { Context } from 'hono';
-import { UserProps } from '../interfaces/user.interface';
-import { ListProps } from '../interfaces/list.interface';
+import { UserProps } from '@server/interfaces/user.interface';
+import { ListProps } from '@shared/list.interface';
 
 type ctx = Context<BlankEnv, '/', BlankInput>;
 
@@ -14,7 +14,7 @@ export const getListInUser = async (c: ctx, lists: any) => {
   return getSupabase(c)
     .from('lists')
     .select('*')
-    .order('created_at', { ascending: false })
+    .order('created_at', { ascending: true })
     .in('listId', lists);
 };
 

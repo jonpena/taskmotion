@@ -1,5 +1,5 @@
-import { ListProps } from '@/interfaces/list.interface';
-import { TaskProps } from '@/interfaces/task.interface';
+import { ListProps } from '@shared/list.interface';
+import { TaskProps } from '@shared/task.interface';
 
 export function ListLength(
   list: ListProps,

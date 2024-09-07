@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { TaskProps } from '../interfaces/task.interface';
+import { TaskProps } from '../../../shared/interfaces/task.interface';
 
 interface BearState {
   tasks: TaskProps[];

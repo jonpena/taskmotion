@@ -1,4 +1,4 @@
-import { ListProps } from '../interfaces/list.interface';
+import { ListProps } from '../../../shared/interfaces/list.interface';
 
 export const TASK_MAXWIDTH = 640;
 export const TASK_MINWIDTH = 375;

@@ -4,7 +4,7 @@ import Task from './Task';
 import { useTaskStore } from '@/store/taskStore';
 import { useListStore } from '@/store/listStore';
 import { useParams } from 'react-router-dom';
-import { TaskProps } from '@/interfaces/task.interface';
+import { TaskProps } from '@shared/task.interface';
 
 const List = () => {
   const tasks = useTaskStore((state) => state.tasks);
@@ -21,6 +21,8 @@ const List = () => {
     } else auxTasks = lists.find((l) => l.listId === listId)?.tasks || [];
 
     setTasks(auxTasks);
+
+    // setTasks(auxTasks.sort((a, b) => (a.checked ? 1 : b.checked ? -1 : 0)));
   }, [listId, lists]);
 
   return (
@@ -36,7 +38,7 @@ const List = () => {
           )}
         />
       ) : (
-        <span className='text-gray-400 fixed top-36 left-1/2 -translate-x-1/2'>
+        <span className='text-white select-none fixed top-36 left-1/2 -translate-x-1/2'>
           You're all done!
         </span>
       )}

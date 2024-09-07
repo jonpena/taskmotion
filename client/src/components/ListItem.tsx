@@ -1,6 +1,7 @@
-import { ListProps } from '@/interfaces/list.interface';
+import { ListProps } from '@shared/list.interface';
 import { requestDeleteList } from '@/services/requestDeleteList';
 import { requestUpdateList } from '@/services/requestUpdateList';
+import { useAlertDialogStore } from '@/store/alertDialogStore';
 import { useListStore } from '@/store/listStore';
 import { useTaskStore } from '@/store/taskStore';
 import { ListLength } from '@/utils/ListLength';
@@ -19,7 +20,6 @@ const ListItem = ({ list }: ListItemProps) => {
   const tasks = useTaskStore((state) => state.tasks);
   const lists = useListStore((state) => state.lists);
   const { setLists } = useListStore();
-  const [hover, setHover] = useState(false);
   const [name, setName] = useState(list.name);
   const [isTyping, setIsTyping] = useState(false);
   const debouncedName = useDebounce(name, 500);
@@ -27,6 +27,7 @@ const ListItem = ({ list }: ListItemProps) => {
     useRef<HTMLInputElement>() as React.MutableRefObject<HTMLInputElement>;
   const [countTasks, setCountTasks] = useState(0);
   const [isFocused, setIsFocused] = useState(false);
+  const { setOpen, setHandleDelete, setTitle } = useAlertDialogStore();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsTyping(true);
@@ -38,16 +39,15 @@ const ListItem = ({ list }: ListItemProps) => {
     if (e.key === 'Enter') inputRef.current.blur();
   };
 
-  const handleDeleteList = (
-    e: React.MouseEvent<HTMLElement, MouseEvent>,
-    _listId: string
-  ) => {
-    if (e.detail === 1) {
-      const filteredLists = lists.filter((l) => l.listId !== _listId);
+  const handleDeleteList = (_listId: string) => {
+    setHandleDelete(() => {
+      const filterListCollection = lists.filter((l) => l.listId !== _listId);
       if (_listId === listId) navigate('/list/home');
-      setLists(filteredLists);
+      setLists(filterListCollection);
       requestDeleteList(_listId);
-    } else if (e.detail === 2) e.stopPropagation();
+    });
+    setTitle(name as string);
+    setOpen(true);
   };
 
   const handleRoute = (event: React.MouseEvent<HTMLInputElement>) => {
@@ -97,11 +97,9 @@ const ListItem = ({ list }: ListItemProps) => {
     <li
       id={list.listId}
       onClick={(e) => handleClick(e)}
-      onMouseOver={() => setHover(true)}
-      onMouseOut={() => setHover(false)}
       title={name}
       className={`w-80 h-12 mx-auto mt-1 cursor-pointer flex items-center justify-between px-4 text-gray-500 
-    bg-gray-100 pl-2  rounded-xl hover:bg-gray-200 transition-colors duration-200 select-none
+    bg-gray-100 pl-2 rounded-md hover:bg-gray-200 transition-colors duration-200 select-none group
     ${listId === list.listId && 'bg-gray-200'}`}
     >
       <input
@@ -120,19 +118,18 @@ const ListItem = ({ list }: ListItemProps) => {
         onBlur={() => setIsFocused(false)}
       />
       <span
-        onClick={(e) => handleDeleteList(e, list.listId)}
+        onClick={() => handleDeleteList(list.listId as string)}
         title='Delete list'
         className='min-w-6 w-max h-8 flex justify-center items-center 
         text-sm font-medium bg-white rounded-lg select-none'
       >
-        {isTyping ? (
-          <Disc3 className='text-gray-400 w-4 animate-spin' />
-        ) : hover ? (
-          <Trash2 className='text-red-400 w-4' />
-        ) : (
-          <span className='text-center inline-block align-middle text-xs text-gray-500'>
-            <span className='w-full'>{countTasks}</span>
-          </span>
+        {(isTyping && <Disc3 className='text-gray-700 w-4 animate-spin' />) || (
+          <>
+            <Trash2 className='text-red-400 w-4 group-hover:inline-block hidden' />
+            <span className='text-center inline-block group-hover:hidden align-middle text-xs text-gray-500'>
+              <span className='w-full'>{countTasks}</span>
+            </span>
+          </>
         )}
       </span>
     </li>

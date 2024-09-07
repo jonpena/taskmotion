@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import ListItem from './ListItem';
 import CreateList from './CreateList';
+import { AlertDialogMessage } from './AlertDialogMessage';
 
 const ListCollection = () => {
   const lists = useListStore((state) => state.lists);
@@ -16,7 +17,7 @@ const ListCollection = () => {
 
   return (
     <div
-      className='w-[340px] z-50 mx-auto mt-2 ml-2 py-8 bg-white border border-gray-200
+      className='w-[340px] z-50 mx-auto mt-2 ml-2 pt-2 pb-5 overflow-scroll bg-white border border-gray-200
        shadow-md absolute rounded-md'
       style={{ height: 'calc(100dvh - 88px)' }}
     >
@@ -38,6 +39,8 @@ const ListCollection = () => {
           lists.map((list) => <ListItem list={list} key={list.listId} />)}
       </ul>
       <CreateList />
+
+      <AlertDialogMessage />
     </div>
   );
 };

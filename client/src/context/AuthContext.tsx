@@ -39,7 +39,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
         throw new Error('A ocurrido un error durante la autenticación');
       return data;
     } catch (error) {
-      console.log(error);
+      throw new Error('A ocurrido un error durante la autenticación');
     }
   }
 
@@ -65,6 +65,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
           });
 
           const lists = await requestUserLists(session.access_token);
+
           if (lists) {
             setLists(lists);
             const regex = /^\/list\/.+/;

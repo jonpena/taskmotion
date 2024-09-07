@@ -1,4 +1,4 @@
-import { TaskProps } from '@/interfaces/task.interface';
+import { TaskProps } from '@shared/task.interface';
 import axios from 'axios';
 
 type BodyProps = {
@@ -17,6 +17,6 @@ export const requestUpdateList = async (listId: string, body: BodyProps) => {
     const { data } = await axios.put(apiUrl + listId, body);
     return data;
   } catch (error) {
-    console.log(error);
+    throw new Error('A ocurrido un error durante la actualización de la lista');
   }
 };

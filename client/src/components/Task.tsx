@@ -1,5 +1,5 @@
 import { Trash2 } from 'lucide-react';
-import { TaskProps } from '../interfaces/task.interface';
+import { TaskProps } from '../../../shared/interfaces/task.interface';
 import { useTaskStore } from '@/store/taskStore';
 import { useParams } from 'react-router-dom';
 import { requestUpdateList } from '@/services/requestUpdateList';

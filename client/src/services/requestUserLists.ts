@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ListProps } from '@/interfaces/list.interface';
+import { ListProps } from '@shared/list.interface';
 
 export const requestUserLists = async (sessionToken: string) => {
   try {
@@ -12,6 +12,6 @@ export const requestUserLists = async (sessionToken: string) => {
     const { data } = await axios.get(apiUrl + sessionToken);
     return data.data as ListProps[];
   } catch (error) {
-    console.log(error);
+    throw new Error('A ocurrido un error durante la obtención de la lista');
   }
 };

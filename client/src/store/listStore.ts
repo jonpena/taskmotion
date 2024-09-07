@@ -1,4 +1,4 @@
-import { ListProps } from '@/interfaces/list.interface';
+import { ListProps } from '@shared/list.interface';
 import { create } from 'zustand';
 
 interface ListState {
@@ -10,4 +10,3 @@ export const useListStore = create<ListState>()((set) => ({
   lists: [],
   setLists: (lists) => set({ lists }),
 }));
-  

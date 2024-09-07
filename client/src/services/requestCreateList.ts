@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ListProps } from '@/interfaces/list.interface';
+import { ListProps } from '@shared/list.interface';
 
 export const requestCreateList = async (email: string, body: ListProps) => {
   try {
@@ -12,6 +12,6 @@ export const requestCreateList = async (email: string, body: ListProps) => {
     const { data } = await axios.post(apiUrl + email, body);
     return data.data as ListProps[];
   } catch (error) {
-    console.log(error);
+    throw new Error('A ocurrido un error durante la creación de la lista');
   }
 };

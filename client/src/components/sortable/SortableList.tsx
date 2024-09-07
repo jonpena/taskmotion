@@ -19,7 +19,7 @@ import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { SortableOverlay } from './SortableOverlay';
 import { SortableItem } from './SortableItem';
 import { Virtuoso } from 'react-virtuoso';
-import { TaskProps } from '@/interfaces/task.interface';
+import { TaskProps } from '@shared/task.interface';
 import { useParams } from 'react-router-dom';
 import { requestUpdateList } from '@/services/requestUpdateList';
 
