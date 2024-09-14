@@ -10,6 +10,7 @@ type Props = {
   id: UniqueIdentifier;
 };
 
+// million-ignore
 export function SortableItem({ children, id }: PropsWithChildren<Props>) {
   const { listId } = useParams();
 
@@ -33,19 +34,6 @@ export function SortableItem({ children, id }: PropsWithChildren<Props>) {
     height: '48px',
     borderRadius: '8px',
   };
-
-  // display: flex;
-  // justify-content: space-between;
-  // flex-grow: 1;
-  // align-items: center;
-  // padding: 5px 20px;
-  // box-shadow: 0 0 0 calc(1px / var(--scale-x, 1)) rgba(63, 63, 68, 0.05),
-  //   0 1px calc(3px / var(--scale-x, 1)) 0 rgba(34, 33, 81, 0.15);
-  // box-sizing: border-box;
-  // list-style: none;
-  // color: #333;
-  // font-weight: 400;
-  // font-size: 1rem;
 
   return (
     <li

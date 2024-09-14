@@ -5,8 +5,7 @@ import { useAlertDialogStore } from '@/store/alertDialogStore';
 import { useListStore } from '@/store/listStore';
 import { useTaskStore } from '@/store/taskStore';
 import { ListLength } from '@/utils/ListLength';
-import { useDebounce } from '@uidotdev/usehooks';
-import { Disc3, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -20,23 +19,32 @@ const ListItem = ({ list }: ListItemProps) => {
   const tasks = useTaskStore((state) => state.tasks);
   const lists = useListStore((state) => state.lists);
   const { setLists } = useListStore();
-  const [name, setName] = useState(list.name);
-  const [isTyping, setIsTyping] = useState(false);
-  const debouncedName = useDebounce(name, 500);
   const inputRef =
     useRef<HTMLInputElement>() as React.MutableRefObject<HTMLInputElement>;
   const [countTasks, setCountTasks] = useState(0);
   const [isFocused, setIsFocused] = useState(false);
   const { setOpen, setHandleDelete, setTitle } = useAlertDialogStore();
+  const [clickTimeout, setClickTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [name, setName] = useState(list.name);
+  const [lastName, setLastName] = useState(list.name);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsTyping(true);
-    setName(e.target.value);
+    setName(e.target.value.trimStart());
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (!inputRef || !inputRef.current) return;
-    if (e.key === 'Enter') inputRef.current.blur();
+    if (!inputRef?.current || list.listId !== listId) return;
+    if (e.key === 'Enter') {
+      inputRef?.current.blur();
+    }
+  };
+
+  const handleBlur = () => {
+    if (listId && name && name !== lastName) {
+      requestUpdateList(listId, { name, tasks });
+      setLastName(name);
+    } else setName(lastName);
+    setIsFocused(false);
   };
 
   const handleDeleteList = (_listId: string) => {
@@ -50,87 +58,81 @@ const ListItem = ({ list }: ListItemProps) => {
     setOpen(true);
   };
 
-  const handleRoute = (event: React.MouseEvent<HTMLInputElement>) => {
-    const newlistId = event.currentTarget.getAttribute('id');
-    navigate(`/list/${newlistId}`);
-    inputRef.current?.blur();
+  const handleRoute = () => {
+    if (isFocused || list.listId === listId) return;
+    navigate(`/list/${list.listId}`);
   };
 
   const handleDoubleClick = () => {
+    if (isFocused) return;
     inputRef.current?.focus();
-    if (!isFocused) {
-      inputRef.current?.setSelectionRange(
-        inputRef.current?.value.length,
-        inputRef.current?.value.length
-      );
-    }
+    inputRef.current?.setSelectionRange(
+      inputRef.current?.value.length,
+      inputRef.current?.value.length
+    );
     setIsFocused(true);
   };
 
-  const handleClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    switch (event.detail) {
-      case 1:
-        if (!isFocused)
-          handleRoute(event as unknown as React.MouseEvent<HTMLInputElement>);
-        return;
-      case 2:
-        handleDoubleClick();
-        return;
-    }
-  };
-
   useEffect(() => {
-    if (!listId || listId !== list.listId || !isTyping) return;
-    requestUpdateList(listId, {
-      name: debouncedName,
-      tasks,
-    });
-    setIsTyping(false);
-  }, [debouncedName]);
-
-  useEffect(() => {
-    if (!listId) return;
     setCountTasks(ListLength(list, tasks, listId));
   }, [lists]);
 
+  const handleClicks = () => {
+    console.log('handle click');
+
+    if (clickTimeout) {
+      clearTimeout(clickTimeout);
+      setClickTimeout(null);
+      console.log('click');
+      handleDoubleClick();
+    } else {
+      console.log('double click');
+      handleRoute();
+      setClickTimeout(
+        setTimeout(() => {
+          setClickTimeout(null);
+        }, 200)
+      );
+    }
+  };
+
   return (
     <li
-      id={list.listId}
-      onClick={(e) => handleClick(e)}
       title={name}
-      className={`w-80 h-12 mx-auto mt-1 cursor-pointer flex items-center justify-between px-4 text-gray-500 
-    bg-gray-100 pl-2 rounded-md hover:bg-gray-200 transition-colors duration-200 select-none group
-    ${listId === list.listId && 'bg-gray-200'}`}
+      onClick={handleClicks}
+      className={`w-full h-12 mx-auto mt-1 flex items-center justify-between px-2 text-gray-500 
+        bg-gray-100 rounded-md hover:bg-gray-200 transition-colors duration-200 select-none group
+        ${listId === list.listId && 'bg-gray-200'}`}
     >
       <input
         ref={inputRef}
         type='text'
-        className={`w-[265px] h-7 whitespace-nowrap overflow-hidden text-ellipsis text-sm pl-2
-          outline-none cursor-pointer rounded ${
-            listId !== list.listId ? 'bg-inherit' : '[&:not(:focus)]:bg-inherit'
-          } 
-          ${!isFocused && 'pointer-events-none'}
+        className={`w-[255px] h-7 whitespace-nowrap overflow-hidden text-ellipsis text-sm pl-2
+          outline-none rounded
+          ${isFocused ? 'opacity-100' : 'opacity-0 pointer-events-none'}
           `}
         value={name}
-        onClick={(e) => handleClick(e)}
         onChange={handleChange}
         onKeyDown={handleKeyPress}
-        onBlur={() => setIsFocused(false)}
+        onBlur={handleBlur}
       />
+      <span
+        className={`w-[255px] absolute whitespace-nowrap overflow-hidden text-ellipsis text-sm pl-2 ${
+          !isFocused ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
+      >
+        {name}
+      </span>
       <span
         onClick={() => handleDeleteList(list.listId as string)}
         title='Delete list'
         className='min-w-6 w-max h-8 flex justify-center items-center 
-        text-sm font-medium bg-white rounded-lg select-none'
+        text-sm font-medium bg-white rounded-lg select-none cursor-pointer'
       >
-        {(isTyping && <Disc3 className='text-gray-700 w-4 animate-spin' />) || (
-          <>
-            <Trash2 className='text-red-400 w-4 group-hover:inline-block hidden' />
-            <span className='text-center inline-block group-hover:hidden align-middle text-xs text-gray-500'>
-              <span className='w-full'>{countTasks}</span>
-            </span>
-          </>
-        )}
+        <Trash2 className='text-red-400 w-4 group-hover:inline-block hidden' />
+        <span className='text-center inline-block group-hover:hidden align-middle text-xs text-gray-500'>
+          <span className='w-full'>{countTasks}</span>
+        </span>
       </span>
     </li>
   );

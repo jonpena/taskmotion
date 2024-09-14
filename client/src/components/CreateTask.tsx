@@ -4,6 +4,8 @@ import { useTaskStore } from '../store/taskStore';
 import { useParams } from 'react-router-dom';
 import { requestUpdateList } from '@/services/requestUpdateList';
 import { useListStore } from '@/store/listStore';
+import { Input } from '@/components/UI/input';
+import Checkbox from '@/components/UI/checkbox';
 
 const CreateTask = () => {
   const [inputData, setInputData] = useState('');
@@ -12,6 +14,7 @@ const CreateTask = () => {
   const { setLists } = useListStore();
   const lists = useListStore((state) => state.lists);
   const { listId } = useParams();
+  const [checked, setChecked] = useState(false);
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (!listId) return;
@@ -21,7 +24,7 @@ const CreateTask = () => {
       const newTask = {
         id: uuid(),
         name: (e.target as HTMLInputElement).value,
-        checked: false,
+        checked,
       };
       const newTasksArray = [newTask, ...tasks];
       requestUpdateList(listId, { tasks: newTasksArray });
@@ -34,15 +37,22 @@ const CreateTask = () => {
   };
 
   return (
-    <div className='sticky w-max mx-auto h-16 flex items-center justify-center z-[999]'>
-      <input
+    <div className='mx-auto flex max-w-80 sticky top-2'>
+      <Input
         disabled={listId === 'home'}
         type='text'
-        placeholder='Create new task'
-        className='z-20 border-none py-2 rounded pl-2 outline-none bg-white w-full max-w-xs'
+        placeholder='Create new task...'
+        className='sticky z-20 rounded pl-4 outline-none w-full h-12 pr-12 border-none bg-gray-100 hover:bg-gray-200 focus-visible:ring-0 focus-visible:bg-gray-200 focus-visible:placeholder:text-gray-400'
         onKeyDown={handleKeyPress}
         onChange={(e) => setInputData(e.target.value)}
         value={inputData}
+      />
+      <Checkbox
+        disabled={listId === 'home'}
+        name='checked'
+        checked={checked}
+        onChange={(e) => setChecked(e.target.checked)}
+        className='top-4 right-8 z-30'
       />
     </div>
   );

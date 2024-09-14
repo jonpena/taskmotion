@@ -8,22 +8,22 @@ import { v4 as uuid } from 'uuid';
 import { Input } from './UI/input';
 
 const CreateList = () => {
-  const [listName, setListName] = useState('');
+  const [name, setName] = useState('');
   const lists = useListStore((state) => state.lists);
   const { setLists } = useListStore();
   const { user } = UserAuth();
 
   const createList = () => {
-    if (listName === '') return;
+    if (!name) return;
     const newlist: ListProps = {
       listId: uuid(),
-      name: listName,
+      name,
       tasks: [],
     };
     const aux = [...lists, newlist];
     requestCreateList(user.email, newlist);
     setLists(aux);
-    setListName('');
+    setName('');
   };
 
   const handleClick = () => createList();
@@ -32,18 +32,18 @@ const CreateList = () => {
     e.key === 'Enter' && createList();
 
   return (
-    <div className='mt-1 mx-auto flex w-80 sticky bottom-0'>
+    <div className='mt-1 mx-auto flex w-full sticky bottom-0'>
       <Input
         type='text'
-        value={listName}
-        onChange={(e) => setListName(e.target.value)}
+        value={name}
+        onChange={(e) => setName(e.target.value)}
         onKeyDown={handleKeyPress}
         placeholder='Create new list...'
         className='h-12 pr-12 border-none bg-gray-100 hover:bg-gray-200 focus-visible:ring-0 focus-visible:bg-gray-200 focus-visible:placeholder:text-gray-400'
       />
       <button
         title='Create new list'
-        className=' w-6 h-6 absolute right-4 top-3 flex justify-center items-center 
+        className=' w-6 h-6 absolute right-2 top-3 flex justify-center items-center 
         text-sm font-medium bg-white rounded-lg select-none'
       >
         <Plus onClick={handleClick} className='w-4 h-4 text-gray-600' />

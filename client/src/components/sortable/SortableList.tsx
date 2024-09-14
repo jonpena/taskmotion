@@ -67,7 +67,7 @@ export function SortableList<T extends TaskProps>({
   };
 
   return (
-    <div className='w-full'>
+    <div className='w-full lg:pl-[340px] lg:mt-60 mt-4'>
       <DndContext
         sensors={sensors}
         modifiers={[restrictToVerticalAxis]}
@@ -77,7 +77,7 @@ export function SortableList<T extends TaskProps>({
       >
         <SortableContext items={items}>
           <Virtuoso
-            className='!h-custom'
+            className='lg:!h-custom !h-customMobile'
             totalCount={items.length}
             itemContent={(index: number) => (
               <div className='py-[2px]' key={items[index].id}>

@@ -93,7 +93,7 @@ const Task = ({ task }: TaskComponentProps) => {
   return (
     <div
       className='w-full h-full overflow-x-hidden flex justify-between items-center 
-      text-gray-500 my-2 bg-gray-200 cursor-pointer'
+      text-gray-500 my-2 bg-gray-200'
       title={name}
       onClick={(e) => handleClick(e)}
     >

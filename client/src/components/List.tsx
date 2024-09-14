@@ -21,8 +21,6 @@ const List = () => {
     } else auxTasks = lists.find((l) => l.listId === listId)?.tasks || [];
 
     setTasks(auxTasks);
-
-    // setTasks(auxTasks.sort((a, b) => (a.checked ? 1 : b.checked ? -1 : 0)));
   }, [listId, lists]);
 
   return (

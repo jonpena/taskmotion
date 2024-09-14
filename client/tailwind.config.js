@@ -6,7 +6,8 @@ export default {
   theme: {
     extend: {
       height: {
-        custom: 'calc(100vh - 4rem)',
+        custom: 'calc(100dvh - 288px)',
+        customMobile: 'calc(100dvh - 4rem)',
       },
       borderRadius: {
         lg: 'var(--radius)',

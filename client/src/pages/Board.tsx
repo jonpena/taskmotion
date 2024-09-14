@@ -7,11 +7,11 @@ const Board = () => {
   return (
     <div>
       <CreateTask />
-      <ListCollection />
-      <Outlet />
-      <nav className='absolute top-2 right-3 z-[999]'>
+      <nav className='absolute top-4 right-3 z-[999]'>
         <UserNav />
       </nav>
+      <ListCollection />
+      <Outlet />
     </div>
   );
 };
