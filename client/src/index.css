@@ -2,14 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  font-family: 'Poppins', sans-serif;
+* {
+  scrollbar-width: none; /* Define el ancho de la barra (thin es más delgada) */
 }
 
 html,
 body {
-  @apply bg-gray-400;
+  font-family: 'Poppins', sans-serif;
+  @apply bg-gray-500;
   scroll-behavior: smooth;
+  user-select: none;
 }
 
 ::-webkit-scrollbar {
@@ -21,22 +23,14 @@ body {
   background-color: #373737;
 }
 
-.testing-fog::before {
-  content: '';
-  width: calc(clamp(650px, 100vw, 375px));
-  position: fixed;
-  left: 50%;
-  bottom: 0;
-  translate: -50%;
-  border-bottom: 6rem solid #fff;
-  filter: blur(1.8rem);
-  z-index: 30;
-  pointer-events: none;
-}
-
 .SortableItem {
   box-shadow: 0 0 0 calc(1px / var(--scale-x, 1)) rgba(63, 63, 68, 0.05),
     0 1px calc(3px / var(--scale-x, 1)) 0 rgba(34, 33, 81, 0.15);
+  /* view-timeline-name: --reveal; */
+  /* animation-name: show; */
+  /* animation-fill-mode: both; */
+  /* animation-timeline: --reveal; */
+  /* animation-range: entry 25% cover 50%; */
 }
 
 .DragHandle {
@@ -53,6 +47,15 @@ body {
   appearance: none;
   -webkit-tap-highlight-color: transparent;
 }
+
+/* @keyframes show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+} */
 
 .animation-fade-in {
   animation: fade-in 2s ease-in-out infinite;
