@@ -1,4 +1,3 @@
-
 # Taskmotion
 
 This is a task management project developed using React for the frontend and Node.js for the backend. We have integrated Honojs as our server framework, Supabase as our database, and Million.js to optimize React performance.
@@ -12,6 +11,7 @@ This is a task management project developed using React for the frontend and Nod
 - **Million.js**: Library that accelerates React rendering.
 - **Tailwind CSS**: Utility-first CSS framework for rapidly building custom designs.
 - **Zustand**: State management library for React applications.
+- **Chadcn/ui**: React component library for creating beautiful and accessible UIs.
 
 ## Monorepo Setup
 
@@ -28,4 +28,5 @@ We use pnpm with workspaces to manage this project as a monorepo, facilitating e
 ## License
 
 #### This project is licensed under the MIT License. For more details, see the [LICENSE](LICENSE) file.
+
 <img  alt="Star on GitHub to support the project" src="star_repo.gif" width="200px">
