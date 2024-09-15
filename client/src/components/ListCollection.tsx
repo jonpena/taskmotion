@@ -42,7 +42,10 @@ const ListCollection = () => {
           }}
         >
           <LayoutPanelLeft
-            className='text-gray-600 absolute top-1/2 left-1/2 
+            size={26}
+            absoluteStrokeWidth={true}
+            strokeWidth={2}
+            className='text-gray-500 absolute top-1/2 left-1/2 
           -translate-x-1/2  -translate-y-1/2'
           />
         </Button>
