@@ -36,10 +36,10 @@ const CreateList = () => {
       <Input
         type='text'
         value={name}
-        onChange={(e) => setName(e.target.value)}
+        onChange={(e) => setName(e.target.value.trimStart())}
         onKeyDown={handleKeyPress}
         placeholder='Create new list...'
-        className='h-12 pr-12 border-none bg-gray-100 hover:bg-gray-200 focus-visible:ring-0 focus-visible:bg-gray-200 focus-visible:placeholder:text-gray-400'
+        className='text-gray-600 h-12 pr-12 border-none bg-gray-100 hover:bg-gray-200 focus-visible:ring-0 focus-visible:bg-gray-200 focus-visible:placeholder:text-gray-400'
       />
       <button
         title='Create new list'
