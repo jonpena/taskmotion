@@ -26,10 +26,8 @@ const Task = ({ task }: TaskComponentProps) => {
   const lists = useListStore((state) => state.lists);
   const [isFocused, setIsFocused] = useState(false);
 
-  const handleDelete = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    if (!listId) return;
-
-    if (e.detail === 1) {
+  const handleDelete = () => {
+    if (listId) {
       const newTasks = tasks.filter((elem) => elem.id !== task.id);
       requestUpdateList(listId, { tasks: newTasks });
       const updateLists = [...lists];
@@ -37,7 +35,7 @@ const Task = ({ task }: TaskComponentProps) => {
       updateLists[index].tasks = newTasks;
       setLists([...updateLists]);
       setTasks(newTasks);
-    } else if (e.detail === 2) e.stopPropagation();
+    }
   };
 
   const handleChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +43,7 @@ const Task = ({ task }: TaskComponentProps) => {
     setChecked(e.target.checked);
   };
 
-  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
 
@@ -115,7 +113,7 @@ const Task = ({ task }: TaskComponentProps) => {
          ${!isFocused && 'pointer-events-none'}
         `}
         value={name}
-        onChange={handleTextChange}
+        onChange={handleChange}
         onKeyDown={handleKeyPress}
         onClick={(e) => handleClick(e)}
         onBlur={() => setIsFocused(false)}
@@ -124,10 +122,10 @@ const Task = ({ task }: TaskComponentProps) => {
       <button
         disabled={listId === 'home'}
         title='Delete task'
-        onClick={(e) => handleDelete(e)}
-        className='group h-8 w-8 flex flex-shrink-0 cursor-pointer items-center justify-center rounded-lg bg-black/5 transition-all hover:bg-black/10 disabled:opacity-50 disabled:pointer-events-none'
+        onClick={handleDelete}
+        className='group h-8 w-8 flex flex-shrink-0 cursor-pointer items-center justify-center rounded-lg bg-black/5 transition-all hover:bg-black/10 disabled:opacity-50 disabled:pointer-events-none touch-none'
       >
-        <Trash2 className='w-4 group-hover:text-red-400' />
+        <Trash2 className='w-4 group-hover:text-red-400 select-none pointer-events-none' />
       </button>
     </div>
   );
