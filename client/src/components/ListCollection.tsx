@@ -21,9 +21,7 @@ const ListCollection = () => {
   const isSmallDevice = useMediaQuery('only screen and (max-width : 1023px)');
   const [openPopover, setOpenPopover] = useState(!isSmallDevice);
 
-  const handleClick = () => {
-    navigate(`/list/home`);
-  };
+  const handleClick = () => navigate(`/list/home`);
 
   useEffect(() => {
     setOpenPopover(!isSmallDevice ? true : false);
@@ -50,7 +48,7 @@ const ListCollection = () => {
           />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-screen md:w-[320px] h-[100dvh] lg:mt-[62px] lg:ml-2 mt-2 p-2'>
+      <PopoverContent className='sticky w-screen md:w-[340px] h-customMobile overflow-y-auto lg:mt-[62px] lg:ml-2 mt-2 p-2'>
         <ul>
           <li
             id='home'
@@ -65,11 +63,11 @@ const ListCollection = () => {
             </span>
           </li>
 
-          {lists &&
-            lists.map((list) => <ListItem list={list} key={list.listId} />)}
+          {lists?.map((list) => (
+            <ListItem list={list} key={list.listId} />
+          ))}
         </ul>
         <CreateList />
-
         <AlertDialogMessage />
       </PopoverContent>
     </Popover>

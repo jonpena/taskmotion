@@ -3,7 +3,7 @@ import { TaskProps } from '../../../shared/interfaces/task.interface';
 import { useTaskStore } from '@/store/taskStore';
 import { useParams } from 'react-router-dom';
 import { requestUpdateList } from '@/services/requestUpdateList';
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDebounce } from '@uidotdev/usehooks';
 import { useListStore } from '@/store/listStore';
 import Checkbox from './UI/checkbox';
@@ -18,13 +18,12 @@ const Task = ({ task }: TaskComponentProps) => {
   const { listId } = useParams();
   const [name, setName] = useState(task.name);
   const [checked, setChecked] = useState(task.checked);
-  const debouncedName = useDebounce(name, 500);
   const debouncedChecked = useDebounce(checked, 200);
-  const inputRef =
-    useRef<HTMLInputElement>() as MutableRefObject<HTMLInputElement>;
+  const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const { setLists } = useListStore();
   const lists = useListStore((state) => state.lists);
   const [isFocused, setIsFocused] = useState(false);
+  const [previousName, setPreviousName] = useState(task.name);
 
   const handleDelete = () => {
     if (listId) {
@@ -44,7 +43,7 @@ const Task = ({ task }: TaskComponentProps) => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
+    setName(e.target.value.trimStart());
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -67,13 +66,17 @@ const Task = ({ task }: TaskComponentProps) => {
     if (e.detail === 2) handleDoubleClick();
   };
 
-  useEffect(() => {
-    if (!listId || debouncedName === task.name) return;
-    const aux = [...tasks];
-    const findTaskIndex = tasks.findIndex((elem) => elem.id === task.id);
-    aux[findTaskIndex].name = name;
-    requestUpdateList(listId, { tasks: aux });
-  }, [debouncedName]);
+  const handleBlur = () => {
+    if (listId && name && name !== previousName) {
+      inputRef.current?.setSelectionRange(0, 0);
+      const aux = [...tasks];
+      const findTaskIndex = tasks.findIndex((elem) => elem.id === task.id);
+      aux[findTaskIndex].name = name;
+      requestUpdateList(listId, { tasks: aux });
+      setPreviousName(name);
+    } else setName(previousName);
+    setIsFocused(false);
+  };
 
   useEffect(() => {
     if (!listId || listId === 'home' || debouncedChecked === task.checked)
@@ -91,7 +94,7 @@ const Task = ({ task }: TaskComponentProps) => {
   return (
     <div
       className='w-full h-full overflow-x-hidden flex justify-between items-center 
-      text-gray-500 my-2 bg-gray-200'
+      text-gray-500 my-2 bg-gray-100'
       title={name}
       onClick={(e) => handleClick(e)}
     >
@@ -108,7 +111,7 @@ const Task = ({ task }: TaskComponentProps) => {
         name='name'
         type='text'
         disabled={listId === 'home'}
-        className={`w-[90%] whitespace-nowrap overflow-hidden text-ellipsis text-sm h-7 pl-2 outline-none cursor-pointer rounded disabled:pointer-events-none bg-gray-200 focus:bg-gray-50
+        className={`w-full pl-2 mr-2 whitespace-nowrap overflow-hidden text-ellipsis text-sm h-7 outline-none cursor-pointer rounded disabled:pointer-events-none bg-gray-100 focus:bg-white
          ${checked && 'line-through'} 
          ${!isFocused && 'pointer-events-none'}
         `}
@@ -116,7 +119,7 @@ const Task = ({ task }: TaskComponentProps) => {
         onChange={handleChange}
         onKeyDown={handleKeyPress}
         onClick={(e) => handleClick(e)}
-        onBlur={() => setIsFocused(false)}
+        onBlur={handleBlur}
       />
 
       <button
