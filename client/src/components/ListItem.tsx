@@ -19,14 +19,13 @@ const ListItem = ({ list }: ListItemProps) => {
   const tasks = useTaskStore((state) => state.tasks);
   const lists = useListStore((state) => state.lists);
   const { setLists } = useListStore();
-  const inputRef =
-    useRef<HTMLInputElement>() as React.MutableRefObject<HTMLInputElement>;
+  const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [countTasks, setCountTasks] = useState(0);
   const [isFocused, setIsFocused] = useState(false);
   const { setOpen, setHandleDelete, setTitle } = useAlertDialogStore();
   const [clickTimeout, setClickTimeout] = useState<NodeJS.Timeout | null>(null);
   const [name, setName] = useState(list.name);
-  const [lastName, setLastName] = useState(list.name);
+  const [previousName, setPreviousName] = useState(list.name);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value.trimStart());
@@ -34,16 +33,14 @@ const ListItem = ({ list }: ListItemProps) => {
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (!inputRef?.current || list.listId !== listId) return;
-    if (e.key === 'Enter') {
-      inputRef?.current.blur();
-    }
+    if (e.key === 'Enter') inputRef?.current.blur();
   };
 
   const handleBlur = () => {
-    if (listId && name && name !== lastName) {
+    if (listId && name && name !== previousName) {
       requestUpdateList(listId, { name, tasks });
-      setLastName(name);
-    } else setName(lastName);
+      setPreviousName(name);
+    } else setName(previousName);
     setIsFocused(false);
   };
 
@@ -58,7 +55,7 @@ const ListItem = ({ list }: ListItemProps) => {
     setOpen(true);
   };
 
-  const handleRoute = () => {
+  const handleClick = () => {
     if (isFocused || list.listId === listId) return;
     navigate(`/list/${list.listId}`);
   };
@@ -73,21 +70,13 @@ const ListItem = ({ list }: ListItemProps) => {
     setIsFocused(true);
   };
 
-  useEffect(() => {
-    setCountTasks(ListLength(list, tasks, listId));
-  }, [lists]);
-
   const handleClicks = () => {
-    console.log('handle click');
-
     if (clickTimeout) {
       clearTimeout(clickTimeout);
       setClickTimeout(null);
-      console.log('click');
       handleDoubleClick();
     } else {
-      console.log('double click');
-      handleRoute();
+      handleClick();
       setClickTimeout(
         setTimeout(() => {
           setClickTimeout(null);
@@ -96,18 +85,22 @@ const ListItem = ({ list }: ListItemProps) => {
     }
   };
 
+  useEffect(() => {
+    setCountTasks(ListLength(list, tasks, listId));
+  }, [lists]);
+
   return (
     <li
       title={name}
       onClick={handleClicks}
-      className={`w-full h-12 mx-auto mt-1 flex items-center justify-between px-2 text-gray-500 
+      className={`relative w-full h-12 mx-auto mt-1 flex items-center justify-between px-2 text-gray-500 
         bg-gray-100 rounded-md hover:bg-gray-200 transition-colors duration-200 select-none group
         ${listId === list.listId && 'bg-gray-200'}`}
     >
       <input
         ref={inputRef}
         type='text'
-        className={`w-[255px] h-7 whitespace-nowrap overflow-hidden text-ellipsis text-sm pl-2
+        className={`w-full pl-2 mr-2 h-7 whitespace-nowrap overflow-hidden text-ellipsis text-sm
           outline-none rounded
           ${isFocused ? 'opacity-100' : 'opacity-0 pointer-events-none'}
           `}
@@ -117,7 +110,7 @@ const ListItem = ({ list }: ListItemProps) => {
         onBlur={handleBlur}
       />
       <span
-        className={`w-[255px] absolute whitespace-nowrap overflow-hidden text-ellipsis text-sm pl-2 ${
+        className={` pl-2 w-[calc(100%-3rem)] absolute whitespace-nowrap overflow-hidden text-ellipsis text-sm ${
           !isFocused ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
       >
