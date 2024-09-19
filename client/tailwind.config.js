@@ -6,7 +6,7 @@ export default {
   theme: {
     extend: {
       height: {
-        custom: 'calc(100dvh - 288px)',
+        custom: 'calc(100dvh - 330px)',
         customMobile: 'calc(100dvh - 4rem)',
       },
       borderRadius: {
