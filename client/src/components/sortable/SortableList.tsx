@@ -67,7 +67,7 @@ export function SortableList<T extends TaskProps>({
   };
 
   return (
-    <div className='w-full lg:pl-[340px] lg:mt-60 mt-4'>
+    <div className='w-full lg:pl-[340px] lg:mt-48 mt-4'>
       <DndContext
         sensors={sensors}
         modifiers={[restrictToVerticalAxis]}

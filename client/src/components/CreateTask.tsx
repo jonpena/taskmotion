@@ -44,7 +44,7 @@ const CreateTask = () => {
   const handleClick = () => createTask(taskName);
 
   return (
-    <div className='mx-auto flex items-center max-w-80 sticky top-2 bg-gray-100 rounded px-2'>
+    <div className='flex items-center w-full bg-gray-100 rounded px-2'>
       <Checkbox
         disabled={listId === 'home'}
         name='checked'
@@ -56,7 +56,7 @@ const CreateTask = () => {
         disabled={listId === 'home'}
         type='text'
         placeholder='Create new task...'
-        className='text-gray-600 px-4 outline-none w-full h-12 border-none focus-visible:ring-0 focus-visible:placeholder:text-gray-400'
+        className='text-gray-600 px-3 outline-none w-full h-12 border-none focus-visible:ring-0 focus-visible:placeholder:text-gray-400'
         onKeyDown={handleKeyPress}
         onChange={(e) => setTaskName(e.target.value.trimStart())}
         value={taskName}

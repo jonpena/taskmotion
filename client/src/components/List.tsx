@@ -36,9 +36,11 @@ const List = () => {
           )}
         />
       ) : (
-        <span className='text-white select-none fixed top-36 left-1/2 -translate-x-1/2'>
-          You're all done!
-        </span>
+        <div className=' mx-auto mt-60 pl-[340px]'>
+          <h2 className='w-[640px] text-gray-600 text-lg text-center mx-auto'>
+            This list is empty
+          </h2>
+        </div>
       )}
     </>
   );
