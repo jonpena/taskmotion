@@ -51,12 +51,12 @@ const ListItem = ({ list }: ListItemProps) => {
       setLists(filterListCollection);
       requestDeleteList(_listId);
     });
-    setTitle(name as string);
     setOpen(true);
   };
 
   const handleClick = () => {
     if (isFocused || list.listId === listId) return;
+    setTitle(name as string);
     navigate(`/list/${list.listId}`);
   };
 
