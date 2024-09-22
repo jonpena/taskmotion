@@ -6,8 +6,8 @@ import Trusted from '@/components/landing/Trusted';
 import Banner from '@/components/landing/Banner';
 import Faq from '@/components/landing/Faq';
 import Footer from '@/components/landing/Footer';
+import { Outlet } from 'react-router-dom';
 const Home = () => {
-
   return (
     <>
       <Navbar />
@@ -17,6 +17,7 @@ const Home = () => {
       <Banner />
       <Faq />
       <Footer />
+      <Outlet />
     </>
   );
 };
