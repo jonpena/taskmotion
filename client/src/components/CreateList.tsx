@@ -5,7 +5,9 @@ import { useListStore } from '@/store/listStore';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { v4 as uuid } from 'uuid';
-import { Input } from './UI/input';
+import { Input } from './ui/input';
+import { Tooltip } from './Tooltip';
+import { replaceEmojis } from '@/utils/replaceEmojis';
 
 const CreateList = () => {
   const [name, setName] = useState('');
@@ -17,7 +19,7 @@ const CreateList = () => {
     if (!name) return;
     const newlist: ListProps = {
       listId: uuid(),
-      name,
+      name: replaceEmojis(name),
       tasks: [],
     };
     const aux = [...lists, newlist];
@@ -41,13 +43,14 @@ const CreateList = () => {
         placeholder='Create new list...'
         className='text-gray-600 h-12 pr-12 border-none bg-gray-100 hover:bg-gray-200 focus-visible:ring-0 focus-visible:bg-gray-200 focus-visible:placeholder:text-gray-400'
       />
-      <button
-        title='Create new list'
-        className=' w-6 h-6 absolute right-2 top-3 flex justify-center items-center 
+      <Tooltip title='Create new list'>
+        <button
+          className='w-7 h-7 absolute right-2 top-3 flex justify-center items-center 
         text-sm font-medium bg-white rounded-lg select-none'
-      >
-        <Plus onClick={handleClick} className='w-4 h-4 text-gray-600' />
-      </button>
+        >
+          <Plus onClick={handleClick} className='w-4 h-4 text-gray-600' />
+        </button>
+      </Tooltip>
     </div>
   );
 };

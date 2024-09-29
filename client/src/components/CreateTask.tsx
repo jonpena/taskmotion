@@ -4,9 +4,11 @@ import { useTaskStore } from '../store/taskStore';
 import { useParams } from 'react-router-dom';
 import { requestUpdateList } from '@/services/requestUpdateList';
 import { useListStore } from '@/store/listStore';
-import { Input } from '@/components/UI/input';
-import Checkbox from '@/components/UI/checkbox';
+import { Input } from '@/components/ui/input';
+import Checkbox from '@/components/ui/checkbox';
 import { Plus } from 'lucide-react';
+import { Tooltip } from './Tooltip';
+import { replaceEmojis } from '@/utils/replaceEmojis';
 
 const CreateTask = () => {
   const [taskName, setTaskName] = useState('');
@@ -22,7 +24,7 @@ const CreateTask = () => {
 
     const newTask = {
       id: uuid(),
-      name,
+      name: replaceEmojis(name),
       checked,
     };
     const newTasksArray = [newTask, ...tasks];
@@ -30,9 +32,10 @@ const CreateTask = () => {
     const updateLists = [...lists];
     const index = lists.findIndex((l) => l.listId === listId);
     updateLists[index].tasks = newTasksArray;
-    setTaskName('');
     setTasks(newTasksArray);
     setLists([...updateLists]);
+    setTaskName('');
+    setChecked(false);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -50,8 +53,8 @@ const CreateTask = () => {
         name='checked'
         checked={checked}
         onChange={(e) => setChecked(e.target.checked)}
-        className=''
       />
+
       <Input
         disabled={listId === 'home'}
         type='text'
@@ -62,14 +65,15 @@ const CreateTask = () => {
         value={taskName}
       />
 
-      <button
-        title='Create new task'
-        onClick={handleClick}
-        className=' w-8 h-7 right-2 top-3 flex justify-center items-center 
+      <Tooltip title='Create new task'>
+        <button
+          onClick={handleClick}
+          className='w-7 h-7 right-2 top-3 flex justify-center items-center 
         text-sm font-medium flex-grow-1 rounded-lg select-none bg-white'
-      >
-        <Plus className='w-4 h-4 text-gray-600 pointer-events-none' />
-      </button>
+        >
+          <Plus className='w-4 h-4 text-gray-600 pointer-events-none' />
+        </button>
+      </Tooltip>
     </div>
   );
 };
