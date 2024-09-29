@@ -8,8 +8,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/UI/alert-dialog';
-import { useAlertDialogStore } from '@/store/alertDialogStore';
+} from '@/components/ui/alert-dialog';
+import { useAlertDialogStore } from '@/store/dialogStore';
 
 export function AlertDialogMessage() {
   const { open, title, setOpen, handleDelete } = useAlertDialogStore();
