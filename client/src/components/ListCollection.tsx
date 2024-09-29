@@ -8,8 +8,8 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/UI/popover';
-import { Button } from '@/components/UI/button';
+} from '@/components/ui/popover';
+import { Button } from '@/components/ui/button';
 import { useMediaQuery } from '@uidotdev/usehooks';
 import { useEffect, useState } from 'react';
 import { LayoutPanelLeft } from 'lucide-react';
@@ -24,20 +24,18 @@ const ListCollection = () => {
   const handleClick = () => navigate(`/list/home`);
 
   useEffect(() => {
-    setOpenPopover(!isSmallDevice ? true : false);
+    setOpenPopover(!isSmallDevice);
   }, [isSmallDevice]);
 
   return (
     <Popover open={openPopover}>
       <PopoverTrigger asChild>
         <Button
+          variant='outline'
           className={`w-10 h-10 fixed top-3 left-2 z-50 bg-white ${
             isSmallDevice ? 'inline-block' : 'hidden'
           }`}
-          variant='outline'
-          onClick={() => {
-            setOpenPopover(!openPopover);
-          }}
+          onClick={() => setOpenPopover(!openPopover)}
         >
           <LayoutPanelLeft
             size={26}
