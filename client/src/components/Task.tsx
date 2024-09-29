@@ -6,7 +6,10 @@ import { requestUpdateList } from '@/services/requestUpdateList';
 import { useEffect, useRef, useState } from 'react';
 import { useDebounce } from '@uidotdev/usehooks';
 import { useListStore } from '@/store/listStore';
-import Checkbox from './UI/checkbox';
+import Checkbox from './ui/checkbox';
+import { Tooltip } from './Tooltip';
+import { replaceEmojis } from '@/utils/replaceEmojis';
+import { useDragStore } from '@/store/dragStore';
 
 type TaskComponentProps = {
   task: TaskProps;
@@ -24,6 +27,7 @@ const Task = ({ task }: TaskComponentProps) => {
   const lists = useListStore((state) => state.lists);
   const [isFocused, setIsFocused] = useState(false);
   const [previousName, setPreviousName] = useState(task.name);
+  const { isDragging: isDraggingStore } = useDragStore();
 
   const handleDelete = () => {
     if (listId) {
@@ -71,9 +75,11 @@ const Task = ({ task }: TaskComponentProps) => {
       inputRef.current?.setSelectionRange(0, 0);
       const aux = [...tasks];
       const findTaskIndex = tasks.findIndex((elem) => elem.id === task.id);
-      aux[findTaskIndex].name = name;
+      const formattedName = replaceEmojis(name);
+      aux[findTaskIndex].name = formattedName;
       requestUpdateList(listId, { tasks: aux });
-      setPreviousName(name);
+      setName(formattedName);
+      setPreviousName(formattedName);
     } else setName(previousName);
     setIsFocused(false);
   };
@@ -95,12 +101,11 @@ const Task = ({ task }: TaskComponentProps) => {
     <div
       className='w-full h-full overflow-x-hidden flex justify-between items-center 
       text-gray-500 my-2 bg-gray-100'
-      title={name}
       onClick={(e) => handleClick(e)}
     >
       <Checkbox
         name='checked'
-        disabled={listId === 'home'}
+        disabled={listId === 'home' || isDraggingStore}
         checked={checked}
         onChange={(e) => handleChecked(e)}
         className='mr-2 disabled:cursor-default'
@@ -111,8 +116,8 @@ const Task = ({ task }: TaskComponentProps) => {
         name='name'
         type='text'
         disabled={listId === 'home'}
-        className={`w-full pl-2 mr-2 whitespace-nowrap overflow-hidden text-ellipsis text-sm h-7 outline-none cursor-pointer rounded disabled:pointer-events-none bg-gray-100 focus:bg-white
-         ${checked && 'line-through'} 
+        className={`w-full h-8 pl-2 mr-2 whitespace-nowrap overflow-hidden text-ellipsis text-sm outline-none  rounded disabled:pointer-events-none bg-gray-100 focus:bg-white
+         ${checked && !isFocused && 'line-through'} 
          ${!isFocused && 'pointer-events-none'}
         `}
         value={name}
@@ -122,14 +127,15 @@ const Task = ({ task }: TaskComponentProps) => {
         onBlur={handleBlur}
       />
 
-      <button
-        disabled={listId === 'home'}
-        title='Delete task'
-        onClick={handleDelete}
-        className='group h-8 w-8 flex flex-shrink-0 cursor-pointer items-center justify-center rounded-lg bg-black/5 transition-all hover:bg-black/10 disabled:opacity-50 disabled:pointer-events-none touch-none'
-      >
-        <Trash2 className='w-4 group-hover:text-red-400 select-none pointer-events-none' />
-      </button>
+      <Tooltip title='Delete task' disable={isDraggingStore}>
+        <button
+          disabled={listId === 'home'}
+          onClick={handleDelete}
+          className='group w-8 h-8 flex flex-shrink-0 items-center justify-center rounded-lg bg-black/5 transition-all hover:bg-black/10 disabled:opacity-50 disabled:pointer-events-none touch-none cursor-default'
+        >
+          <Trash2 className='w-4 group-hover:text-red-400 select-none pointer-events-none' />
+        </button>
+      </Tooltip>
     </div>
   );
 };
