@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Github } from 'lucide-react';
-import { Button } from '../UI/button';
+import { Button } from '../ui/button';
 const Navbar = () => {
   const [starCount, setStarCount] = useState(0);
   const anchors = ['Home', 'Features', 'About'];
