@@ -3,24 +3,34 @@ import { SortableList } from './sortable/SortableList';
 import Task from './Task';
 import { useTaskStore } from '@/store/taskStore';
 import { useListStore } from '@/store/listStore';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { TaskProps } from '@shared/task.interface';
+import { useAlertDialogStore } from '@/store/dialogStore';
 
 const List = () => {
   const tasks = useTaskStore((state) => state.tasks);
   const lists = useListStore((state) => state.lists);
   const { setTasks } = useTaskStore();
   const { listId } = useParams();
+  const { setTitle } = useAlertDialogStore();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    let auxTasks: TaskProps[] = [];
+    let findTasks: TaskProps[] = [];
     if (listId === 'home') {
+      setTitle('Home');
       lists.forEach((list) => {
-        auxTasks = auxTasks.concat(list.tasks);
+        findTasks = findTasks.concat(list.tasks);
       });
-    } else auxTasks = lists.find((l) => l.listId === listId)?.tasks || [];
+    } else {
+      const findList = lists.find((l) => l.listId === listId);
+      if (lists.length !== 0 && !findList) navigate('/list/home');
+      setTitle(findList?.name as string);
+      findTasks = findList?.tasks || [];
+    }
 
-    setTasks(auxTasks);
+    setTasks(findTasks);
   }, [listId, lists]);
 
   return (
@@ -37,7 +47,7 @@ const List = () => {
         />
       ) : (
         <div className=' mx-auto mt-60 pl-[340px]'>
-          <h2 className='w-[640px] text-gray-600 text-lg text-center mx-auto'>
+          <h2 className='w-[640px] text-gray-500 text-lg text-center mx-auto'>
             This list is empty
           </h2>
         </div>
