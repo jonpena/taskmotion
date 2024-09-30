@@ -8,6 +8,7 @@ import {
   useSensors,
   Active,
   Over,
+  DragStartEvent,
 } from '@dnd-kit/core';
 import {
   SortableContext,
@@ -22,6 +23,12 @@ import { Virtuoso } from 'react-virtuoso';
 import { TaskProps } from '@shared/task.interface';
 import { useParams } from 'react-router-dom';
 import { requestUpdateList } from '@/services/requestUpdateList';
+import { useDragStore } from '@/store/dragStore';
+
+type handleDragEndProps = {
+  active: Active;
+  over: Over | null;
+};
 
 type Props<T extends TaskProps> = {
   items: T[];
@@ -29,18 +36,14 @@ type Props<T extends TaskProps> = {
   renderItem(item: T): ReactNode;
 };
 
-type handleDragEndProps = {
-  active: Active;
-  over: Over | null;
-};
-
-export function SortableList<T extends TaskProps>({
+export const SortableList = <T extends TaskProps>({
   items,
   onChange,
   renderItem,
-}: Props<T>) {
-  const [active, setActive] = useState<Active | null>(null);
+}: Props<T>) => {
   const { listId } = useParams();
+  const [active, setActive] = useState<Active | null>(null);
+  const { setIsDragging } = useDragStore();
 
   const activeItem = useMemo(
     () => items.find((item) => item.id === active?.id),
@@ -54,6 +57,12 @@ export function SortableList<T extends TaskProps>({
     })
   );
 
+  const handleDragStart = ({ active }: DragStartEvent) => {
+    if (!listId) return;
+    setActive(active);
+    setIsDragging(true);
+  };
+
   const handleDragEnd = ({ active, over }: handleDragEndProps) => {
     if (!listId) return;
     if (over && active.id !== over.id) {
@@ -64,6 +73,7 @@ export function SortableList<T extends TaskProps>({
       requestUpdateList(listId, { tasks: newOrder });
     }
     setActive(null);
+    setIsDragging(false);
   };
 
   return (
@@ -71,7 +81,7 @@ export function SortableList<T extends TaskProps>({
       <DndContext
         sensors={sensors}
         modifiers={[restrictToVerticalAxis]}
-        onDragStart={({ active }) => setActive(active)}
+        onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         onDragCancel={() => setActive(null)}
       >
@@ -92,6 +102,6 @@ export function SortableList<T extends TaskProps>({
       </DndContext>
     </div>
   );
-}
+};
 
 SortableList.Item = SortableItem;
