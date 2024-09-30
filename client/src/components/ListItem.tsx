@@ -1,13 +1,15 @@
 import { ListProps } from '@shared/list.interface';
 import { requestDeleteList } from '@/services/requestDeleteList';
 import { requestUpdateList } from '@/services/requestUpdateList';
-import { useAlertDialogStore } from '@/store/alertDialogStore';
+import { useAlertDialogStore } from '@/store/dialogStore';
 import { useListStore } from '@/store/listStore';
 import { useTaskStore } from '@/store/taskStore';
 import { ListLength } from '@/utils/ListLength';
 import { Trash2 } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Tooltip } from './Tooltip';
+import { replaceEmojis } from '@/utils/replaceEmojis';
 
 type ListItemProps = {
   list: ListProps;
@@ -38,8 +40,10 @@ const ListItem = ({ list }: ListItemProps) => {
 
   const handleBlur = () => {
     if (listId && name && name !== previousName) {
-      requestUpdateList(listId, { name, tasks });
-      setPreviousName(name);
+      const formattedName = replaceEmojis(name);
+      requestUpdateList(listId, { name: formattedName, tasks });
+      setName(formattedName);
+      setPreviousName(formattedName);
     } else setName(previousName);
     setIsFocused(false);
   };
@@ -91,7 +95,6 @@ const ListItem = ({ list }: ListItemProps) => {
 
   return (
     <li
-      title={name}
       onClick={handleClicks}
       className={`relative w-full h-12 mx-auto mt-1 flex items-center justify-between px-2 text-gray-500 
         bg-gray-100 rounded-md hover:bg-gray-200 transition-colors duration-200 select-none group
@@ -100,7 +103,7 @@ const ListItem = ({ list }: ListItemProps) => {
       <input
         ref={inputRef}
         type='text'
-        className={`w-full pl-2 mr-2 h-7 whitespace-nowrap overflow-hidden text-ellipsis text-sm
+        className={`w-full pl-2 mr-2 h-8 whitespace-nowrap overflow-hidden text-ellipsis text-sm
           outline-none rounded
           ${isFocused ? 'opacity-100' : 'opacity-0 pointer-events-none'}
           `}
@@ -116,17 +119,18 @@ const ListItem = ({ list }: ListItemProps) => {
       >
         {name}
       </span>
-      <span
-        onClick={() => handleDeleteList(list.listId as string)}
-        title='Delete list'
-        className='min-w-6 w-max h-8 flex justify-center items-center 
+      <Tooltip title='Delete list'>
+        <span
+          onClick={() => handleDeleteList(list.listId as string)}
+          className='min-w-6 w-max h-8 flex justify-center items-center 
         text-sm font-medium bg-white rounded-lg select-none cursor-pointer'
-      >
-        <Trash2 className='text-red-400 w-4 group-hover:inline-block hidden' />
-        <span className='text-center inline-block group-hover:hidden align-middle text-xs text-gray-500'>
-          <span className='w-full'>{countTasks}</span>
+        >
+          <Trash2 className='text-red-400 w-4 group-hover:inline-block hidden' />
+          <span className='text-center inline-block group-hover:hidden align-middle text-xs text-gray-500'>
+            <span className='w-full'>{countTasks}</span>
+          </span>
         </span>
-      </span>
+      </Tooltip>
     </li>
   );
 };
