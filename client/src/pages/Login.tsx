@@ -4,10 +4,10 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/UI/card';
-import { Button } from '@/components/UI/button';
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { GithubIcon } from 'lucide-react';
-import { Modal } from '@/components/UI/modal';
+import { Modal } from '@/components/ui/modal';
 import { useNavigate } from 'react-router-dom';
 import { UserAuth } from '@/context/AuthContext';
 
@@ -19,7 +19,7 @@ const Login = () => {
 
   return (
     <Modal open={true} onClose={handleClose}>
-      <Card className='w-[350px] mx-auto shadow-none border-none'>
+      <Card className='w-full mx-auto shadow-none border-none'>
         <CardHeader className='text-center'>
           <CardTitle>Login</CardTitle>
           <CardDescription>Choose a provider to sign in</CardDescription>
