@@ -43,21 +43,23 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
-  async function signout() {
+  const signout = async () => {
     const { error } = await supabase.auth.signOut();
 
     if (error)
       throw new Error('A ocurrido un error durante el cierre de sesión');
-  }
+  };
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (_, session) => {
         if (session === null) {
-          navigate('/');
+          console.log('session', session);
+          navigate(location.pathname.includes('login') ? '/login' : '/');
           setUser({} as userProps);
         } else {
           const { user } = session;
+
           setUser({
             email: user.user_metadata.email,
             fullname: user.user_metadata.full_name,
@@ -65,14 +67,13 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
           });
 
           const lists = await requestUserLists(session.access_token);
+          setLists(lists);
 
-          if (lists) {
-            setLists(lists);
-            const regex = /^\/list\/.+/;
-            if (!regex.test(location.pathname)) {
-              navigate(`/list/home`);
-            }
-          }
+          const existsList = lists.some((list) =>
+            list.listId?.includes(location.pathname.replace('/list/', ''))
+          );
+
+          navigate(existsList ? location.pathname : '/list/home');
         }
       }
     );

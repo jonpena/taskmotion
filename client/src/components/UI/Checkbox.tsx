@@ -1,4 +1,5 @@
 import { CheckIcon } from 'lucide-react';
+import { Tooltip } from '../Tooltip';
 
 type Props = React.InputHTMLAttributes<HTMLInputElement>;
 
@@ -14,15 +15,20 @@ const Checkbox = ({ name, checked, onChange, disabled, className }: Props) => {
         type='checkbox'
         className={`peer pointer-events-none w-0 appearance-none`}
       />
-      <div
+      <Tooltip
         title={checked ? 'Press to uncheck' : 'Press to check'}
-        className={
-          `pointer-events-auto relative aspect-square bg-black/5 transition-colors hover:bg-black/10 peer-checked:bg-text w-5 h-5 rounded-lg peer-checked:[&>*]:animate-pop-up peer-checked:[&>*]:opacity-100 ` +
-          className
-        }
+        disable={disabled}
       >
-        <CheckIcon className='text-gray-700 absolute inset-0 m-auto w-[0.6rem] animate-none stroke-[6px] text-foreground opacity-0' />
-      </div>
+        <div
+          className={
+            `pointer-events-auto relative aspect-square bg-black/5 transition-colors hover:bg-black/10 peer-checked:bg-text w-5 h-5 rounded-lg peer-checked:[&>*]:animate-pop-up peer-checked:[&>*]:opacity-100 ${
+              disabled && 'cursor-not-allowed'
+            } ` + className
+          }
+        >
+          <CheckIcon className='text-gray-700 absolute inset-0 m-auto w-[0.6rem] animate-none stroke-[6px] text-foreground opacity-0' />
+        </div>
+      </Tooltip>
     </label>
   );
 };
