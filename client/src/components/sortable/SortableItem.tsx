@@ -5,6 +5,8 @@ import { CSS } from '@dnd-kit/utilities';
 import { TASK_MAXWIDTH, TASK_MINWIDTH } from '@/constants/base';
 import { GripVertical } from 'lucide-react';
 import { useParams } from 'react-router-dom';
+import { Tooltip } from '../Tooltip';
+import { useDragStore } from '@/store/dragStore';
 
 type Props = {
   id: UniqueIdentifier;
@@ -13,14 +15,15 @@ type Props = {
 // million-ignore
 export function SortableItem({ children, id }: PropsWithChildren<Props>) {
   const { listId } = useParams();
+  const { isDragging: isDraggingStore } = useDragStore();
 
   const {
     attributes,
-    isDragging,
     listeners,
     setNodeRef,
     transform,
     transition,
+    isDragging,
   } = useSortable({ id });
 
   const style: CSSProperties = {
@@ -43,17 +46,18 @@ export function SortableItem({ children, id }: PropsWithChildren<Props>) {
       style={style}
     >
       {children}
-      <button
-        title='Move task'
-        disabled={listId === 'home'}
-        style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
-        className={`flex flex-none items-center justify-center w-8 h-8 touch-none rounded border-none outline-none appearance-none
+      <Tooltip title='Move task' disable={isDraggingStore}>
+        <button
+          style={{ cursor: isDraggingStore ? 'grabbing' : 'grab' }}
+          disabled={listId === 'home'}
+          className={`flex flex-none items-center justify-center w-8 h-8 touch-none rounded border-none outline-none appearance-none
           ml-[2px] disabled:cursor-default disabled:pointer-events-none bg-black/5 hover:bg-black/10`}
-        {...attributes}
-        {...listeners}
-      >
-        <GripVertical color='gray' width={20} strokeWidth={2} />
-      </button>
+          {...attributes}
+          {...listeners}
+        >
+          <GripVertical color='gray' width={20} strokeWidth={2} />
+        </button>
+      </Tooltip>
     </li>
   );
 }
