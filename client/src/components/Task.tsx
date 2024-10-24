@@ -114,7 +114,7 @@ const Task = ({ task }: TaskComponentProps) => {
         rows={1}
         ref={textareaRef}
         maxLength={180}
-        className={`w-full min-h-8 h-full overflow-auto pt-1 pl-2 mr-2 text-sm
+        className={`w-full min-h-8 h-full overflow-auto pt-[6px] pl-[6px] mr-2 text-sm
           bg-neutral-100 dark:bg-neutral-800 resize-none
           outline-none rounded
           ${isFocused ? 'opacity-100' : 'opacity-0'}
@@ -126,12 +126,12 @@ const Task = ({ task }: TaskComponentProps) => {
       />
       <Tooltip title={taskName} disable={isDraggingStore}>
         <div
-          className={`absolute pt-3 left-0 z-0 w-full h-full rounded-md flex items-start
+          className={`absolute pt-[14px] left-0 z-0 w-full h-full rounded-md flex items-start 
             ${isFocused && 'pointer-events-none'}
           `}
         >
           <span
-            className={`pl-9 ml-[10px] w-[calc(100%-6rem)] whitespace-nowrap overflow-hidden text-ellipsis text-sm ${
+            className={`pl-9 ml-2 w-[calc(100%-6rem)] whitespace-nowrap overflow-hidden text-ellipsis text-sm ${
               !isFocused ? 'opacity-100' : 'opacity-0'
             } ${checked && 'line-through'}
             }`}
