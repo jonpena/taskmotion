@@ -28,7 +28,7 @@ const SortableItem = ({ task }: SortableItemProps) => {
     paddingRight: '10px',
     userSelect: 'none',
     transition,
-    height: '48px',
+    // height: '48px',
     borderRadius: '8px',
     opacity: isDragging ? 0 : 1,
   };
@@ -37,7 +37,7 @@ const SortableItem = ({ task }: SortableItemProps) => {
     <li
       ref={setNodeRef}
       style={style}
-      className={`relative bg-gray-100 dark:bg-neutral-900 flex justify-between items-center flex-grow list-none`}
+      className={`relative bg-gray-100 dark:bg-neutral-900 flex justify-between items-start flex-grow list-none`}
     >
       <Task task={task} />
       <SortableButton attributes={attributes} listeners={listeners} />

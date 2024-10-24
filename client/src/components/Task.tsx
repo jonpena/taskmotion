@@ -10,19 +10,19 @@ import Checkbox from './ui/checkbox';
 import { Tooltip } from './Tooltip';
 import { replaceEmojis } from '@/utils/replaceEmojis';
 import { useDragStore } from '@/store/dragStore';
+import { calculateHeight } from '@/utils/calculateHeight';
 
 type TaskComponentProps = {
   task: TaskProps;
 };
 
 const Task = ({ task }: TaskComponentProps) => {
-  const { setTasks } = useTaskStore();
-  const tasks = useTaskStore((state) => state.tasks);
+  const textareaRef = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
+  const { tasks, setTasks } = useTaskStore();
   const { listId } = useParams();
-  const [name, setName] = useState(task.name);
+  const [taskName, setTaskName] = useState(task.name);
   const [checked, setChecked] = useState(task.checked);
   const debouncedChecked = useDebounce(checked, 200);
-  const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const { setLists } = useListStore();
   const lists = useListStore((state) => state.lists);
   const [isFocused, setIsFocused] = useState(false);
@@ -46,18 +46,20 @@ const Task = ({ task }: TaskComponentProps) => {
     setChecked(e.target.checked);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value.trimStart());
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTaskName(e.target.value.trimStart());
+    calculateHeight(textareaRef);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (!inputRef || !inputRef.current) return;
-    if (e.key === 'Enter') inputRef.current.blur();
+    if (!textareaRef || !textareaRef.current) return;
+    if (e.key === 'Enter') textareaRef.current.blur();
   };
 
   const handleDoubleClick = () => {
-    inputRef.current?.focus();
-    if (!isFocused) inputRef.current?.setSelectionRange(-1, -1);
+    textareaRef.current?.focus();
+    if (!isFocused) textareaRef.current?.setSelectionRange(-1, -1);
+    calculateHeight(textareaRef);
     setIsFocused(true);
   };
 
@@ -67,16 +69,17 @@ const Task = ({ task }: TaskComponentProps) => {
 
   const handleBlur = () => {
     if (listId && name && name !== previousName) {
-      inputRef.current?.setSelectionRange(0, 0);
+      textareaRef.current?.setSelectionRange(0, 0);
       const aux = [...tasks];
       const findTaskIndex = tasks.findIndex((elem) => elem.id === task.id);
       const formattedName = replaceEmojis(name);
       aux[findTaskIndex].name = formattedName;
       requestUpdateList(listId, { tasks: aux });
-      setName(formattedName);
+      setTaskName(formattedName);
       setPreviousName(formattedName);
-    } else setName(previousName);
+    } else setTaskName(previousName);
     setIsFocused(false);
+    textareaRef.current.style.height = 'auto';
   };
 
   useEffect(() => {
@@ -96,41 +99,44 @@ const Task = ({ task }: TaskComponentProps) => {
     <div
       className='w-full h-full overflow-x-hidden flex justify-between items-center 
       text-neutral-500 dark:text-neutral-100 my-2 bg-neutral-100 dark:bg-neutral-900'
-      onClick={(e) => handleClick(e)}
+      onClick={handleClick}
     >
       <Checkbox
         name='checked'
         disabled={listId === 'home' || isDraggingStore}
         checked={checked}
         onChange={handleChecked}
-        className='mr-2 disabled:cursor-default z-10'
+        classNameContainer='self-baseline'
+        className='mr-2 disabled:cursor-default z-10 top-[6px]'
       />
 
-      <input
-        ref={inputRef}
-        type='text'
-        className={`w-full pl-2 mr-2 h-8 whitespace-nowrap overflow-hidden text-ellipsis text-sm bg-neutral-100 dark:bg-neutral-800
+      <textarea
+        rows={1}
+        ref={textareaRef}
+        maxLength={180}
+        className={`w-full min-h-8 h-full overflow-auto pt-1 pl-2 mr-2 text-sm
+          bg-neutral-100 dark:bg-neutral-800 resize-none
           outline-none rounded
           ${isFocused ? 'opacity-100' : 'opacity-0'}
           `}
-        value={name}
+        value={taskName}
         onChange={handleChange}
         onKeyDown={handleKeyPress}
         onBlur={handleBlur}
       />
-      <Tooltip title={name} disable={isDraggingStore}>
+      <Tooltip title={taskName} disable={isDraggingStore}>
         <div
-          className={`absolute left-0 z-0 w-full h-12 rounded-md flex items-center 
+          className={`absolute pt-3 left-0 z-0 w-full h-full rounded-md flex items-start
             ${isFocused && 'pointer-events-none'}
           `}
         >
           <span
-            className={`pl-9 ml-[10px] w-[calc(100%-5.5rem)] whitespace-nowrap overflow-hidden text-ellipsis text-sm ${
+            className={`pl-9 ml-[10px] w-[calc(100%-6rem)] whitespace-nowrap overflow-hidden text-ellipsis text-sm ${
               !isFocused ? 'opacity-100' : 'opacity-0'
             } ${checked && 'line-through'}
             }`}
           >
-            {name}
+            {taskName}
           </span>
         </div>
       </Tooltip>
@@ -140,7 +146,7 @@ const Task = ({ task }: TaskComponentProps) => {
           disabled={listId === 'home'}
           onClick={handleDelete}
           className={`group w-8 h-8 flex flex-shrink-0 items-center justify-center rounded-lg bg-black/5 dark:bg-neutral-800 transition-all hover:bg-black/10 disabled:opacity-50 
-            disabled:pointer-events-none touch-none cursor-default z-0`}
+            disabled:pointer-events-none touch-none cursor-default z-0 self-start`}
         >
           <Trash2 className='w-4 group-hover:text-red-400 select-none pointer-events-none' />
         </button>

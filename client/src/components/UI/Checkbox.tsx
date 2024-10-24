@@ -1,12 +1,22 @@
 import { CheckIcon } from 'lucide-react';
 import { Tooltip } from '../Tooltip';
+import { InputHTMLAttributes } from 'react';
 
-type Props = React.InputHTMLAttributes<HTMLInputElement>;
+type CheckboxProps = InputHTMLAttributes<HTMLInputElement> & {
+  classNameContainer?: string;
+};
 
 // million-ignore
-const Checkbox = ({ name, checked, disabled, className, ...props }: Props) => {
+const Checkbox = ({
+  name,
+  checked,
+  disabled,
+  className,
+  classNameContainer,
+  ...props
+}: CheckboxProps) => {
   return (
-    <label className='flex w-fit h-fit'>
+    <label className={`flex w-fit h-fit ` + classNameContainer}>
       <input
         type='checkbox'
         name={name}
