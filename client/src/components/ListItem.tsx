@@ -1,3 +1,5 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ListProps } from '@shared/list.interface';
 import { requestDeleteList } from '@/services/requestDeleteList';
 import { requestUpdateList } from '@/services/requestUpdateList';
@@ -6,9 +8,7 @@ import { useListStore } from '@/store/listStore';
 import { useTaskStore } from '@/store/taskStore';
 import { ListLength } from '@/utils/ListLength';
 import { Trash2 } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Tooltip } from './Tooltip';
+import { Tooltip } from '@/components/Tooltip';
 import { replaceEmojis } from '@/utils/replaceEmojis';
 
 type ListItemProps = {
@@ -25,11 +25,11 @@ const ListItem = ({ list }: ListItemProps) => {
   const [isFocused, setIsFocused] = useState(false);
   const { setOpen, setHandleDelete, setTitle } = useAlertDialogStore();
   const [clickTimeout, setClickTimeout] = useState<NodeJS.Timeout | null>(null);
-  const [name, setName] = useState(list.name);
+  const [listName, setListName] = useState(list.name);
   const [previousName, setPreviousName] = useState(list.name);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value.trimStart());
+    setListName(e.target.value.trimStart());
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -38,12 +38,12 @@ const ListItem = ({ list }: ListItemProps) => {
   };
 
   const handleBlur = () => {
-    if (listId && name && name !== previousName) {
-      const formattedName = replaceEmojis(name);
+    if (listId && listName && listName !== previousName) {
+      const formattedName = replaceEmojis(listName);
       requestUpdateList(listId, { name: formattedName, tasks });
-      setName(formattedName);
+      setListName(formattedName);
       setPreviousName(formattedName);
-    } else setName(previousName);
+    } else setListName(previousName);
     setIsFocused(false);
   };
 
@@ -59,7 +59,7 @@ const ListItem = ({ list }: ListItemProps) => {
 
   const handleClick = () => {
     if (isFocused || list.listId === listId) return;
-    setTitle(name as string);
+    setTitle(listName as string);
     navigate(`/list/${list.listId}`);
   };
 
@@ -104,23 +104,22 @@ const ListItem = ({ list }: ListItemProps) => {
           outline-none rounded
           ${isFocused ? 'opacity-100' : 'opacity-0'}
           `}
-        value={name}
+        value={listName}
         onChange={handleChange}
         onKeyDown={handleKeyPress}
         onBlur={handleBlur}
       />
-      <Tooltip title={name as string}>
+      <Tooltip title={listName as string}>
         <div
-          className={`absolute top-0 z-0 w-full h-12 rounded-md flex items-center ${
-            isFocused && 'pointer-events-none'
-          }`}
+          className={`absolute top-0 z-0 w-full h-12 rounded-md flex items-center
+            ${isFocused && 'pointer-events-none'}`}
         >
           <span
             className={`pl-4 w-[calc(100%-2.5rem)] whitespace-nowrap overflow-hidden text-ellipsis text-sm ${
               !isFocused ? 'opacity-100' : 'opacity-0'
             }`}
           >
-            {name}
+            {listName}
           </span>
         </div>
       </Tooltip>
