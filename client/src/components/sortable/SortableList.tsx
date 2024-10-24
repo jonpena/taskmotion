@@ -18,7 +18,6 @@ import {
 
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { SortableOverlay } from './SortableOverlay';
-import { SortableItem } from './SortableItem';
 import { Virtuoso } from 'react-virtuoso';
 import { TaskProps } from '@shared/task.interface';
 import { useParams } from 'react-router-dom';
@@ -36,7 +35,7 @@ type Props<T extends TaskProps> = {
   renderItem(item: T): ReactNode;
 };
 
-export const SortableList = <T extends TaskProps>({
+const SortableList = <T extends TaskProps>({
   items,
   onChange,
   renderItem,
@@ -104,4 +103,4 @@ export const SortableList = <T extends TaskProps>({
   );
 };
 
-SortableList.Item = SortableItem;
+export default SortableList;

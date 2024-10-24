@@ -1,22 +1,16 @@
-import { type CSSProperties, type PropsWithChildren } from 'react';
-import type { UniqueIdentifier } from '@dnd-kit/core';
+import { type CSSProperties } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { TASK_MAXWIDTH, TASK_MINWIDTH } from '@/constants/base';
-import { GripVertical } from 'lucide-react';
-import { useParams } from 'react-router-dom';
-import { Tooltip } from '../Tooltip';
-import { useDragStore } from '@/store/dragStore';
+import Task from '../Task';
+import { TaskProps } from '@shared/task.interface';
+import SortableButton from '@/components/sortable/SortableButton';
 
-type Props = {
-  id: UniqueIdentifier;
+type SortableItemProps = {
+  task: TaskProps;
 };
 
-// million-ignore
-export function SortableItem({ children, id }: PropsWithChildren<Props>) {
-  const { listId } = useParams();
-  const { isDragging: isDraggingStore } = useDragStore();
-
+const SortableItem = ({ task }: SortableItemProps) => {
   const {
     attributes,
     listeners,
@@ -24,7 +18,7 @@ export function SortableItem({ children, id }: PropsWithChildren<Props>) {
     transform,
     transition,
     isDragging,
-  } = useSortable({ id });
+  } = useSortable({ id: task.id });
 
   const style: CSSProperties = {
     transform: CSS.Translate.toString(transform),
@@ -41,23 +35,14 @@ export function SortableItem({ children, id }: PropsWithChildren<Props>) {
 
   return (
     <li
-      className={`bg-gray-100 flex justify-between items-center flex-grow list-none`}
       ref={setNodeRef}
       style={style}
+      className={`relative bg-gray-100 dark:bg-neutral-900 flex justify-between items-center flex-grow list-none`}
     >
-      {children}
-      <Tooltip title='Move task' disable={isDraggingStore}>
-        <button
-          style={{ cursor: isDraggingStore ? 'grabbing' : 'grab' }}
-          disabled={listId === 'home'}
-          className={`flex flex-none items-center justify-center w-8 h-8 touch-none rounded border-none outline-none appearance-none
-          ml-[2px] disabled:cursor-default disabled:pointer-events-none bg-black/5 hover:bg-black/10`}
-          {...attributes}
-          {...listeners}
-        >
-          <GripVertical color='gray' width={20} strokeWidth={2} />
-        </button>
-      </Tooltip>
+      <Task task={task} />
+      <SortableButton attributes={attributes} listeners={listeners} />
     </li>
   );
-}
+};
+
+export default SortableItem;
