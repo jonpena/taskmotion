@@ -6,10 +6,9 @@
   scrollbar-width: none;
 }
 
-html,
 body {
   font-family: 'Poppins', sans-serif;
-  @apply bg-gray-50;
+  @apply dark:bg-background bg-gray-50;
   scroll-behavior: smooth;
   user-select: none;
 }
@@ -54,6 +53,7 @@ body {
     transform: translateY(0px);
   }
 }
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -83,7 +83,7 @@ body {
     --radius: 0.5rem;
   }
   .dark {
-    --background: 0 0% 3.9%;
+    --background: 0 0% 6%;
     --foreground: 0 0% 98%;
     --card: 0 0% 3.9%;
     --card-foreground: 0 0% 98%;

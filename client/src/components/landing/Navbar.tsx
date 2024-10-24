@@ -5,7 +5,6 @@ import { Github } from 'lucide-react';
 import { Button } from '../ui/button';
 const Navbar = () => {
   const [starCount, setStarCount] = useState(0);
-  const anchors = ['Home', 'Features', 'About'];
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,13 +16,13 @@ const Navbar = () => {
 
   return (
     <header className='fixed w-full z-50'>
-      <nav className='bg-white border-gray-200 py-2.5 dark:bg-gray-900'>
+      <nav className='bg-white border-gray-200 py-2.5 dark:bg-black/0'>
         <div className='flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto'>
-          <a href='#' className='flex items-center'>
-            <img src='logo.png' className='w-7 mr-2' alt='Taskmotion Logo' />
+          <a href='' className='flex items-center'>
+            <img src='logo.png' className='w-8 mr-2' alt='Taskmotion Logo' />
             <span
               translate='no'
-              className='self-center text-xl font-semibold whitespace-nowrap dark:text-white text-indigo-500'
+              className='self-center text-xl font-semibold whitespace-nowrap dark:text-white text-indigo-400'
             >
               Taskmotion
             </span>
@@ -35,7 +34,7 @@ const Navbar = () => {
               target='_blank'
             >
               <div
-                className='h-9 pl-3 flex items-center rounded bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 cursor-pointer
+                className='h-9 pl-3 flex items-center rounded bg-gray-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 cursor-pointer
             '
               >
                 <Github className='w-4 h-4 mr-2 text-gray-800 dark:text-gray-200 ' />
@@ -58,21 +57,7 @@ const Navbar = () => {
           <div
             className='items-center justify-between hidden w-full lg:flex lg:w-auto lg:order-1'
             id='mobile-menu-2'
-          >
-            <ul className='flex gap-x-14'>
-              {anchors.map((anchor) => (
-                <li key={anchor}>
-                  <a
-                    href={`#${anchor}`.toLowerCase()}
-                    className='block py-2 pl-3 pr-4 text-white bg-indigo-700 rounded lg:bg-transparent lg:text-indigo-700 lg:p-0 dark:text-white'
-                    aria-current='page'
-                  >
-                    {anchor}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+          ></div>
         </div>
       </nav>
     </header>

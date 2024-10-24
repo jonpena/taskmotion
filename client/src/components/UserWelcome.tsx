@@ -17,8 +17,8 @@ const UserWelcome = () => {
 
   return (
     <div className='hidden lg:block'>
-      <h3 className='text-gray-400'>{formatedDate}</h3>
-      <h1 className='text-gray-700 text-2xl font-medium mt-1'>
+      <h3 className='text-gray-400 dark:text-neutral-300'>{formatedDate}</h3>
+      <h1 className='text-gray-700 dark:text-neutral-200 text-2xl font-medium mt-1'>
         {listId === 'home'
           ? `${getGreeting()} - ${user?.fullname ?? 'Loading...'}`
           : `${getGreeting()} - ${title ?? 'Loading...'}`}

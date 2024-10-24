@@ -9,19 +9,26 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { useShortcut } from '@/hooks/useShortcut';
 import { useAlertDialogStore } from '@/store/dialogStore';
+import { useEffect } from 'react';
 
 export function AlertDialogMessage() {
   const { open, title, setOpen, handleDelete } = useAlertDialogStore();
+  const keydown = useShortcut(['Escape', 'Enter']);
 
-  const handleCancelClick = () => {
-    setOpen(false);
-  };
+  const handleCancelClick = () => setOpen(false);
 
   const handleDeleteClick = () => {
-    handleDelete();
     setOpen(false);
+    handleDelete();
   };
+
+  useEffect(() => {
+    if (!keydown) return;
+    if (open && keydown === 'Escape') handleCancelClick();
+    if (open && keydown === 'Enter') handleDeleteClick();
+  }, [keydown]);
 
   return (
     <AlertDialog open={open}>
@@ -31,7 +38,7 @@ export function AlertDialogMessage() {
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete
-            <span className='ml-1 text-indigo-600'>{title}</span>
+            <span className='ml-1 text-indigo-400'>{title}</span>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -39,7 +46,8 @@ export function AlertDialogMessage() {
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction
-            className='bg-red-600 hover:bg-red-700 text-gray-100'
+            autoFocus
+            className='bg-red-500 dark:bg-red-600 hover:bg-red-700 dark:hover:bg-red-700 dark:text-neutral-200'
             onClick={handleDeleteClick}
           >
             Delete list

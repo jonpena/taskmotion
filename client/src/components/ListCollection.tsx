@@ -41,7 +41,7 @@ const ListCollection = () => {
             size={26}
             absoluteStrokeWidth={true}
             strokeWidth={2}
-            className='text-gray-500 absolute top-1/2 left-1/2 
+            className='text-gray-500 dark:text-neutral-100 absolute top-1/2 left-1/2
           -translate-x-1/2  -translate-y-1/2'
           />
         </Button>
@@ -51,12 +51,12 @@ const ListCollection = () => {
           <li
             id='home'
             onClick={handleClick}
-            className={`flex items-center justify-between px-2 text-gray-500 
-            bg-gray-100 w-full h-12 rounded-md hover:bg-gray-200 select-none
-             ${listId === 'home' && 'bg-gray-300'}`}
+            className={`flex items-center justify-between px-2 text-gray-500 dark:text-neutral-50 
+            bg-gray-100 dark:bg-neutral-900 w-full h-12 rounded-md hover:bg-gray-200 dark:hover:bg-white/15 select-none
+             ${listId === 'home' && 'bg-gray-300 dark:bg-white/15'}`}
           >
             <span className='text-sm pl-2'>Home</span>
-            <span className='text-xs font-medium flex justify-center items-center bg-white min-w-6 w-max h-8 rounded-lg'>
+            <span className='text-xs font-medium flex justify-center items-center bg-white dark:bg-neutral-800 min-w-6 w-max h-8 rounded-lg'>
               {lists && lists.reduce((acc, list) => acc + list.tasks.length, 0)}
             </span>
           </li>

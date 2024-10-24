@@ -2,8 +2,8 @@ import { Github } from 'lucide-react';
 
 const Hero = () => {
   return (
-    <section id='home' className='bg-white dark:bg-gray-900'>
-      <div className='grid max-w-screen-xl px-2 sm:px-0 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-52 lg:grid-cols-12 lg:pt-56'>
+    <section id='home' className='bg-white dark:bg-black/0'>
+      <div className='grid max-w-screen-xl px-2 sm:px-0 pt-44 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-52 lg:grid-cols-12 lg:pt-56'>
         <div className='md:ml-6 mr-auto place-self-center lg:col-span-7'>
           <h1 className='max-w-2xl mb-4 text-4xl font-extrabold  md:text-5xl dark:text-white'>
             Organize and improve your productivity & efficiency
