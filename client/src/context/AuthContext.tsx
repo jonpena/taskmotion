@@ -52,9 +52,8 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (_, session) => {
+      async (event, session) => {
         if (session === null) {
-          console.log('session', session);
           navigate(location.pathname.includes('login') ? '/login' : '/');
           setUser({} as userProps);
         } else {
@@ -66,14 +65,16 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
             picture: user.user_metadata.picture,
           });
 
-          const lists = await requestUserLists(session.access_token);
-          setLists(lists);
+          if (event === 'INITIAL_SESSION') {
+            const lists = await requestUserLists(session.access_token);
+            setLists(lists);
 
-          const existsList = lists.some((list) =>
-            list.listId?.includes(location.pathname.replace('/list/', ''))
-          );
+            const existsList = lists.some((list) =>
+              list.listId?.includes(location.pathname.replace('/list/', ''))
+            );
 
-          navigate(existsList ? location.pathname : '/list/home');
+            navigate(existsList ? location.pathname : '/list/home');
+          }
         }
       }
     );
