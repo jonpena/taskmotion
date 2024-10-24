@@ -19,8 +19,7 @@ const ListItem = ({ list }: ListItemProps) => {
   const { listId } = useParams();
   const navigate = useNavigate();
   const tasks = useTaskStore((state) => state.tasks);
-  const lists = useListStore((state) => state.lists);
-  const { setLists } = useListStore();
+  const { lists, setLists } = useListStore();
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [countTasks, setCountTasks] = useState(0);
   const [isFocused, setIsFocused] = useState(false);
