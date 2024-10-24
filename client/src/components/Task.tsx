@@ -57,12 +57,7 @@ const Task = ({ task }: TaskComponentProps) => {
 
   const handleDoubleClick = () => {
     inputRef.current?.focus();
-    if (!isFocused) {
-      inputRef.current?.setSelectionRange(
-        inputRef.current?.value.length,
-        inputRef.current?.value.length
-      );
-    }
+    if (!isFocused) inputRef.current?.setSelectionRange(-1, -1);
     setIsFocused(true);
   };
 
@@ -100,38 +95,52 @@ const Task = ({ task }: TaskComponentProps) => {
   return (
     <div
       className='w-full h-full overflow-x-hidden flex justify-between items-center 
-      text-gray-500 my-2 bg-gray-100'
+      text-neutral-500 dark:text-neutral-100 my-2 bg-neutral-100 dark:bg-neutral-900'
       onClick={(e) => handleClick(e)}
     >
       <Checkbox
         name='checked'
         disabled={listId === 'home' || isDraggingStore}
         checked={checked}
-        onChange={(e) => handleChecked(e)}
-        className='mr-2 disabled:cursor-default'
+        onChange={handleChecked}
+        className='mr-2 disabled:cursor-default z-10'
       />
 
       <input
         ref={inputRef}
-        name='name'
         type='text'
-        disabled={listId === 'home'}
-        className={`w-full h-8 pl-2 mr-2 whitespace-nowrap overflow-hidden text-ellipsis text-sm outline-none  rounded disabled:pointer-events-none bg-gray-100 focus:bg-white
-         ${checked && !isFocused && 'line-through'} 
-         ${!isFocused && 'pointer-events-none'}
-        `}
+        className={`w-full pl-2 mr-2 h-8 whitespace-nowrap overflow-hidden text-ellipsis text-sm bg-neutral-100 dark:bg-neutral-800
+          outline-none rounded
+          ${isFocused ? 'opacity-100' : 'opacity-0'}
+          `}
         value={name}
         onChange={handleChange}
         onKeyDown={handleKeyPress}
-        onClick={(e) => handleClick(e)}
         onBlur={handleBlur}
       />
+      <Tooltip title={name} disable={isDraggingStore}>
+        <div
+          className={`absolute left-0 z-0 w-full h-12 rounded-md flex items-center 
+            ${isFocused && 'pointer-events-none'}
+          `}
+        >
+          <span
+            className={`pl-9 ml-[10px] w-[calc(100%-5.5rem)] whitespace-nowrap overflow-hidden text-ellipsis text-sm ${
+              !isFocused ? 'opacity-100' : 'opacity-0'
+            } ${checked && 'line-through'}
+            }`}
+          >
+            {name}
+          </span>
+        </div>
+      </Tooltip>
 
       <Tooltip title='Delete task' disable={isDraggingStore}>
         <button
           disabled={listId === 'home'}
           onClick={handleDelete}
-          className='group w-8 h-8 flex flex-shrink-0 items-center justify-center rounded-lg bg-black/5 transition-all hover:bg-black/10 disabled:opacity-50 disabled:pointer-events-none touch-none cursor-default'
+          className={`group w-8 h-8 flex flex-shrink-0 items-center justify-center rounded-lg bg-black/5 dark:bg-neutral-800 transition-all hover:bg-black/10 disabled:opacity-50 
+            disabled:pointer-events-none touch-none cursor-default z-0`}
         >
           <Trash2 className='w-4 group-hover:text-red-400 select-none pointer-events-none' />
         </button>
