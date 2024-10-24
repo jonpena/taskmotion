@@ -20,8 +20,8 @@ const UserWelcome = () => {
       <h3 className='text-gray-400 dark:text-neutral-300'>{formatedDate}</h3>
       <h1 className='text-gray-700 dark:text-neutral-200 text-2xl font-medium mt-1'>
         {listId === 'home'
-          ? `${getGreeting()} - ${user?.fullname ?? 'Loading...'}`
-          : `${getGreeting()} - ${title ?? 'Loading...'}`}
+          ? `${getGreeting()} | ${user?.fullname ?? 'Loading...'}`
+          : `${getGreeting()} | ${title ?? 'Loading...'}`}
       </h1>
     </div>
   );
