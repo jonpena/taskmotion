@@ -1,11 +1,11 @@
 import { Route, Routes, useLocation } from 'react-router-dom';
-import Home from './pages/Home';
-import Board from './pages/Board';
+import { UserAuth } from '@/context/AuthContext';
+import Home from '@/pages/Home';
+import Board from '@/pages/Board';
+import LoginCard from '@/pages/Login';
 import List from '@/components/List';
-import LoginCard from './pages/Login';
-import { UserAuth } from './context/AuthContext';
-import ProtectedRoute from './components/ProtectedRoute';
-import { isEmptyObject } from './utils/isEmptyObject';
+import ProtectedRoute from '@/components/ProtectedRoute';
+import { isEmptyObject } from '@/utils/isEmptyObject';
 
 export function App() {
   const { user } = UserAuth();
