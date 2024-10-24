@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import { SortableList } from './sortable/SortableList';
-import Task from './Task';
+import SortableList from './sortable/SortableList';
 import { useTaskStore } from '@/store/taskStore';
 import { useListStore } from '@/store/listStore';
 import { useNavigate, useParams } from 'react-router-dom';
 import { TaskProps } from '@shared/task.interface';
 import { useAlertDialogStore } from '@/store/dialogStore';
+import SortableItem from './sortable/SortableItem';
 
 const List = () => {
   const tasks = useTaskStore((state) => state.tasks);
@@ -39,11 +39,7 @@ const List = () => {
         <SortableList
           items={tasks || []}
           onChange={setTasks}
-          renderItem={(item) => (
-            <SortableList.Item id={item.id}>
-              <Task task={item} />
-            </SortableList.Item>
-          )}
+          renderItem={(item) => <SortableItem task={item} />}
         />
       ) : (
         <div className=' mx-auto mt-60 pl-[340px]'>
