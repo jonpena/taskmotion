@@ -68,11 +68,11 @@ const Task = ({ task }: TaskComponentProps) => {
   };
 
   const handleBlur = () => {
-    if (listId && name && name !== previousName) {
+    if (listId && taskName !== previousName) {
       textareaRef.current?.setSelectionRange(0, 0);
       const aux = [...tasks];
       const findTaskIndex = tasks.findIndex((elem) => elem.id === task.id);
-      const formattedName = replaceEmojis(name);
+      const formattedName = replaceEmojis(taskName);
       aux[findTaskIndex].name = formattedName;
       requestUpdateList(listId, { tasks: aux });
       setTaskName(formattedName);

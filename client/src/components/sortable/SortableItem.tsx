@@ -1,4 +1,4 @@
-import { type CSSProperties } from 'react';
+import { CSSProperties } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { TASK_MAXWIDTH, TASK_MINWIDTH } from '@/constants/base';
@@ -28,8 +28,7 @@ const SortableItem = ({ task }: SortableItemProps) => {
     paddingRight: '10px',
     userSelect: 'none',
     transition,
-    // height: '48px',
-    borderRadius: '8px',
+    borderRadius: '0.5rem',
     opacity: isDragging ? 0 : 1,
   };
 

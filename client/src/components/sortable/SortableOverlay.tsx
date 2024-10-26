@@ -6,7 +6,7 @@ const dropAnimationConfig: DropAnimation = {
   sideEffects: defaultDropAnimationSideEffects({
     styles: {
       active: {
-        opacity: '0.25',
+        opacity: '0.2',
       },
     },
   }),

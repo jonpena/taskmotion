@@ -17,10 +17,11 @@ const SortableButton = ({ attributes, listeners }: sortableButtonProps) => {
   return (
     <Tooltip title='Move task' disable={isDraggingStore}>
       <button
-        style={{ cursor: isDraggingStore ? 'grabbing' : 'grab' }}
         disabled={listId === 'home'}
+        style={{ cursor: isDraggingStore ? 'grabbing' : 'grab' }}
         className={`mt-2 flex flex-none items-center justify-center w-8 h-8 touch-none rounded-lg border-none outline-none appearance-none
-      ml-1 disabled:cursor-default disabled:pointer-events-none bg-black/5 hover:bg-black/10 dark:bg-neutral-800 z-0`}
+          ml-1 disabled:cursor-default disabled:pointer-events-none bg-black/5
+          hover:bg-black/10 dark:bg-neutral-800 z-0`}
         {...attributes}
         {...listeners}
       >
