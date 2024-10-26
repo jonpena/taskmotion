@@ -3,14 +3,15 @@ import { TaskProps } from '../../../shared/interfaces/task.interface';
 import { useTaskStore } from '@/store/taskStore';
 import { useParams } from 'react-router-dom';
 import { requestUpdateList } from '@/services/requestUpdateList';
-import { useEffect, useRef, useState } from 'react';
+import { useDeferredValue, useEffect, useRef, useState } from 'react';
 import { useDebounce } from '@uidotdev/usehooks';
 import { useListStore } from '@/store/listStore';
-import Checkbox from './ui/checkbox';
+import Checkbox from '@/components/ui/checkbox';
 import { Tooltip } from './Tooltip';
 import { replaceEmojis } from '@/utils/replaceEmojis';
 import { useDragStore } from '@/store/dragStore';
 import { calculateHeight } from '@/utils/calculateHeight';
+import { MAX_CONTENT_TASK } from '@/constants/base';
 
 type TaskComponentProps = {
   task: TaskProps;
@@ -22,23 +23,22 @@ const Task = ({ task }: TaskComponentProps) => {
   const { listId } = useParams();
   const [taskName, setTaskName] = useState(task.name);
   const [checked, setChecked] = useState(task.checked);
-  const debouncedChecked = useDebounce(checked, 200);
-  const { setLists } = useListStore();
-  const lists = useListStore((state) => state.lists);
+  const debouncedChecked = useDebounce(checked, 300);
+  const { lists, setLists } = useListStore();
   const [isFocused, setIsFocused] = useState(false);
   const [previousName, setPreviousName] = useState(task.name);
   const { isDragging: isDraggingStore } = useDragStore();
+  const deferredTaskName = useDeferredValue(taskName);
 
   const handleDelete = () => {
-    if (listId) {
-      const newTasks = tasks.filter((elem) => elem.id !== task.id);
-      requestUpdateList(listId, { tasks: newTasks });
-      const updateLists = [...lists];
-      const index = lists.findIndex((l) => l.listId === listId);
-      updateLists[index].tasks = newTasks;
-      setLists([...updateLists]);
-      setTasks(newTasks);
-    }
+    if (!listId) return;
+    const updateTasks = tasks.filter((elem) => elem.id !== task.id);
+    requestUpdateList(listId, { tasks: updateTasks });
+    const updateLists = [...lists];
+    const index = lists.findIndex((l) => l.listId === listId);
+    updateLists[index].tasks = updateTasks;
+    setTasks(updateTasks);
+    setLists([...updateLists]);
   };
 
   const handleChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,15 +68,15 @@ const Task = ({ task }: TaskComponentProps) => {
   };
 
   const handleBlur = () => {
-    if (listId && taskName !== previousName) {
+    if (listId && taskName && taskName !== previousName) {
       textareaRef.current?.setSelectionRange(0, 0);
-      const aux = [...tasks];
-      const findTaskIndex = tasks.findIndex((elem) => elem.id === task.id);
-      const formattedName = replaceEmojis(taskName);
-      aux[findTaskIndex].name = formattedName;
-      requestUpdateList(listId, { tasks: aux });
-      setTaskName(formattedName);
-      setPreviousName(formattedName);
+      const updateTasks = [...tasks];
+      const taskIndex = tasks.findIndex((t) => t.id === task.id);
+      const taskNameFormatted = replaceEmojis(taskName);
+      updateTasks[taskIndex].name = taskNameFormatted;
+      requestUpdateList(listId, { tasks: updateTasks });
+      setTaskName(taskNameFormatted);
+      setPreviousName(taskNameFormatted);
     } else setTaskName(previousName);
     setIsFocused(false);
     textareaRef.current.style.height = 'auto';
@@ -85,15 +85,18 @@ const Task = ({ task }: TaskComponentProps) => {
   useEffect(() => {
     if (!listId || listId === 'home' || debouncedChecked === task.checked)
       return;
-    const aux = [...tasks];
-    const findTaskIndex = tasks.findIndex((elem) => elem.id === task.id);
-    aux[findTaskIndex].checked = checked;
-    requestUpdateList(listId, { tasks: aux });
-    const updateLists = [...lists];
-    const index = lists.findIndex((l) => l.listId === listId);
-    updateLists[index].tasks = aux;
-    setLists([...updateLists]);
+    const updateTasks = [...tasks];
+    const taskIndex = tasks.findIndex((t) => t.id === task.id);
+    updateTasks[taskIndex].checked = checked;
+    requestUpdateList(listId, { tasks: updateTasks });
   }, [debouncedChecked]);
+
+  useEffect(() => {
+    const updateTasks = [...tasks];
+    const taskIndex = tasks.findIndex((t) => t.id === task.id);
+    const taskNameFormatted = replaceEmojis(deferredTaskName);
+    updateTasks[taskIndex].name = taskNameFormatted;
+  }, [deferredTaskName]);
 
   return (
     <div
@@ -113,7 +116,8 @@ const Task = ({ task }: TaskComponentProps) => {
       <textarea
         rows={1}
         ref={textareaRef}
-        maxLength={180}
+        maxLength={MAX_CONTENT_TASK}
+        disabled={listId === 'home'}
         className={`w-full min-h-8 h-full overflow-auto pt-[6px] pl-[6px] mr-2 text-sm
           bg-neutral-100 dark:bg-neutral-800 resize-none
           outline-none rounded

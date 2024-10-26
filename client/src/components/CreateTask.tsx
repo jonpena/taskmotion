@@ -9,6 +9,7 @@ import Checkbox from '@/components/ui/checkbox';
 import { Plus } from 'lucide-react';
 import { Tooltip } from './Tooltip';
 import { replaceEmojis } from '@/utils/replaceEmojis';
+import { MAX_CONTENT_TASK } from '@/constants/base';
 
 const CreateTask = () => {
   const [taskName, setTaskName] = useState('');
@@ -27,12 +28,12 @@ const CreateTask = () => {
       name: replaceEmojis(name),
       checked,
     };
-    const newTasksArray = [newTask, ...tasks];
-    requestUpdateList(listId, { tasks: newTasksArray });
+    const updateTasks = [newTask, ...tasks];
+    requestUpdateList(listId, { tasks: updateTasks });
+    setTasks(updateTasks);
     const updateLists = [...lists];
     const index = lists.findIndex((l) => l.listId === listId);
-    updateLists[index].tasks = newTasksArray;
-    setTasks(newTasksArray);
+    updateLists[index].tasks = updateTasks;
     setLists([...updateLists]);
     setTaskName('');
     setChecked(false);
@@ -57,9 +58,10 @@ const CreateTask = () => {
       />
 
       <Input
+        type='text'
+        maxLength={MAX_CONTENT_TASK}
         ref={inputRef}
         disabled={listId === 'home'}
-        type='text'
         placeholder='Create new task...'
         className='text-neutral-600 dark:text-neutral-50 px-3 outline-none w-full h-12 border-none focus-visible:ring-0 focus-visible:placeholder:text-neutral-400 dark:focus-visible:placeholder:text-neutral-100 rounded-none shadow-none'
         onKeyDown={handleKeyPress}

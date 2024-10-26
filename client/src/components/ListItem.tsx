@@ -60,7 +60,7 @@ const ListItem = ({ list }: ListItemProps) => {
   const handleClick = () => {
     if (isFocused || list.listId === listId) return;
     setTitle(listName as string);
-    navigate(`/list/${list.listId}`);
+    navigate(`/list/` + list.listId);
   };
 
   const handleDoubleClick = () => {
