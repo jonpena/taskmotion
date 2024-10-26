@@ -129,8 +129,9 @@ const Task = ({ task }: TaskComponentProps) => {
         onBlur={handleBlur}
       />
       <Tooltip title={taskName} disable={isDraggingStore}>
-        <div
-          className={`absolute pt-[14px] left-0 z-0 w-full h-full rounded-md flex items-start 
+        <button
+          disabled={listId === 'home'}
+          className={`absolute pt-[14px] left-0 z-0 w-full h-full rounded-md flex items-start text-left
             ${isFocused && 'pointer-events-none'}
           `}
         >
@@ -142,7 +143,7 @@ const Task = ({ task }: TaskComponentProps) => {
           >
             {taskName}
           </span>
-        </div>
+        </button>
       </Tooltip>
 
       <Tooltip title='Delete task' disable={isDraggingStore}>
