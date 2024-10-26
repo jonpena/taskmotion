@@ -1,5 +1,4 @@
 import { UserAuth } from '@/context/AuthContext';
-import { ListProps } from '@shared/list.interface';
 import { requestCreateList } from '@/services/requestCreateList';
 import { useListStore } from '@/store/listStore';
 import { Plus } from 'lucide-react';
@@ -8,6 +7,7 @@ import { v4 as uuid } from 'uuid';
 import { Input } from './ui/input';
 import { Tooltip } from './Tooltip';
 import { replaceEmojis } from '@/utils/replaceEmojis';
+import { useNavigate } from 'react-router-dom';
 
 const CreateList = () => {
   const [listName, setListName] = useState('');
@@ -15,18 +15,21 @@ const CreateList = () => {
   const { setLists } = useListStore();
   const { user } = UserAuth();
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const navigate = useNavigate();
 
   const createList = () => {
     if (!listName) return;
-    const newlist: ListProps = {
+    const newlist = {
       listId: uuid(),
       name: replaceEmojis(listName),
       tasks: [],
     };
-    const aux = [...lists, newlist];
+    const updateLists = [...lists, newlist];
     requestCreateList(user.email, newlist);
-    setLists(aux);
+    setLists(updateLists);
     setListName('');
+    navigate(`/list/` + newlist.listId);
+    inputRef.current?.blur();
   };
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
