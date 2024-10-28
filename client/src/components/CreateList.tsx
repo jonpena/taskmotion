@@ -58,7 +58,7 @@ const CreateList = () => {
         className='text-neutral-600 dark:text-neutral-50 pl-2 h-12 border-none bg-gray-100 dark:bg-neutral-900 hover:bg-gray-200 focus-visible:ring-0 focus-visible:bg-gray-200 focus-visible:placeholder:text-neutral-400 dark:focus-visible:placeholder:text-neutral-200'
       />
       <code
-        className={`absolute right-11 flex gap-x-[2px] rounded bg-neutral-800 p-[0.25rem] text-xs font-mono
+        className={`absolute right-12 flex gap-x-[2px] rounded bg-white dark:bg-neutral-800 p-[0.25rem] text-xs font-mono text-neutral-600 dark:text-neutral-50
       group-focus-within:opacity-0 transition-opacity duration-200 pointer-events-none
       ${listName && 'opacity-0'}`}
       >
