@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 export const useShortcut = (sc: string[] = []) => {
   const [keydown, setKeydown] = useState<string[]>([]);
   const keydownDebounced = useDebounce(keydown, 100);
-  const [keystring, setKeystring] = useState('');
+  const [keys, setKeys] = useState('');
 
   useEffect(() => {
     const handleKeyUp = ({ key }: KeyboardEvent) => {
@@ -28,14 +28,15 @@ export const useShortcut = (sc: string[] = []) => {
   }, []);
 
   useEffect(() => {
-    if (keydownDebounced.length === 0) return;
-
-    setKeystring(
-      keydownDebounced.join('+') + keydownDebounced.reverse().join('+')
-    );
-
-    setKeydown([]);
+    if (!keys && keydownDebounced.length === 0) {
+      setKeys('');
+    } else {
+      setKeys(
+        keydownDebounced.join('+') + keydownDebounced.reverse().join('+')
+      );
+      setKeydown([]);
+    }
   }, [keydownDebounced]);
 
-  return sc.find((s) => keystring.includes(s.toLowerCase())) ?? undefined;
+  return sc.find((s) => keys.includes(s.toLowerCase())) ?? undefined;
 };
