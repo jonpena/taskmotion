@@ -1,10 +1,9 @@
-import { CSSProperties } from 'react';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { TASK_MAXWIDTH, TASK_MINWIDTH } from '@/constants/base';
-import Task from '../Task';
-import { TaskProps } from '@shared/task.interface';
 import SortableButton from '@/components/sortable/SortableButton';
+import { CSS } from '@dnd-kit/utilities';
+import { useSortable } from '@dnd-kit/sortable';
+import { TASK_MAXWIDTH, TASK_MINWIDTH } from '@/constants/base';
+import Task from '@/components/Task';
+import { TaskProps } from '@shared/task.interface';
 
 type SortableItemProps = {
   task: TaskProps;
@@ -20,23 +19,18 @@ const SortableItem = ({ task }: SortableItemProps) => {
     isDragging,
   } = useSortable({ id: task.id });
 
-  const style: CSSProperties = {
-    transform: CSS.Translate.toString(transform),
-    maxWidth: `calc(clamp(${TASK_MINWIDTH}px, 100vw, ${TASK_MAXWIDTH}px))`,
-    margin: '0 auto',
-    paddingLeft: '10px',
-    paddingRight: '10px',
-    userSelect: 'none',
-    transition,
-    borderRadius: '0.5rem',
-    opacity: isDragging ? 0 : 1,
-  };
-
   return (
     <li
       ref={setNodeRef}
-      style={style}
-      className={`relative bg-gray-100 dark:bg-neutral-900 flex justify-between items-start flex-grow list-none`}
+      style={{
+        transform: CSS.Translate.toString(transform),
+        maxWidth: `calc(clamp(${TASK_MINWIDTH}px, 100vw, ${TASK_MAXWIDTH}px))`,
+        transition,
+        opacity: isDragging ? 0 : 1,
+      }}
+      className={`relative bg-gray-100 dark:bg-neutral-900 flex justify-between items-start flex-grow list-none
+        user-select-none rounded-lg mx-auto px-2
+        `}
     >
       <Task task={task} />
       <SortableButton attributes={attributes} listeners={listeners} />
