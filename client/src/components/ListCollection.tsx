@@ -24,10 +24,6 @@ const ListCollection = () => {
     setOpen(!isSmallDevice);
   }, [isSmallDevice]);
 
-  useEffect(() => {
-    console.log('open', open);
-  }, [open]);
-
   return (
     <>
       <Button
