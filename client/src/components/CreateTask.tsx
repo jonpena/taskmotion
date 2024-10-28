@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { useTaskStore } from '../store/taskStore';
 import { useParams } from 'react-router-dom';
@@ -6,10 +6,11 @@ import { requestUpdateList } from '@/services/requestUpdateList';
 import { useListStore } from '@/store/listStore';
 import { Input } from '@/components/ui/input';
 import Checkbox from '@/components/ui/checkbox';
-import { Plus } from 'lucide-react';
+import { Command, Plus } from 'lucide-react';
 import { Tooltip } from './Tooltip';
 import { replaceEmojis } from '@/utils/replaceEmojis';
 import { MAX_CONTENT_TASK } from '@/constants/base';
+import { useShortcut } from '@/hooks/useShortcut';
 
 const CreateTask = () => {
   const [taskName, setTaskName] = useState('');
@@ -19,6 +20,7 @@ const CreateTask = () => {
   const { listId } = useParams();
   const [checked, setChecked] = useState(false);
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const keydown = useShortcut(['Control+e']);
 
   const createTask = (name: string) => {
     if (!listId || !name) return;
@@ -48,8 +50,12 @@ const CreateTask = () => {
     taskName ? createTask(taskName) : inputRef.current?.focus();
   };
 
+  useEffect(() => {
+    if (keydown === 'Control+e') inputRef.current?.focus();
+  }, [keydown]);
+
   return (
-    <div className='group flex items-center w-full bg-gray-100 dark:bg-neutral-900 rounded-md px-2'>
+    <div className='relative group flex items-center w-full bg-gray-100 dark:bg-neutral-900 rounded-md px-2'>
       <Checkbox
         disabled={listId === 'home'}
         name='checked'
@@ -68,6 +74,15 @@ const CreateTask = () => {
         onChange={(e) => setTaskName(e.target.value.trimStart())}
         value={taskName}
       />
+      <code
+        className={`absolute right-9 flex gap-x-[2px] mr-2 rounded bg-neutral-800 p-[0.25rem] text-xs
+      group-focus-within:opacity-0 group-focus-within:scale-100 transition-opacity duration-200 pointer-events-none
+      ${taskName && 'opacity-0'}`}
+      >
+        <Command className='w-[12px] h-auto ' />
+        <Plus className='w-[12px] h-auto ' />
+        <span className='font-mono'>E</span>
+      </code>
 
       <Tooltip title='Create new task'>
         <button

@@ -1,13 +1,14 @@
 import { UserAuth } from '@/context/AuthContext';
 import { requestCreateList } from '@/services/requestCreateList';
 import { useListStore } from '@/store/listStore';
-import { Plus } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { Command, Plus } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { Input } from './ui/input';
 import { Tooltip } from './Tooltip';
 import { replaceEmojis } from '@/utils/replaceEmojis';
 import { useNavigate } from 'react-router-dom';
+import { useShortcut } from '@/hooks/useShortcut';
 
 const CreateList = () => {
   const [listName, setListName] = useState('');
@@ -16,6 +17,7 @@ const CreateList = () => {
   const { user } = UserAuth();
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const navigate = useNavigate();
+  const keydown = useShortcut(['Control+l']);
 
   const createList = () => {
     if (!listName) return;
@@ -40,8 +42,12 @@ const CreateList = () => {
   const handleKeyPress = (e: React.KeyboardEvent) =>
     e.key === 'Enter' && createList();
 
+  useEffect(() => {
+    if (keydown === 'Control+l') inputRef.current?.focus();
+  }, [keydown]);
+
   return (
-    <div className='mt-1 w-full sticky bottom-0 group'>
+    <div className='mt-1 w-full sticky bottom-0 flex items-center group bg-gray-100 dark:bg-neutral-900 rounded-md px-2'>
       <Input
         ref={inputRef}
         type='text'
@@ -49,13 +55,22 @@ const CreateList = () => {
         onChange={(e) => setListName(e.target.value.trimStart())}
         onKeyDown={handleKeyPress}
         placeholder='Create new list...'
-        className='text-neutral-600 dark:text-neutral-50 h-12 pr-12 border-none bg-gray-100 dark:bg-neutral-900 hover:bg-gray-200 focus-visible:ring-0 focus-visible:bg-gray-200 focus-visible:placeholder:text-neutral-400 dark:focus-visible:placeholder:text-neutral-200'
+        className='text-neutral-600 dark:text-neutral-50 pl-2 h-12 border-none bg-gray-100 dark:bg-neutral-900 hover:bg-gray-200 focus-visible:ring-0 focus-visible:bg-gray-200 focus-visible:placeholder:text-neutral-400 dark:focus-visible:placeholder:text-neutral-200'
       />
+      <code
+        className={`absolute right-11 flex gap-x-[2px] rounded bg-neutral-800 p-[0.25rem] text-xs font-mono
+      group-focus-within:opacity-0 transition-opacity duration-200 pointer-events-none
+      ${listName && 'opacity-0'}`}
+      >
+        <Command className='w-3 h-auto ' />
+        <Plus className='w-3 h-auto ' />
+        <span>L</span>
+      </code>
       <Tooltip title='Create new list'>
         <button
           onMouseDown={handleClick}
-          className='w-7 h-7 absolute right-2 top-[10px] flex justify-center items-center 
-          text-sm font-medium bg-white dark:bg-neutral-800 rounded-lg select-none'
+          className='bg-white dark:bg-neutral-800 w-7 h-7 right-2 top-3 flex justify-center items-center 
+        text-sm font-medium flex-grow-1 rounded-lg select-none aspect-square'
         >
           <Plus className='w-4 h-4 text-neutral-600 dark:text-neutral-50 pointer-events-none group-focus-within:rotate-90 transition-transform duration-200' />
         </button>

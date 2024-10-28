@@ -16,7 +16,7 @@ const ListCollection = () => {
   const { listId } = useParams();
   const isSmallDevice = useMediaQuery('only screen and (max-width : 1023px)');
   const [open, setOpen] = useState(!isSmallDevice);
-  const [animationParent] = useAutoAnimate();
+  const [animationParent] = useAutoAnimate({ duration: 200 });
 
   const handleClick = () => navigate(`/list/home`);
 
