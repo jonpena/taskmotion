@@ -6,10 +6,10 @@ import { format } from 'date-fns';
 import { useParams } from 'react-router-dom';
 
 const UserWelcome = () => {
-  const { user } = UserAuth();
   const formatedDate = format(new Date(), 'EEEE, MMMM d');
   const { title } = useAlertDialogStore();
   const { listId } = useParams();
+  const { user } = UserAuth();
 
   useDocumentTitle(
     'Taskmotion | ' + (listId !== 'home' ? title ?? 'Loading...' : 'Home')
@@ -17,11 +17,13 @@ const UserWelcome = () => {
 
   return (
     <div className='hidden lg:block'>
-      <h3 className='text-gray-400 dark:text-neutral-300'>{formatedDate}</h3>
-      <h1 className='text-gray-700 dark:text-neutral-200 text-2xl font-medium mt-1'>
+      <h3 className='text-gray-400 dark:text-neutral-300 text-[17px]'>
+        {getGreeting()} Today is {formatedDate}
+      </h3>
+      <h1 className='text-gray-700 dark:text-neutral-200 text-[1.8rem] font-medium mt-0.5'>
         {listId === 'home'
-          ? `${getGreeting()} | ${user?.fullname ?? 'Loading...'}`
-          : `${getGreeting()} | ${title ?? 'Loading...'}`}
+          ? `${user?.fullname ?? 'Loading...'}`
+          : `${title ?? 'Loading...'}`}
       </h1>
     </div>
   );
