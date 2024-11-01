@@ -5,7 +5,7 @@ import { UserProps } from '../interfaces/user.interface';
 import { ListProps } from '../../../shared/interfaces/list.interface';
 import {
   createNewList,
-  deleteListByListId,
+  deleteList,
   getListInUser,
   getUserByEmail,
   getUsersByListId,
@@ -38,6 +38,8 @@ listApp.get('/:token', async (c) => {
     };
 
     await getSupabase(c).from('users').insert(body).select();
+
+    return c.json({ data: [] }, 200);
   }
 
   const lists = JSON.parse(user.lists.toString());
@@ -108,7 +110,7 @@ listApp.delete('/:listId', async (c) => {
     if (updateUserError) return c.json({ error: updateUserError }, 400);
   }
 
-  const { data, error } = await deleteListByListId(c, listId);
+  const { data, error } = await deleteList(c, listId);
 
   if (error) return c.json({ error: error.message }, 400);
 
