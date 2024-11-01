@@ -9,7 +9,7 @@ export default {
         cubic: 'cubic-bezier(0.8, -0.2, 0.2, 1.25)',
       },
       height: {
-        custom: 'calc(100dvh - 330px)',
+        custom: 'calc(100dvh - 168px)',
         customMobile: 'calc(100dvh - 4rem)',
       },
       borderRadius: {

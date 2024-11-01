@@ -21,22 +21,22 @@ body {
 ::-webkit-scrollbar-thumb {
   background-color: #373737;
 }
+/* 
+.SortableItem {
+  view-timeline-name: --reveal;
+  animation-name: show;
+  animation-fill-mode: both;
+  animation-timeline: --reveal;
+  animation-range: entry 20% cover 20%;
+}
 
-/* @keyframes show {
+@keyframes show {
   from {
     opacity: 0;
   }
   to {
     opacity: 1;
   }
-} 
-
-.SortableItem {
-  view-timeline-name: --reveal;
-  animation-name: show;
-  animation-fill-mode: both;
-  animation-timeline: --reveal;
-  animation-range: entry 25% cover 50%;
 } */
 
 .animation-fade-in {

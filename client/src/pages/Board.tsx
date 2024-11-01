@@ -10,8 +10,8 @@ const Board = () => {
       <nav className='absolute top-4 right-2 z-[999]'>
         <UserNav />
       </nav>
-      <main className='px-14 lg:px-0 w-full lg:pl-[340px] sticky top-2 lg:top-40'>
-        <div className='max-w-[640px] min-w-48 lg:w-[640px] mx-auto flex flex-col lg:gap-y-5'>
+      <main className='px-14 lg:px-0 w-full lg:pl-[340px] sticky top-2 lg:top-40 z-50'>
+        <div className='max-w-[640px] min-w-48 lg:w-[640px] mx-auto flex flex-col lg:gap-y-5 backdrop-blur-sm  bg-gradient-to-t from-background/35 to-background/80'>
           <UserWelcome />
           <CreateTask />
         </div>
