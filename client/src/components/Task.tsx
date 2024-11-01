@@ -110,7 +110,7 @@ const Task = ({ task }: TaskComponentProps) => {
         checked={checked}
         onChange={handleChecked}
         classNameContainer='self-baseline'
-        className='mr-2 disabled:cursor-default z-10 top-[6px]'
+        className='mr-2 disabled:cursor-default z-10 top-1.5'
       />
 
       <textarea
@@ -118,7 +118,7 @@ const Task = ({ task }: TaskComponentProps) => {
         ref={textareaRef}
         maxLength={MAX_CONTENT_TASK}
         disabled={listId === 'home'}
-        className={`w-full min-h-8 h-full overflow-auto pt-[6px] pl-[6px] mr-2 text-sm
+        className={`w-full min-h-8 h-full overflow-auto pt-[6px] pl-1.5 mr-2 text-sm
           bg-neutral-100 dark:bg-neutral-800 resize-none
           outline-none rounded
           ${isFocused ? 'opacity-100' : 'opacity-0'}
@@ -131,12 +131,12 @@ const Task = ({ task }: TaskComponentProps) => {
       <Tooltip title={taskName} disable={isDraggingStore}>
         <button
           disabled={listId === 'home'}
-          className={`absolute pt-[14px] left-0 z-0 w-full h-full rounded-md flex items-start text-left
+          className={`absolute pt-3.5 left-0 z-0 w-full h-full rounded-md flex items-start text-left
             ${isFocused && 'pointer-events-none'}
           `}
         >
           <span
-            className={`pl-9 ml-2 w-[calc(100%-6rem)] whitespace-nowrap overflow-hidden text-ellipsis text-sm ${
+            className={`pl-9 ml-1.5 w-[calc(100%-6rem)] whitespace-nowrap overflow-hidden text-ellipsis text-sm ${
               !isFocused ? 'opacity-100' : 'opacity-0'
             } ${checked && 'line-through'}
             }`}

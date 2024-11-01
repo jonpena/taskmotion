@@ -16,7 +16,7 @@ const ListCollection = () => {
   const { listId } = useParams();
   const isSmallDevice = useMediaQuery('only screen and (max-width : 1023px)');
   const [open, setOpen] = useState(!isSmallDevice);
-  const [animationParent] = useAutoAnimate({ duration: 200 });
+  const [animationParent] = useAutoAnimate();
 
   const handleClick = () => navigate(`/list/home`);
 
@@ -36,14 +36,14 @@ const ListCollection = () => {
         <PanelRightIcon
           size={26}
           absoluteStrokeWidth={true}
-          strokeWidth={2}
+          strokeWidth={1.75}
           className='text-gray-500 dark:text-neutral-100 absolute top-1/2 left-1/2
           -translate-x-1/2  -translate-y-1/2'
         />
       </Button>
       <div
         className={`absolute top-12 lg:top-15 z-50 bg-background lg:ml-2 ml-0 rounded-md mt-4 
-   w-3/4 md:w-[340px] h-[calc(100dvh-4.5rem)] overflow-y-auto p-2 border transition-transform duration-700
+   w-3/4 md:w-[340px] h-[calc(100dvh-4.5rem)] p-2 border transition-transform duration-700
    ease-cubic
    ${open ? 'translate-x-0' : '-translate-x-full md:-translate-x-[348px]'}`}
       >
