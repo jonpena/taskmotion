@@ -59,6 +59,6 @@ export const updateUsersWithNewList = async (
   return getSupabase(c).from('users').update({ lists }).eq('id', id);
 };
 
-export const deleteListByListId = async (c: ctx, listId: string) => {
+export const deleteList = async (c: ctx, listId: string) => {
   return getSupabase(c).from('lists').delete().eq('listId', listId);
 };
