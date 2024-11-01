@@ -10,6 +10,7 @@ import { listLength } from '@/utils/listLength';
 import { Trash2 } from 'lucide-react';
 import { Tooltip } from '@/components/Tooltip';
 import { replaceEmojis } from '@/utils/replaceEmojis';
+import { useDebounce } from '@uidotdev/usehooks';
 
 type ListItemProps = {
   list: ListProps;
@@ -27,6 +28,7 @@ const ListItem = ({ list }: ListItemProps) => {
   const [clickTimeout, setClickTimeout] = useState<NodeJS.Timeout | null>(null);
   const [listName, setListName] = useState(list.name);
   const [previousName, setPreviousName] = useState(list.name);
+  const listNameDebounced = useDebounce(listName, 200);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setListName(e.target.value.trimStart());
@@ -43,6 +45,7 @@ const ListItem = ({ list }: ListItemProps) => {
       requestUpdateList(listId, { name: formattedName, tasks });
       setListName(formattedName);
       setPreviousName(formattedName);
+      setTitle(formattedName);
     } else setListName(previousName);
     setIsFocused(false);
   };
@@ -88,6 +91,10 @@ const ListItem = ({ list }: ListItemProps) => {
   useEffect(() => {
     setCountTasks(listLength(list, tasks, listId));
   }, [list, tasks]);
+
+  useEffect(() => {
+    setTitle(listNameDebounced as string);
+  }, [listNameDebounced]);
 
   return (
     <li
