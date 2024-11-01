@@ -23,26 +23,23 @@ import { TaskProps } from '@shared/task.interface';
 import { useParams } from 'react-router-dom';
 import { requestUpdateList } from '@/services/requestUpdateList';
 import { useDragStore } from '@/store/dragStore';
+import { useTaskStore } from '@/store/taskStore';
 
 type handleDragEndProps = {
   active: Active;
   over: Over | null;
 };
 
-type Props<T extends TaskProps> = {
-  items: T[];
-  onChange(items: T[]): void;
-  renderItem(item: T): ReactNode;
+type SortableListProps = {
+  onChange(items: TaskProps[]): void;
+  renderItem(item: TaskProps): ReactNode;
 };
 
-const SortableList = <T extends TaskProps>({
-  items,
-  onChange,
-  renderItem,
-}: Props<T>) => {
+const SortableList = ({ onChange, renderItem }: SortableListProps) => {
   const { listId } = useParams();
   const [active, setActive] = useState<Active | null>(null);
   const { setIsDragging } = useDragStore();
+  const items = useTaskStore((state) => state.tasks);
 
   const activeItem = useMemo(
     () => items.find((item) => item.id === active?.id),
@@ -76,7 +73,7 @@ const SortableList = <T extends TaskProps>({
   };
 
   return (
-    <div className='w-full lg:pl-[340px] lg:mt-48 mt-4'>
+    <div className='w-full lg:pl-[340px] lg:mt-10 mt-4'>
       <DndContext
         sensors={sensors}
         modifiers={[restrictToVerticalAxis]}
@@ -89,7 +86,12 @@ const SortableList = <T extends TaskProps>({
             className='lg:!h-custom !h-customMobile'
             totalCount={items.length}
             itemContent={(index: number) => (
-              <div className='py-[2px]' key={items[index].id}>
+              <div
+                className={`py-[2px] ${index === 0 && 'lg:mt-[152px]'}
+                ${index + 1 === items.length && 'lg:pb-2'}
+                `}
+                key={items[index].id}
+              >
                 {renderItem(items[index])}
               </div>
             )}

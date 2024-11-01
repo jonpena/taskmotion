@@ -37,7 +37,6 @@ const List = () => {
     <>
       {tasks.length > 0 ? (
         <SortableList
-          items={tasks || []}
           onChange={setTasks}
           renderItem={(item) => <SortableItem task={item} />}
         />
