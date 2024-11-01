@@ -1,5 +1,5 @@
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { DialogTitle } from '@radix-ui/react-dialog';
+import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog';
 
 type ModalProps = {
   children: React.ReactNode | React.ReactNode[];
@@ -11,6 +11,7 @@ export const Modal = ({ children, open, onClose }: ModalProps) => {
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogTitle />
+      <DialogDescription />
       <DialogContent className='sm:max-w-[425px]'>{children}</DialogContent>
     </Dialog>
   );

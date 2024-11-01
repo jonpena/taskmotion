@@ -6,7 +6,7 @@ import { requestUpdateList } from '@/services/requestUpdateList';
 import { useAlertDialogStore } from '@/store/dialogStore';
 import { useListStore } from '@/store/listStore';
 import { useTaskStore } from '@/store/taskStore';
-import { ListLength } from '@/utils/ListLength';
+import { listLength } from '@/utils/listLength';
 import { Trash2 } from 'lucide-react';
 import { Tooltip } from '@/components/Tooltip';
 import { replaceEmojis } from '@/utils/replaceEmojis';
@@ -86,7 +86,7 @@ const ListItem = ({ list }: ListItemProps) => {
   };
 
   useEffect(() => {
-    setCountTasks(ListLength(list, tasks, listId));
+    setCountTasks(listLength(list, tasks, listId));
   }, [list, tasks]);
 
   return (

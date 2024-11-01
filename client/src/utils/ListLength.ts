@@ -1,7 +1,7 @@
 import { ListProps } from '@shared/list.interface';
 import { TaskProps } from '@shared/task.interface';
 
-export const ListLength = (
+export const listLength = (
   list: ListProps,
   tasks: TaskProps[],
   listId?: string
