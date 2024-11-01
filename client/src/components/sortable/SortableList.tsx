@@ -87,7 +87,7 @@ const SortableList = ({ onChange, renderItem }: SortableListProps) => {
             totalCount={items.length}
             itemContent={(index: number) => (
               <div
-                className={`py-[2px] ${index === 0 && 'lg:mt-[152px]'}
+                className={`py-[2px] ${index === 0 && 'lg:pt-[152px]'}
                 ${index + 1 === items.length && 'lg:pb-2'}
                 `}
                 key={items[index].id}
