@@ -1,0 +1,6 @@
+name = "app-api"
+compatibility_date = "2024-07-01"
+
+[vars]
+SUPABASE_URL = ""
+SUPABASE_KEY = ""
