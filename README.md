@@ -2,6 +2,8 @@
 
 This is a task management project developed using React for the frontend and Node.js for the backend. We have integrated Honojs as our server framework, Supabase as our database, and Million.js to optimize React performance.
 
+![Texto alternativo](./app.png)
+
 ## Technologies Used
 
 - **React**: JavaScript library for building user interfaces.
