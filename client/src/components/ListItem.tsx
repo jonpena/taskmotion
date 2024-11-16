@@ -93,6 +93,7 @@ const ListItem = ({ list }: ListItemProps) => {
   }, [list, tasks]);
 
   useEffect(() => {
+    if (listNameDebounced === list.name) return;
     setTitle(listNameDebounced as string);
   }, [listNameDebounced]);
 
@@ -133,8 +134,8 @@ const ListItem = ({ list }: ListItemProps) => {
       <Tooltip title='Delete list'>
         <span
           onClick={() => handleDeleteList(list.listId as string)}
-          className='z-0 min-w-6 mr-2 w-max h-8 flex justify-center items-center 
-        text-sm font-medium bg-white dark:bg-neutral-800 rounded-lg select-none'
+          className='z-0 mr-2 w-7 h-7 flex justify-center items-center 
+        text-sm font-medium bg-white dark:bg-neutral-800 rounded-lg select-none aspect-square'
         >
           <Trash2 className='text-red-400 w-4 group-hover:inline-block hidden' />
           <span className='text-center inline-block group-hover:hidden align-middle text-xs text-neutral-500 dark:text-neutral-100'>

@@ -41,8 +41,8 @@ const List = () => {
           renderItem={(item) => <SortableItem task={item} />}
         />
       ) : (
-        <div className=' mx-auto mt-60 pl-[340px]'>
-          <h2 className='w-[640px] text-gray-500 text-lg text-center mx-auto'>
+        <div className=' mx-auto mt-60 lg:pl-[340px]'>
+          <h2 className='w-max text-gray-500 text-lg text-center mx-auto'>
             This list is empty
           </h2>
         </div>

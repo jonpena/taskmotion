@@ -38,16 +38,24 @@ const ListCollection = () => {
           absoluteStrokeWidth={true}
           strokeWidth={1.75}
           className='text-gray-500 dark:text-neutral-100 absolute top-1/2 left-1/2
-          -translate-x-1/2  -translate-y-1/2'
+          -translate-x-1/2 -translate-y-1/2'
         />
       </Button>
       <div
-        className={`absolute top-12 lg:top-15 z-50 bg-background lg:ml-2 ml-0 rounded-md mt-4 
-   w-3/4 md:w-[340px] h-[calc(100dvh-4.5rem)] p-2 border transition-transform duration-700
-   ease-cubic
-   ${open ? 'translate-x-0' : '-translate-x-full md:-translate-x-[348px]'}`}
+        onClick={() => setOpen(false)}
+        className={`
+          lg:backdrop-blur-none
+         ${open ? 'backdrop-blur-sm visible' : 'invisible'}
+          absolute top-14 lg:top-15 z-30 w-full lg:w-0 transition-transform duration-300`}
       >
-        <ul ref={animationParent}>
+        <ul
+          ref={animationParent}
+          className={`w-3/4 md:w-[340px] h-[calc(100dvh-4rem)] lg:h-[calc(100dvh-4.5rem)] overflow-y-auto  bg-background lg:ml-2 ml-0 rounded-md mt-2
+             ${open ? 'left-0' : '-left-full md:-left-x-[348px]'}
+            p-2 border transition-all duration-700 ease-cubic 
+            `}
+          onClick={(e) => e.stopPropagation()}
+        >
           <li
             id='home'
             onClick={handleClick}
@@ -56,8 +64,8 @@ const ListCollection = () => {
              ${listId === 'home' && 'bg-gray-300 dark:bg-white/15'}`}
           >
             <span className='text-sm pl-2'>Home</span>
-            <span className='text-xs font-medium flex justify-center items-center bg-white dark:bg-neutral-800 min-w-6 w-max h-8 rounded-lg'>
-              {lists && lists.reduce((acc, list) => acc + list.tasks.length, 0)}
+            <span className='text-xs font-medium flex justify-center items-center bg-white dark:bg-neutral-800 w-7 h-7 aspect-square rounded-lg'>
+              {lists?.reduce((acc, list) => acc + list.tasks.length, 0)}
             </span>
           </li>
 
