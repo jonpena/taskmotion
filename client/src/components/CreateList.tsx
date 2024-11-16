@@ -9,6 +9,7 @@ import { Tooltip } from './Tooltip';
 import { replaceEmojis } from '@/utils/replaceEmojis';
 import { useNavigate } from 'react-router-dom';
 import { useShortcut } from '@/hooks/useShortcut';
+import { useMediaQuery } from '@uidotdev/usehooks';
 
 const CreateList = () => {
   const [listName, setListName] = useState('');
@@ -18,6 +19,7 @@ const CreateList = () => {
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const navigate = useNavigate();
   const keydown = useShortcut(['Control+l']);
+  const isSmallDevice = useMediaQuery('only screen and (max-width : 1023px)');
 
   const createList = () => {
     if (!listName) return;
@@ -34,8 +36,7 @@ const CreateList = () => {
     inputRef.current?.blur();
   };
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const handleClick = () => {
     listName ? createList() : inputRef.current?.focus();
   };
 
@@ -57,15 +58,18 @@ const CreateList = () => {
         placeholder='Create new list...'
         className='text-neutral-600 dark:text-neutral-50 pl-2 h-12 border-none bg-gray-100 dark:bg-neutral-900 hover:bg-gray-200 focus-visible:ring-0 focus-visible:bg-gray-200 focus-visible:placeholder:text-neutral-400 dark:focus-visible:placeholder:text-neutral-200'
       />
-      <code
-        className={`absolute right-12 flex gap-x-[2px] rounded bg-white dark:bg-neutral-800 p-[0.3rem] text-xs font-mono text-neutral-600 dark:text-neutral-50
-      group-focus-within:opacity-0 transition-opacity duration-200 pointer-events-none
-      ${listName && 'opacity-0'}`}
-      >
-        <Command className='w-3 h-auto ' />
-        <Plus className='w-3 h-auto ' />
-        <span>L</span>
-      </code>
+
+      {!isSmallDevice && (
+        <code
+          className={`absolute right-12 flex gap-x-[2px] rounded-md bg-white dark:bg-neutral-800 p-[0.3rem] text-xs font-mono text-neutral-600 dark:text-neutral-50
+          group-focus-within:opacity-0 transition-opacity duration-200 pointer-events-none
+          ${listName && 'opacity-0'}`}
+        >
+          <Command className='w-3 h-auto ' />
+          <Plus className='w-3 h-auto ' />
+          <span>L</span>
+        </code>
+      )}
       <Tooltip title='Create new list'>
         <button
           onMouseDown={handleClick}

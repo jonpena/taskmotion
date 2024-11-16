@@ -11,6 +11,7 @@ import { Tooltip } from './Tooltip';
 import { replaceEmojis } from '@/utils/replaceEmojis';
 import { MAX_CONTENT_TASK } from '@/constants/base';
 import { useShortcut } from '@/hooks/useShortcut';
+import { useMediaQuery } from '@uidotdev/usehooks';
 
 const CreateTask = () => {
   const [taskName, setTaskName] = useState('');
@@ -21,6 +22,7 @@ const CreateTask = () => {
   const [checked, setChecked] = useState(false);
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const keydown = useShortcut(['Control+e']);
+  const isSmallDevice = useMediaQuery('only screen and (max-width : 1023px)');
 
   const createTask = (name: string) => {
     if (!listId || !name) return;
@@ -74,17 +76,19 @@ const CreateTask = () => {
         onChange={(e) => setTaskName(e.target.value.trimStart())}
         value={taskName}
       />
-      <code
-        className={`absolute right-10 flex gap-x-[2px] mr-2 
-          text-neutral-600 dark:text-neutral-50 rounded bg-white dark:bg-neutral-800 p-[0.3rem] text-xs
+
+      {!isSmallDevice && (
+        <code
+          className={`absolute right-10 flex gap-x-[2px] mr-2 
+          text-neutral-600 dark:text-neutral-50 rounded-md bg-white dark:bg-neutral-800 p-[0.3rem] text-xs
       group-focus-within:opacity-0 group-focus-within:scale-100 transition-opacity duration-200 pointer-events-none
       ${taskName && 'opacity-0'}`}
-      >
-        <Command className='w-[12px] h-auto ' />
-        <Plus className='w-[12px] h-auto ' />
-        <span className='font-mono'>E</span>
-      </code>
-
+        >
+          <Command className='w-3 h-auto ' />
+          <Plus className='w-3 h-auto ' />
+          <span className='font-mono'>E</span>
+        </code>
+      )}
       <Tooltip title='Create new task'>
         <button
           onMouseDown={handleClick}

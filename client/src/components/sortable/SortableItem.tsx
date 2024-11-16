@@ -28,8 +28,8 @@ const SortableItem = ({ task }: SortableItemProps) => {
         transition,
         opacity: isDragging ? 0 : 1,
       }}
-      className={`relative bg-gray-100 dark:bg-neutral-900 flex justify-between items-start flex-grow list-none
-        user-select-none rounded-lg mx-auto px-2
+      className={`relative bg-gray-100 dark:bg-neutral-900 flex 
+        justify-between items-start flex-grow list-none user-select-none rounded-lg mx-auto px-2
         `}
     >
       <Task task={task} />

@@ -92,6 +92,7 @@ const Task = ({ task }: TaskComponentProps) => {
   }, [debouncedChecked]);
 
   useEffect(() => {
+    if (taskName === deferredTaskName) return;
     const updateTasks = [...tasks];
     const taskIndex = tasks.findIndex((t) => t.id === task.id);
     const taskNameFormatted = replaceEmojis(deferredTaskName);
@@ -110,7 +111,7 @@ const Task = ({ task }: TaskComponentProps) => {
         checked={checked}
         onChange={handleChecked}
         classNameContainer='self-baseline'
-        className='mr-2 disabled:cursor-default z-10 top-1.5'
+        className='mr-2 disabled:cursor-default z-10 top-1.5 w-5 h-5'
       />
 
       <textarea
@@ -132,16 +133,21 @@ const Task = ({ task }: TaskComponentProps) => {
         <button
           disabled={listId === 'home'}
           className={`absolute pt-3.5 left-0 z-0 w-full h-full rounded-md flex items-start text-left
+            cursor-default
             ${isFocused && 'pointer-events-none'}
           `}
         >
           <span
             className={`pl-9 ml-1.5 w-[calc(100%-6rem)] whitespace-nowrap overflow-hidden text-ellipsis text-sm ${
               !isFocused ? 'opacity-100' : 'opacity-0'
-            } ${checked && 'line-through'}
+            }
             }`}
           >
-            {taskName}
+            <span
+              className={`${checked && 'strikethrough_complete'} strikethrough`}
+            >
+              {taskName}
+            </span>
           </span>
         </button>
       </Tooltip>

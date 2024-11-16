@@ -19,7 +19,7 @@ const Navbar = () => {
       <nav className='bg-white border-gray-200 py-2.5 dark:bg-black/0'>
         <div className='flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto'>
           <a href='' className='flex items-center'>
-            <img src='logo.png' className='w-8 mr-2' alt='Taskmotion Logo' />
+            <img src='favicon-128x128.png' className='w-8 mr-2' alt='Logo' />
             <span
               translate='no'
               className='self-center text-xl font-semibold whitespace-nowrap dark:text-white text-indigo-400'
