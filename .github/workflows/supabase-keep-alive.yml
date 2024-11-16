@@ -1,0 +1,22 @@
+name: Supabase Keep Alive
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Corre una vez al día a las 00:00 UTC
+  workflow_dispatch: # Permite ejecutar manualmente la acción desde GitHub
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Keep Supabase alive
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            "https://${{ secrets.SUPABASE_PROJECT_REF }}.supabase.co/rest/v1/rpc/keep_alive" \
+            -d '{}'
