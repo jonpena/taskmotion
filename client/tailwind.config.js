@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: ['class'],
@@ -7,9 +8,10 @@ export default {
     extend: {
       transitionTimingFunction: {
         cubic: 'cubic-bezier(0.8, -0.2, 0.2, 1.25)',
+        strikethrough: 'cubic-bezier(0.55, 0, 0.1, 1)',
       },
       height: {
-        custom: 'calc(100dvh - 13rem)',
+        custom: 'calc(100dvh - 17rem)',
         customMobile: 'calc(100dvh - 4rem)',
       },
       borderRadius: {
