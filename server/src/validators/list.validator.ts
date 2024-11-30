@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
-import { ListProps } from '../interfaces/list.interface';
+import { ListProps } from '@shared/list.interface';
 
 const listSchema: z.ZodType<ListProps> = z.object({
   name: z.string().optional(),
@@ -10,6 +10,7 @@ const listSchema: z.ZodType<ListProps> = z.object({
       id: z.string(),
       name: z.string(),
       checked: z.boolean(),
+      date: z.string().optional(),
     })
   ),
 });
