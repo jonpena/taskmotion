@@ -6,12 +6,14 @@ import { requestUpdateList } from '@/services/requestUpdateList';
 import { useListStore } from '@/store/listStore';
 import { Input } from '@/components/ui/input';
 import Checkbox from '@/components/ui/checkbox';
-import { Command, Plus } from 'lucide-react';
-import { Tooltip } from './Tooltip';
 import { replaceEmojis } from '@/utils/replaceEmojis';
 import { MAX_CONTENT_TASK } from '@/constants/base';
 import { useShortcut } from '@/hooks/useShortcut';
 import { useMediaQuery } from '@uidotdev/usehooks';
+import { format } from 'date-fns';
+import CalendarButton from './buttons/CalendarButton';
+import ShortcutButton from './buttons/ShortcutButton';
+import AddButton from './buttons/AddButton';
 
 const CreateTask = () => {
   const [taskName, setTaskName] = useState('');
@@ -23,6 +25,7 @@ const CreateTask = () => {
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const keydown = useShortcut(['Control+e']);
   const isSmallDevice = useMediaQuery('only screen and (max-width : 1023px)');
+  const [date, setDate] = useState<Date | undefined>(undefined);
 
   const createTask = (name: string) => {
     if (!listId || !name) return;
@@ -31,6 +34,7 @@ const CreateTask = () => {
       id: uuid(),
       name: replaceEmojis(name),
       checked,
+      date: date ? format(date, 'MM-dd-yyyy') : '',
     };
     const updateTasks = [newTask, ...tasks];
     requestUpdateList(listId, { tasks: updateTasks });
@@ -41,6 +45,7 @@ const CreateTask = () => {
     setLists([...updateLists]);
     setTaskName('');
     setChecked(false);
+    setDate(undefined);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -62,6 +67,7 @@ const CreateTask = () => {
         disabled={listId === 'home'}
         name='checked'
         checked={checked}
+        className='transition-all duration-1000'
         onChange={(e) => setChecked(e.target.checked)}
       />
 
@@ -78,26 +84,21 @@ const CreateTask = () => {
       />
 
       {!isSmallDevice && (
-        <code
-          className={`absolute right-10 flex gap-x-[2px] mr-2 
-          text-neutral-600 dark:text-neutral-50 rounded-md bg-white dark:bg-neutral-800 p-[0.3rem] text-xs
-      group-focus-within:opacity-0 group-focus-within:scale-100 transition-opacity duration-200 pointer-events-none
-      ${taskName && 'opacity-0'}`}
-        >
-          <Command className='w-3 h-auto ' />
-          <Plus className='w-3 h-auto ' />
-          <span className='font-mono'>E</span>
-        </code>
+        <ShortcutButton keys='E' className={`${taskName && 'opacity-0'}`} />
       )}
-      <Tooltip title='Create new task'>
-        <button
-          onMouseDown={handleClick}
-          className='bg-white dark:bg-neutral-800 w-7 h-7 right-2 top-3 flex justify-center items-center 
-        text-sm font-medium flex-grow-1 rounded-lg select-none aspect-square'
-        >
-          <Plus className='w-4 h-4 text-neutral-600 dark:text-neutral-50 pointer-events-none group-focus-within:rotate-90 transition-transform duration-200' />
-        </button>
-      </Tooltip>
+
+      <CalendarButton
+        date={date}
+        setDate={setDate}
+        disabled={listId === 'home'}
+        className={`${!taskName && 'opacity-0'}`}
+      />
+
+      <AddButton
+        disabled={listId === 'home'}
+        title='Create new task'
+        onMouseDown={handleClick}
+      />
     </div>
   );
 };

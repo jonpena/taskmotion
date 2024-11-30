@@ -12,6 +12,8 @@ import { replaceEmojis } from '@/utils/replaceEmojis';
 import { useDragStore } from '@/store/dragStore';
 import { calculateHeight } from '@/utils/calculateHeight';
 import { MAX_CONTENT_TASK } from '@/constants/base';
+import { Strikethrough } from './ui/strikethrough';
+import { DateBadge } from './ui/DateBadge';
 
 type TaskComponentProps = {
   task: TaskProps;
@@ -39,11 +41,6 @@ const Task = ({ task }: TaskComponentProps) => {
     updateLists[index].tasks = updateTasks;
     setTasks(updateTasks);
     setLists([...updateLists]);
-  };
-
-  const handleChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.stopPropagation();
-    setChecked(e.target.checked);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -109,9 +106,9 @@ const Task = ({ task }: TaskComponentProps) => {
         name='checked'
         disabled={listId === 'home' || isDraggingStore}
         checked={checked}
-        onChange={handleChecked}
+        onChange={(e) => setChecked(e.target.checked)}
         classNameContainer='self-baseline'
-        className='mr-2 disabled:cursor-default z-10 top-1.5 w-5 h-5'
+        className='mr-2 disabled:cursor-default z-10 top-1.5'
       />
 
       <textarea
@@ -138,19 +135,17 @@ const Task = ({ task }: TaskComponentProps) => {
           `}
         >
           <span
-            className={`pl-9 ml-1.5 w-[calc(100%-6rem)] whitespace-nowrap overflow-hidden text-ellipsis text-sm ${
-              !isFocused ? 'opacity-100' : 'opacity-0'
-            }
-            }`}
+            className={`pl-9 ml-1.5 whitespace-nowrap overflow-hidden text-ellipsis text-sm 
+              ${!isFocused ? 'opacity-100' : 'opacity-0'}
+            ${task.date ? 'w-[calc(100%-8.5rem)]' : 'w-[calc(100%-6rem)]'}
+            `}
           >
-            <span
-              className={`${checked && 'strikethrough_complete'} strikethrough`}
-            >
-              {taskName}
-            </span>
+            <Strikethrough checked={checked}>{taskName}</Strikethrough>
           </span>
         </button>
       </Tooltip>
+
+      {task.date && <DateBadge date={task.date} />}
 
       <Tooltip title='Delete task' disable={isDraggingStore}>
         <button

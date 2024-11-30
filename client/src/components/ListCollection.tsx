@@ -46,15 +46,15 @@ const ListCollection = () => {
         className={`
           lg:backdrop-blur-none
          ${open ? 'backdrop-blur-sm visible' : 'invisible'}
-          absolute top-14 lg:top-15 z-30 w-full lg:w-0 transition-transform duration-300`}
+          absolute top-14 lg:top-15 z-30 lg:z-50 w-full lg:w-0 transition-all duration-300`}
       >
         <ul
           ref={animationParent}
+          onClick={(e) => e.stopPropagation()}
           className={`w-3/4 md:w-[340px] h-[calc(100dvh-4rem)] lg:h-[calc(100dvh-4.5rem)] overflow-y-auto  bg-background lg:ml-2 ml-0 rounded-md mt-2
              ${open ? 'left-0' : '-left-full md:-left-x-[348px]'}
             p-2 border transition-all duration-700 ease-cubic 
             `}
-          onClick={(e) => e.stopPropagation()}
         >
           <li
             id='home'

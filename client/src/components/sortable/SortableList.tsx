@@ -73,7 +73,7 @@ const SortableList = ({ onChange, renderItem }: SortableListProps) => {
   };
 
   return (
-    <div className='w-full lg:pl-[340px] lg:mt-20 mt-4'>
+    <div className='w-full lg:pl-[340px] lg:mt-36 mt-4'>
       <DndContext
         sensors={sensors}
         modifiers={[restrictToVerticalAxis]}
@@ -87,7 +87,7 @@ const SortableList = ({ onChange, renderItem }: SortableListProps) => {
             totalCount={items.length}
             itemContent={(index: number) => (
               <div
-                className={`py-0.5 ${index === 0 && 'lg:pt-[7rem]'}
+                className={`py-0.5 ${index === 0 && 'lg:pt-[3rem]'}
                 ${index + 1 === items.length && 'lg:pb-1.5'}
                 `}
                 key={items[index].id}

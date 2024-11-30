@@ -1,15 +1,15 @@
 import { UserAuth } from '@/context/AuthContext';
 import { requestCreateList } from '@/services/requestCreateList';
 import { useListStore } from '@/store/listStore';
-import { Command, Plus } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { Input } from './ui/input';
-import { Tooltip } from './Tooltip';
 import { replaceEmojis } from '@/utils/replaceEmojis';
 import { useNavigate } from 'react-router-dom';
 import { useShortcut } from '@/hooks/useShortcut';
 import { useMediaQuery } from '@uidotdev/usehooks';
+import AddButton from './buttons/AddButton';
+import ShortcutButton from './buttons/ShortcutButton';
 
 const CreateList = () => {
   const [listName, setListName] = useState('');
@@ -36,7 +36,8 @@ const CreateList = () => {
     inputRef.current?.blur();
   };
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     listName ? createList() : inputRef.current?.focus();
   };
 
@@ -48,7 +49,10 @@ const CreateList = () => {
   }, [keydown]);
 
   return (
-    <div className='mt-1 w-full sticky bottom-0 flex items-center group bg-gray-100 dark:bg-neutral-900 rounded-md px-2'>
+    <div
+      className='mt-1 w-full sticky bottom-0 flex items-center group bg-gray-100 
+    dark:bg-neutral-900 rounded-md px-2'
+    >
       <Input
         ref={inputRef}
         type='text'
@@ -60,25 +64,10 @@ const CreateList = () => {
       />
 
       {!isSmallDevice && (
-        <code
-          className={`absolute right-12 flex gap-x-[2px] rounded-md bg-white dark:bg-neutral-800 p-[0.3rem] text-xs font-mono text-neutral-600 dark:text-neutral-50
-          group-focus-within:opacity-0 transition-opacity duration-200 pointer-events-none
-          ${listName && 'opacity-0'}`}
-        >
-          <Command className='w-3 h-auto ' />
-          <Plus className='w-3 h-auto ' />
-          <span>L</span>
-        </code>
+        <ShortcutButton keys='L' className={`${listName && 'opacity-0'}`} />
       )}
-      <Tooltip title='Create new list'>
-        <button
-          onMouseDown={handleClick}
-          className='bg-white dark:bg-neutral-800 w-7 h-7 right-2 top-3 flex justify-center items-center 
-        text-sm font-medium flex-grow-1 rounded-lg select-none aspect-square'
-        >
-          <Plus className='w-4 h-4 text-neutral-600 dark:text-neutral-50 pointer-events-none group-focus-within:rotate-90 transition-transform duration-200' />
-        </button>
-      </Tooltip>
+
+      <AddButton title='Create new list' onMouseDown={handleClick} />
     </div>
   );
 };

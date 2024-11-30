@@ -11,7 +11,7 @@ const Board = () => {
         <UserNav />
       </nav>
       <main className='px-14 lg:px-0 w-full lg:pl-[340px] sticky top-2 lg:top-40 z-50'>
-        <div className='max-w-[640px] min-w-48 lg:w-[640px] mx-auto flex flex-col lg:gap-y-2 backdrop-blur-sm  bg-gradient-to-t from-background/35 to-background/80'>
+        <div className='max-w-[640px] min-w-48 lg:w-[640px] mx-auto flex flex-col lg:gap-y-2'>
           <UserWelcome />
           <CreateTask />
         </div>
