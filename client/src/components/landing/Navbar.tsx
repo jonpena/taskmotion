@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Github } from 'lucide-react';
+import { Github, Moon, Sun } from 'lucide-react';
 import { Button } from '../ui/button';
+import { useTheme } from '@/context/theme-provider';
+import { Switch } from '@/components/ui/switch';
+
 const Navbar = () => {
   const [starCount, setStarCount] = useState(0);
+  const { theme, setTheme } = useTheme();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,12 +26,22 @@ const Navbar = () => {
             <img src='favicon-128x128.png' className='w-8 mr-2' alt='Logo' />
             <span
               translate='no'
-              className='self-center text-xl font-semibold whitespace-nowrap dark:text-white text-indigo-400'
+              className='self-center text-xl font-semibold whitespace-nowrap dark:text-white text-neutral-600'
             >
               Taskmotion
             </span>
           </a>
           <div className='flex items-center lg:order-2 gap-x-3'>
+            <div className='flex items-center space-x-2'>
+              <Sun className='h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0' />
+              <Switch
+                checked={theme === 'dark'}
+                onCheckedChange={() =>
+                  setTheme(theme === 'dark' ? 'light' : 'dark')
+                }
+              />
+              <Moon className='h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100' />
+            </div>
             <a
               className='text-gray-300 flex items-center'
               href='https://github.com/jonpena/taskmotion'
@@ -49,7 +63,7 @@ const Navbar = () => {
             <Button
               variant='secondary'
               onClick={() => navigate('/login')}
-              className='dark:text-white dark:bg-indigo-600'
+              className='dark:text-white dark:bg-neutral-700'
             >
               Login
             </Button>
