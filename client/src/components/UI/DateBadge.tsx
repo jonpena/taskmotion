@@ -9,7 +9,7 @@ export const DateBadge = ({ date }: DateBadgeProps) => {
 
   const getDateStyle = () => {
     if (isToday(dateObj)) {
-      return 'bg-neutral-300/10 text-neutral-400';
+      return 'bg-amber-400/10 text-amber-500';
     }
     return isPast(startOfDay(dateObj))
       ? 'bg-red-400/10 text-red-500'

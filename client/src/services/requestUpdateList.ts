@@ -1,22 +1,24 @@
-import { TaskProps } from '@shared/task.interface';
 import axios from 'axios';
+import { TaskProps } from '@shared/task.interface';
+import { getApiBaseUrl } from '@/utils/getApiBaseUrl';
 
-type BodyProps = {
+const API_ENDPOINT = 'api/lists';
+
+interface UpdateListBody {
   name?: string;
   tasks: TaskProps[];
-};
+}
 
-export const requestUpdateList = async (listId: string, body: BodyProps) => {
+export const requestUpdateList = async (
+  listId: string,
+  body: UpdateListBody
+): Promise<void> => {
   try {
-    let apiUrl = '';
-    if (import.meta.env.DEV) {
-      apiUrl = import.meta.env.VITE_TASKMOTION_API_DEV;
-    } else {
-      apiUrl = import.meta.env.VITE_TASKMOTION_API_PROD;
-    }
-    const { data } = await axios.put(apiUrl + listId, body);
-    return data;
+    await axios.put(`${getApiBaseUrl()}${API_ENDPOINT}/${listId}`, body);
   } catch (error) {
-    throw new Error('A ocurrido un error durante la actualización de la lista');
+    if (axios.isAxiosError(error)) {
+      throw new Error(`Error al actualizar la lista: ${error.message}`);
+    }
+    throw new Error('Error inesperado al actualizar la lista');
   }
 };

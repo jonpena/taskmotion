@@ -15,7 +15,7 @@ export function Tooltip({ title, disable = false, children }: TooltipProps) {
   if (disable) return <>{children}</>;
 
   return (
-    <TooltipProvider delayDuration={600}>
+    <TooltipProvider delayDuration={800}>
       <TooltipPrimitive defaultOpen={false}>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent>

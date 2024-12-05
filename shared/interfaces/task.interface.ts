@@ -3,4 +3,5 @@ export interface TaskProps {
   name: string;
   checked: boolean;
   date?: string;
+  description: string;
 }

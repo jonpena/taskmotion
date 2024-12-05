@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import SortableList from './sortable/SortableList';
+import SortableList from './dnd/SortableList';
 import { useTaskStore } from '@/store/taskStore';
 import { useListStore } from '@/store/listStore';
 import { useNavigate, useParams } from 'react-router-dom';
 import { TaskProps } from '@shared/task.interface';
 import { useAlertDialogStore } from '@/store/dialogStore';
-import SortableItem from './sortable/SortableItem';
+import SortableItem from './dnd/SortableItem';
 
 const List = () => {
   const tasks = useTaskStore((state) => state.tasks);

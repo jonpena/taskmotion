@@ -1,16 +1,15 @@
 import axios from 'axios';
+import { getApiBaseUrl } from '@/utils/getApiBaseUrl';
 
-export const requestDeleteList = async (listId: string) => {
+const API_ENDPOINT = 'api/lists';
+
+export const requestDeleteList = async (listId: string): Promise<void> => {
   try {
-    let apiUrl = '';
-    if (import.meta.env.DEV) {
-      apiUrl = import.meta.env.VITE_TASKMOTION_API_DEV;
-    } else {
-      apiUrl = import.meta.env.VITE_TASKMOTION_API_PROD;
-    }
-    const { data } = await axios.delete(apiUrl + listId);
-    return data;
+    await axios.delete(`${getApiBaseUrl()}${API_ENDPOINT}/${listId}`);
   } catch (error) {
-    throw new Error('A ocurrido un error durante la eliminación de la lista');
+    if (axios.isAxiosError(error)) {
+      throw new Error(`Error al eliminar la lista: ${error.message}`);
+    }
+    throw new Error('Error inesperado al eliminar la lista');
   }
 };

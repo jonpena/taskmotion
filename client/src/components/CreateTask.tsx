@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { requestUpdateList } from '@/services/requestUpdateList';
 import { useListStore } from '@/store/listStore';
 import { Input } from '@/components/ui/input';
-import Checkbox from '@/components/ui/checkbox';
+import { Checkbox } from '@/components/ui/checkbox';
 import { replaceEmojis } from '@/utils/replaceEmojis';
 import { MAX_CONTENT_TASK } from '@/constants/base';
 import { useShortcut } from '@/hooks/useShortcut';
@@ -25,7 +25,7 @@ const CreateTask = () => {
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const keydown = useShortcut(['Control+e']);
   const isSmallDevice = useMediaQuery('only screen and (max-width : 1023px)');
-  const [date, setDate] = useState<Date | undefined>(undefined);
+  const [date, setDate] = useState<string | undefined>(undefined);
 
   const createTask = (name: string) => {
     if (!listId || !name) return;
@@ -33,6 +33,7 @@ const CreateTask = () => {
     const newTask = {
       id: uuid(),
       name: replaceEmojis(name),
+      description: '',
       checked,
       date: date ? format(date, 'MM-dd-yyyy') : '',
     };

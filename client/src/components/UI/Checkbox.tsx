@@ -8,7 +8,7 @@ type CheckboxProps = InputHTMLAttributes<HTMLInputElement> & {
 };
 
 // million-ignore
-const Checkbox = ({
+export const Checkbox = ({
   name,
   checked,
   disabled,
@@ -47,5 +47,3 @@ CheckboxProps) => {
     </label>
   );
 };
-
-export default Checkbox;

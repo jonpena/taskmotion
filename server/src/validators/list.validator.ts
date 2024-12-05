@@ -11,6 +11,7 @@ const listSchema: z.ZodType<ListProps> = z.object({
       name: z.string(),
       checked: z.boolean(),
       date: z.string().optional(),
+      description: z.string().optional(),
     })
   ),
 });

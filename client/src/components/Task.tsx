@@ -6,23 +6,25 @@ import { requestUpdateList } from '@/services/requestUpdateList';
 import { useDeferredValue, useEffect, useRef, useState } from 'react';
 import { useDebounce } from '@uidotdev/usehooks';
 import { useListStore } from '@/store/listStore';
-import Checkbox from '@/components/ui/checkbox';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Tooltip } from './Tooltip';
 import { replaceEmojis } from '@/utils/replaceEmojis';
 import { useDragStore } from '@/store/dragStore';
 import { calculateHeight } from '@/utils/calculateHeight';
-import { MAX_CONTENT_TASK } from '@/constants/base';
 import { Strikethrough } from './ui/strikethrough';
 import { DateBadge } from './ui/DateBadge';
+import { useModalStore } from '@/store/modalStore';
+import { updateTaskField } from '@/services/updateTaskField';
+import { Textarea } from '@/components/ui/textarea';
 
 type TaskComponentProps = {
   task: TaskProps;
 };
 
 const Task = ({ task }: TaskComponentProps) => {
-  const textareaRef = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
-  const { tasks, setTasks } = useTaskStore();
   const { listId } = useParams();
+  const { tasks, setTasks } = useTaskStore();
+  const textareaRef = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
   const [taskName, setTaskName] = useState(task.name);
   const [checked, setChecked] = useState(task.checked);
   const debouncedChecked = useDebounce(checked, 300);
@@ -31,6 +33,10 @@ const Task = ({ task }: TaskComponentProps) => {
   const [previousName, setPreviousName] = useState(task.name);
   const { isDragging: isDraggingStore } = useDragStore();
   const deferredTaskName = useDeferredValue(taskName);
+  const { setIsOpen, setTask } = useModalStore();
+  const [countClick, setCountClick] = useState(0);
+  const debouncedCountClick = useDebounce(countClick, 180);
+  const [lastTapTime, setLastTapTime] = useState<number>(0);
 
   const handleDelete = () => {
     if (!listId) return;
@@ -48,59 +54,88 @@ const Task = ({ task }: TaskComponentProps) => {
     calculateHeight(textareaRef);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (!textareaRef || !textareaRef.current) return;
-    if (e.key === 'Enter') textareaRef.current.blur();
-  };
-
   const handleDoubleClick = () => {
     textareaRef.current?.focus();
     if (!isFocused) textareaRef.current?.setSelectionRange(-1, -1);
     calculateHeight(textareaRef);
     setIsFocused(true);
+    setIsOpen(false);
   };
 
-  const handleClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    if (e.detail === 2) handleDoubleClick();
+  const handleClick = () => {
+    setIsOpen(true);
+    setTask({
+      ...task,
+      checked,
+    });
   };
 
   const handleBlur = () => {
     if (listId && taskName && taskName !== previousName) {
       textareaRef.current?.setSelectionRange(0, 0);
-      const updateTasks = [...tasks];
-      const taskIndex = tasks.findIndex((t) => t.id === task.id);
       const taskNameFormatted = replaceEmojis(taskName);
-      updateTasks[taskIndex].name = taskNameFormatted;
-      requestUpdateList(listId, { tasks: updateTasks });
       setTaskName(taskNameFormatted);
+      const { id } = task;
+      const updateTasks = updateTaskField(id, tasks, 'name', taskNameFormatted);
+      requestUpdateList(listId, { tasks: updateTasks });
       setPreviousName(taskNameFormatted);
     } else setTaskName(previousName);
     setIsFocused(false);
     textareaRef.current.style.height = 'auto';
   };
 
+  const handleClicks = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    setCountClick(e.detail);
+  };
+
+  const handleTouchStart = () => {
+    const currentTime = Date.now();
+    const tapLength = currentTime - lastTapTime;
+
+    if (tapLength < 300 && tapLength > 0) {
+      handleDoubleClick();
+      setLastTapTime(0);
+    } else {
+      setLastTapTime(currentTime);
+      setCountClick(1);
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => e.preventDefault();
+
   useEffect(() => {
     if (!listId || listId === 'home' || debouncedChecked === task.checked)
       return;
-    const updateTasks = [...tasks];
-    const taskIndex = tasks.findIndex((t) => t.id === task.id);
-    updateTasks[taskIndex].checked = checked;
+    const updateTasks = updateTaskField(task.id, tasks, 'checked', checked);
     requestUpdateList(listId, { tasks: updateTasks });
   }, [debouncedChecked]);
 
   useEffect(() => {
-    if (taskName === deferredTaskName) return;
-    const updateTasks = [...tasks];
-    const taskIndex = tasks.findIndex((t) => t.id === task.id);
     const taskNameFormatted = replaceEmojis(deferredTaskName);
-    updateTasks[taskIndex].name = taskNameFormatted;
+    const { id } = task;
+    const updateTasks = updateTaskField(id, tasks, 'name', taskNameFormatted);
+    setTasks(updateTasks);
   }, [deferredTaskName]);
+
+  useEffect(() => {
+    if (debouncedCountClick === 0) return;
+    if (debouncedCountClick === 1 && !isFocused) handleClick();
+    if (debouncedCountClick > 1) handleDoubleClick();
+    setCountClick(0);
+  }, [debouncedCountClick]);
+
+  useEffect(() => {
+    setChecked(task.checked);
+    setTaskName(task.name);
+  }, [task.checked, task.name]);
 
   return (
     <div
       className='w-full h-full overflow-x-hidden flex justify-between items-center 
       text-neutral-500 dark:text-neutral-100 my-2 bg-neutral-100 dark:bg-neutral-900'
-      onClick={handleClick}
+      onClick={handleClicks}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
       <Checkbox
         name='checked'
@@ -111,22 +146,16 @@ const Task = ({ task }: TaskComponentProps) => {
         className='mr-2 disabled:cursor-default z-10 top-1.5'
       />
 
-      <textarea
-        rows={1}
-        ref={textareaRef}
-        maxLength={MAX_CONTENT_TASK}
+      <Textarea
+        reference={textareaRef}
         disabled={listId === 'home'}
-        className={`w-full min-h-8 h-full overflow-auto pt-[6px] pl-1.5 mr-2 text-sm
-          bg-neutral-100 dark:bg-neutral-800 resize-none
-          outline-none rounded
-          ${isFocused ? 'opacity-100' : 'opacity-0'}
-          `}
         value={taskName}
         onChange={handleChange}
-        onKeyDown={handleKeyPress}
         onBlur={handleBlur}
+        className={`${isFocused ? 'opacity-100' : 'opacity-0'}`}
       />
-      <Tooltip title={taskName} disable={isDraggingStore}>
+
+      <Tooltip title={taskName} disable={listId === 'home' || isDraggingStore}>
         <button
           disabled={listId === 'home'}
           className={`absolute pt-3.5 left-0 z-0 w-full h-full rounded-md flex items-start text-left

@@ -1,17 +1,21 @@
 import axios from 'axios';
 import { ListProps } from '@shared/list.interface';
+import { getApiBaseUrl } from '@/utils/getApiBaseUrl';
 
-export const requestUserLists = async (sessionToken: string) => {
+const API_ENDPOINT = 'api/lists';
+
+export const requestUserLists = async (
+  sessionToken: string
+): Promise<ListProps[]> => {
   try {
-    let URL = '';
-    if (import.meta.env.DEV) {
-      URL = import.meta.env.VITE_TASKMOTION_API_DEV;
-    } else {
-      URL = import.meta.env.VITE_TASKMOTION_API_PROD;
-    }
-    const { data } = await axios.get(URL + sessionToken);
-    return data.data as ListProps[];
+    const { data: response } = await axios.get(
+      `${getApiBaseUrl()}${API_ENDPOINT}/${sessionToken}`
+    );
+    return response.data;
   } catch (error) {
-    throw new Error('A ocurrido un error durante la obtención de la lista');
+    if (axios.isAxiosError(error)) {
+      throw new Error(`Error al obtener las listas: ${error.message}`);
+    }
+    throw new Error('Error inesperado al obtener las listas');
   }
 };

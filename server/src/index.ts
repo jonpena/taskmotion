@@ -3,6 +3,7 @@ import { cors } from 'hono/cors';
 
 import { userApp } from './routes/users';
 import { listApp } from './routes/lists';
+import { aiApp } from './routes/ai';
 
 const app = new Hono().basePath('/api');
 
@@ -20,7 +21,7 @@ app.use(
 );
 
 app.route('/lists', listApp);
-
 app.route('/users', userApp);
+app.route('/ai', aiApp);
 
 export default app;

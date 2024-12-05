@@ -3,6 +3,7 @@ import ListCollection from '@/components/ListCollection';
 import { UserNav } from '@/components/UserNav';
 import UserWelcome from '@/components/UserWelcome';
 import { Outlet } from 'react-router-dom';
+import TaskModal from '@/components/TaskModal';
 
 const Board = () => {
   return (
@@ -18,6 +19,7 @@ const Board = () => {
       </main>
       <ListCollection />
       <Outlet />
+      <TaskModal />
     </div>
   );
 };
