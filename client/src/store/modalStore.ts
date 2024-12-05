@@ -1,0 +1,16 @@
+import { TaskProps } from '@shared/task.interface';
+import { create } from 'zustand';
+
+interface ModalState {
+  isOpen: boolean;
+  task: TaskProps;
+  setIsOpen: (isOpen: boolean) => void;
+  setTask: (task: TaskProps) => void;
+}
+
+export const useModalStore = create<ModalState>()((set) => ({
+  isOpen: false,
+  task: {} as TaskProps,
+  setIsOpen: (isOpen) => set(() => ({ isOpen })),
+  setTask: (task) => set(() => ({ task })),
+}));
