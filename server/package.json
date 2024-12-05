@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "wrangler dev src/index.ts",
-    "deploy": "wrangler deploy --minify src/index.ts"
+    "release": "wrangler deploy --minify src/index.ts"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.21.0",
     "@hono/zod-validator": "^0.2.1",
     "@supabase/supabase-js": "^2.43.1",
     "hono": "^4.2.3",

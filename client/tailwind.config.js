@@ -6,6 +6,9 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      animation: {
+        'spin-slow': 'spin 1.5s linear infinite',
+      },
       transitionTimingFunction: {
         cubic: 'cubic-bezier(0.8, -0.2, 0.2, 1.25)',
         strikethrough: 'cubic-bezier(0.55, 0, 0.1, 1)',

@@ -4,7 +4,9 @@
   "description": "Esta es una aplicacion web para gestionar tareas",
   "main": "index.js",
   "scripts": {
-    "dev": "pnpm --filter ** dev"
+    "dev": "pnpm --filter ** dev",
+    "deploy:client": "cd client && pnpm build && pnpm release",
+    "deploy:server": "cd server && pnpm release"
   },
   "devDependencies": {
     "zod": "^3.23.6",
