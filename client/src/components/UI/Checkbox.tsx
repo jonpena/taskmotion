@@ -25,7 +25,7 @@ CheckboxProps) => {
         type='checkbox'
         name={name}
         className={`peer pointer-events-none w-0 appearance-none`}
-        checked={checked}
+        checked={checked ? true : false}
         disabled={disabled}
         {...props}
       />
