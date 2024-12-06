@@ -22,6 +22,8 @@ type TaskComponentProps = {
 };
 
 const Task = ({ task }: TaskComponentProps) => {
+  const MAX_TIMEOUT = 180;
+
   const { listId } = useParams();
   const { tasks, setTasks } = useTaskStore();
   const textareaRef = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
@@ -35,10 +37,12 @@ const Task = ({ task }: TaskComponentProps) => {
   const deferredTaskName = useDeferredValue(taskName);
   const { setIsOpen, setTask } = useModalStore();
   const [countClick, setCountClick] = useState(0);
-  const debouncedCountClick = useDebounce(countClick, 180);
+  const debouncedCountClick = useDebounce(countClick, MAX_TIMEOUT);
   const [lastTapTime, setLastTapTime] = useState<number>(0);
+  const [touchStartTime, setTouchStartTime] = useState<number>(0);
 
   const handleDelete = () => {
+    // e.stopPropagation();
     if (!listId) return;
     const updateTasks = tasks.filter((elem) => elem.id !== task.id);
     requestUpdateList(listId, { tasks: updateTasks });
@@ -90,18 +94,21 @@ const Task = ({ task }: TaskComponentProps) => {
 
   const handleTouchStart = () => {
     const currentTime = Date.now();
+    setTouchStartTime(currentTime);
     const tapLength = currentTime - lastTapTime;
 
-    if (tapLength < 300 && tapLength > 0) {
-      handleDoubleClick();
+    if (tapLength < MAX_TIMEOUT && tapLength > 0) {
       setLastTapTime(0);
     } else {
       setLastTapTime(currentTime);
-      setCountClick(1);
     }
   };
 
-  const handleTouchEnd = (e: React.TouchEvent) => e.preventDefault();
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    e.preventDefault();
+    const touchDuration = Date.now() - touchStartTime;
+    if (touchDuration < MAX_TIMEOUT) setCountClick(countClick + 1);
+  };
 
   useEffect(() => {
     if (!listId || listId === 'home' || debouncedChecked === task.checked)
@@ -111,8 +118,8 @@ const Task = ({ task }: TaskComponentProps) => {
   }, [debouncedChecked]);
 
   useEffect(() => {
-    const taskNameFormatted = replaceEmojis(deferredTaskName);
     const { id } = task;
+    const taskNameFormatted = replaceEmojis(deferredTaskName);
     const updateTasks = updateTaskField(id, tasks, 'name', taskNameFormatted);
     setTasks(updateTasks);
   }, [deferredTaskName]);
@@ -133,9 +140,6 @@ const Task = ({ task }: TaskComponentProps) => {
     <div
       className='w-full h-full overflow-x-hidden flex justify-between items-center 
       text-neutral-500 dark:text-neutral-100 my-2 bg-neutral-100 dark:bg-neutral-900'
-      onClick={handleClicks}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
     >
       <Checkbox
         name='checked'
@@ -162,11 +166,14 @@ const Task = ({ task }: TaskComponentProps) => {
             cursor-default
             ${isFocused && 'pointer-events-none'}
           `}
+          onClick={handleClicks}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
           <span
             className={`pl-9 ml-1.5 whitespace-nowrap overflow-hidden text-ellipsis text-sm 
               ${!isFocused ? 'opacity-100' : 'opacity-0'}
-            ${task.date ? 'w-[calc(100%-8.5rem)]' : 'w-[calc(100%-6rem)]'}
+              ${task.date ? 'w-[calc(100%-8.5rem)]' : 'w-[calc(100%-6rem)]'}
             `}
           >
             <Strikethrough checked={checked}>{taskName}</Strikethrough>
