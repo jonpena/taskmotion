@@ -47,7 +47,7 @@ export default defineConfig({
             manifest,
             registerType: 'autoUpdate',
             workbox: {
-              cacheId: 'taskmotionv3',
+              cacheId: 'taskmotionv1.3.2',
               cleanupOutdatedCaches: true,
             },
           }),
