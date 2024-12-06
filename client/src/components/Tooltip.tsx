@@ -11,11 +11,11 @@ type TooltipProps = {
   children: React.ReactNode | React.ReactNode[];
 };
 
-export function Tooltip({ title, disable = false, children }: TooltipProps) {
+const Tooltip = ({ title, disable = false, children }: TooltipProps) => {
   if (disable) return <>{children}</>;
 
   return (
-    <TooltipProvider delayDuration={800}>
+    <TooltipProvider delayDuration={900}>
       <TooltipPrimitive defaultOpen={false}>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent>
@@ -24,4 +24,6 @@ export function Tooltip({ title, disable = false, children }: TooltipProps) {
       </TooltipPrimitive>
     </TooltipProvider>
   );
-}
+};
+
+export { Tooltip };

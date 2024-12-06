@@ -7,7 +7,7 @@ import TaskModal from '@/components/TaskModal';
 
 const Board = () => {
   return (
-    <div>
+    <>
       <nav className='absolute top-4 right-2 z-[999]'>
         <UserNav />
       </nav>
@@ -20,7 +20,7 @@ const Board = () => {
       <ListCollection />
       <Outlet />
       <TaskModal />
-    </div>
+    </>
   );
 };
 

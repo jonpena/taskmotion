@@ -1,7 +1,6 @@
-import { Trash2 } from 'lucide-react';
+import { useParams } from 'react-router-dom';
 import { TaskProps } from '../../../shared/interfaces/task.interface';
 import { useTaskStore } from '@/store/taskStore';
-import { useParams } from 'react-router-dom';
 import { requestUpdateList } from '@/services/requestUpdateList';
 import { useDeferredValue, useEffect, useRef, useState } from 'react';
 import { useDebounce } from '@uidotdev/usehooks';
@@ -16,6 +15,7 @@ import { DateBadge } from './ui/DateBadge';
 import { useModalStore } from '@/store/modalStore';
 import { updateTaskField } from '@/services/updateTaskField';
 import { Textarea } from '@/components/ui/textarea';
+import { Trash2 } from 'lucide-react';
 
 type TaskComponentProps = {
   task: TaskProps;
@@ -26,16 +26,16 @@ const Task = ({ task }: TaskComponentProps) => {
 
   const { listId } = useParams();
   const { tasks, setTasks } = useTaskStore();
+  const { lists, setLists } = useListStore();
+  const { setIsOpen, setTask } = useModalStore();
   const textareaRef = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
   const [taskName, setTaskName] = useState(task.name);
+  const deferredTaskName = useDeferredValue(taskName);
   const [checked, setChecked] = useState(task.checked);
   const debouncedChecked = useDebounce(checked, 300);
-  const { lists, setLists } = useListStore();
   const [isFocused, setIsFocused] = useState(false);
   const [previousName, setPreviousName] = useState(task.name);
   const { isDragging: isDraggingStore } = useDragStore();
-  const deferredTaskName = useDeferredValue(taskName);
-  const { setIsOpen, setTask } = useModalStore();
   const [countClick, setCountClick] = useState(0);
   const debouncedCountClick = useDebounce(countClick, MAX_TIMEOUT);
   const [lastTapTime, setLastTapTime] = useState<number>(0);
@@ -68,10 +68,7 @@ const Task = ({ task }: TaskComponentProps) => {
 
   const handleClick = () => {
     setIsOpen(true);
-    setTask({
-      ...task,
-      checked,
-    });
+    setTask({ ...task, checked });
   };
 
   const handleBlur = () => {
@@ -163,9 +160,9 @@ const Task = ({ task }: TaskComponentProps) => {
         <button
           disabled={listId === 'home'}
           className={`absolute pt-3.5 left-0 z-0 w-full h-full rounded-md flex items-start text-left
-            cursor-default
-            ${isFocused && 'pointer-events-none'}
-          `}
+        cursor-default
+        ${isFocused && 'pointer-events-none'}
+      `}
           onClick={handleClicks}
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}

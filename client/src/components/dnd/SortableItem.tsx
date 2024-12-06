@@ -23,10 +23,10 @@ const SortableItem = ({ task }: SortableItemProps) => {
     <li
       ref={setNodeRef}
       style={{
-        transform: CSS.Translate.toString(transform),
         maxWidth: `calc(clamp(${TASK_MINWIDTH}px, 100vw, ${TASK_MAXWIDTH}px))`,
-        transition,
         opacity: isDragging ? 0 : 1,
+        transition,
+        transform: CSS.Translate.toString(transform),
       }}
       className={`relative bg-gray-100 dark:bg-neutral-900 flex 
         justify-between items-start flex-grow list-none user-select-none rounded-lg mx-auto px-2

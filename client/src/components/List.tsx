@@ -5,15 +5,22 @@ import { useListStore } from '@/store/listStore';
 import { useNavigate, useParams } from 'react-router-dom';
 import { TaskProps } from '@shared/task.interface';
 import { useAlertDialogStore } from '@/store/dialogStore';
-import SortableItem from './dnd/SortableItem';
+
+const CleanList = () => {
+  return (
+    <div className=' mx-auto mt-60 lg:pl-[340px]'>
+      <h2 className='w-max text-gray-500 text-lg text-center mx-auto'>
+        This list is empty
+      </h2>
+    </div>
+  );
+};
 
 const List = () => {
-  const tasks = useTaskStore((state) => state.tasks);
+  const { tasks, setTasks } = useTaskStore();
   const lists = useListStore((state) => state.lists);
-  const { setTasks } = useTaskStore();
   const { listId } = useParams();
   const { setTitle } = useAlertDialogStore();
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,22 +40,7 @@ const List = () => {
     setTasks(findTasks);
   }, [listId, lists]);
 
-  return (
-    <>
-      {tasks.length > 0 ? (
-        <SortableList
-          onChange={setTasks}
-          renderItem={(item) => <SortableItem task={item} />}
-        />
-      ) : (
-        <div className=' mx-auto mt-60 lg:pl-[340px]'>
-          <h2 className='w-max text-gray-500 text-lg text-center mx-auto'>
-            This list is empty
-          </h2>
-        </div>
-      )}
-    </>
-  );
+  return tasks.length > 0 ? <SortableList /> : <CleanList />;
 };
 
 export default List;

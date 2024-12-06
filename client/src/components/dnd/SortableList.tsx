@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react';
-import { ReactNode } from 'react';
 import {
   DndContext,
   KeyboardSensor,
@@ -19,31 +18,26 @@ import {
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { SortableOverlay } from './SortableOverlay';
 import { Virtuoso } from 'react-virtuoso';
-import { TaskProps } from '@shared/task.interface';
 import { useParams } from 'react-router-dom';
 import { requestUpdateList } from '@/services/requestUpdateList';
 import { useDragStore } from '@/store/dragStore';
 import { useTaskStore } from '@/store/taskStore';
+import SortableItem from './SortableItem';
 
 type handleDragEndProps = {
   active: Active;
   over: Over | null;
 };
 
-type SortableListProps = {
-  onChange(items: TaskProps[]): void;
-  renderItem(item: TaskProps): ReactNode;
-};
-
-const SortableList = ({ onChange, renderItem }: SortableListProps) => {
+const SortableList = () => {
   const { listId } = useParams();
   const [active, setActive] = useState<Active | null>(null);
   const { setIsDragging } = useDragStore();
-  const items = useTaskStore((state) => state.tasks);
+  const { tasks, setTasks } = useTaskStore();
 
   const activeItem = useMemo(
-    () => items.find((item) => item.id === active?.id),
-    [active, items]
+    () => tasks.find((item) => item.id === active?.id),
+    [active, tasks]
   );
 
   const sensors = useSensors(
@@ -62,10 +56,10 @@ const SortableList = ({ onChange, renderItem }: SortableListProps) => {
   const handleDragEnd = ({ active, over }: handleDragEndProps) => {
     if (!listId) return;
     if (over && active.id !== over.id) {
-      const activeIndex = items.findIndex(({ id }) => id === active.id);
-      const overIndex = items.findIndex(({ id }) => id === over.id);
-      const newOrder = arrayMove(items, activeIndex, overIndex);
-      onChange(newOrder);
+      const activeIndex = tasks.findIndex(({ id }) => id === active.id);
+      const overIndex = tasks.findIndex(({ id }) => id === over.id);
+      const newOrder = arrayMove(tasks, activeIndex, overIndex);
+      setTasks(newOrder);
       requestUpdateList(listId, { tasks: newOrder });
     }
     setActive(null);
@@ -81,24 +75,25 @@ const SortableList = ({ onChange, renderItem }: SortableListProps) => {
         onDragEnd={handleDragEnd}
         onDragCancel={() => setActive(null)}
       >
-        <SortableContext items={items}>
+        <SortableContext items={tasks}>
           <Virtuoso
+            data={tasks}
             className='lg:!h-custom !h-customMobile'
-            totalCount={items.length}
-            itemContent={(index: number) => (
+            totalCount={tasks.length}
+            itemContent={(index, item) => (
               <div
-                className={`py-0.5 ${index === 0 && 'lg:pt-[3rem]'}
-                ${index + 1 === items.length && 'lg:pb-1.5'}
-                `}
-                key={items[index].id}
+                key={item.id}
+                className={`py-0.5 ${!index && 'lg:pt-[3rem]'} ${
+                  index + 1 === tasks.length && 'lg:pb-1.5'
+                }`}
               >
-                {renderItem(items[index])}
+                <SortableItem task={item} />
               </div>
             )}
           />
         </SortableContext>
         <SortableOverlay>
-          {activeItem ? renderItem(activeItem) : null}
+          {activeItem ? <SortableItem task={activeItem} /> : null}
         </SortableOverlay>
       </DndContext>
     </div>
