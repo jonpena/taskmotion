@@ -1,3 +1,5 @@
+/// <reference types="vitest" />
+
 import million from 'million/compiler';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
@@ -35,7 +37,6 @@ const manifest: Partial<ManifestOptions> = {
   ],
 };
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins:
     process.env.NODE_ENV !== 'production'
@@ -47,7 +48,7 @@ export default defineConfig({
             manifest,
             registerType: 'autoUpdate',
             workbox: {
-              cacheId: 'taskmotionv1.3.2',
+              cacheId: 'taskmotionv1.3.6',
               cleanupOutdatedCaches: true,
             },
           }),
@@ -60,5 +61,10 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 5173,
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/tests/setup.ts',
   },
 });
