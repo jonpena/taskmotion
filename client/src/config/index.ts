@@ -8,7 +8,7 @@ export const envSchema = z.object({
   VITE_TASKMOTION_API_DEV: z.string().url(),
 });
 
-const { success, error, data } = envSchema.safeParse(process.env);
+const { success, error, data } = envSchema.safeParse(import.meta.env);
 
 if (!success) {
   console.error(error.message);
