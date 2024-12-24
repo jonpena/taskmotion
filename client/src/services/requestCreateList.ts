@@ -2,15 +2,13 @@ import axios from 'axios';
 import { ListProps } from '@shared/list.interface';
 import { getApiBaseUrl } from '@/utils/getApiBaseUrl';
 
-const API_ENDPOINT = 'api/lists';
-
 export const requestCreateList = async (
   email: string,
   body: ListProps
 ): Promise<ListProps[]> => {
   try {
     const { data } = await axios.post(
-      `${getApiBaseUrl()}${API_ENDPOINT}/${email}`,
+      `${getApiBaseUrl()}api/lists/${email}`,
       body
     );
     return data.data;

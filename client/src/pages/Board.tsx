@@ -4,8 +4,11 @@ import { UserNav } from '@/components/UserNav';
 import UserWelcome from '@/components/UserWelcome';
 import { Outlet } from 'react-router-dom';
 import TaskModal from '@/components/TaskModal';
+import useAvoidZoom from '@/hooks/useAvoidZoom';
 
 const Board = () => {
+  useAvoidZoom();
+
   return (
     <>
       <nav className='absolute top-4 right-2 z-[999]'>

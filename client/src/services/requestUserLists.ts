@@ -2,14 +2,12 @@ import axios from 'axios';
 import { ListProps } from '@shared/list.interface';
 import { getApiBaseUrl } from '@/utils/getApiBaseUrl';
 
-const API_ENDPOINT = 'api/lists';
-
 export const requestUserLists = async (
   sessionToken: string
 ): Promise<ListProps[]> => {
   try {
     const { data: response } = await axios.get(
-      `${getApiBaseUrl()}${API_ENDPOINT}/${sessionToken}`
+      `${getApiBaseUrl()}api/lists/${sessionToken}`
     );
     return response.data;
   } catch (error) {

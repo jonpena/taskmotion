@@ -1,5 +1,4 @@
 import { CheckIcon } from 'lucide-react';
-import { Tooltip } from '../Tooltip';
 import { InputHTMLAttributes } from 'react';
 
 type CheckboxProps = InputHTMLAttributes<HTMLInputElement> & {
@@ -8,7 +7,7 @@ type CheckboxProps = InputHTMLAttributes<HTMLInputElement> & {
 };
 
 // million-ignore
-export const Checkbox = ({
+const Checkbox = ({
   name,
   checked,
   disabled,
@@ -29,21 +28,18 @@ CheckboxProps) => {
         disabled={disabled}
         {...props}
       />
-      <Tooltip
-        title={checked ? 'Press to uncheck' : 'Press to check'}
-        disable={disabled}
+      <div
+        onMouseDown={(e) => e.preventDefault()}
+        className={
+          `w-5 h-5 pointer-events-auto relative aspect-square bg-black/5 hover:bg-black/10 dark:bg-neutral-800 dark:hover:bg-white/10  transition-colors peer-checked:bg-text rounded-lg peer-checked:[&>*]:animate-pop-up peer-checked:[&>*]:opacity-100 ${
+            disabled && 'cursor-not-allowed'
+          } ` + className
+        }
       >
-        <div
-          onMouseDown={(e) => e.preventDefault()}
-          className={
-            `w-5 h-5 pointer-events-auto relative aspect-square bg-black/5 hover:bg-black/10 dark:bg-neutral-800 dark:hover:bg-white/10  transition-colors peer-checked:bg-text rounded-lg peer-checked:[&>*]:animate-pop-up peer-checked:[&>*]:opacity-100 ${
-              disabled && 'cursor-not-allowed'
-            } ` + className
-          }
-        >
-          <CheckIcon className='text-gray-700 dark:text-neutral-50 absolute inset-0 m-auto w-[0.6rem] animate-none stroke-[6px] text-foreground opacity-0' />
-        </div>
-      </Tooltip>
+        <CheckIcon className='text-gray-700 dark:text-neutral-50 absolute inset-0 m-auto w-[0.6rem] animate-none stroke-[6px] text-foreground opacity-0' />
+      </div>
     </label>
   );
 };
+
+export { Checkbox };

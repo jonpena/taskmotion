@@ -2,11 +2,16 @@ import { useParams } from 'react-router-dom';
 import { TaskProps } from '../../../shared/interfaces/task.interface';
 import { useTaskStore } from '@/store/taskStore';
 import { requestUpdateList } from '@/services/requestUpdateList';
-import { useDeferredValue, useEffect, useRef, useState } from 'react';
+import {
+  useDeferredValue,
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+} from 'react';
 import { useDebounce } from '@uidotdev/usehooks';
 import { useListStore } from '@/store/listStore';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Tooltip } from './Tooltip';
 import { replaceEmojis } from '@/utils/replaceEmojis';
 import { useDragStore } from '@/store/dragStore';
 import { calculateHeight } from '@/utils/calculateHeight';
@@ -60,7 +65,7 @@ const Task = ({ task }: TaskComponentProps) => {
 
   const handleDoubleClick = () => {
     textareaRef.current?.focus();
-    if (!isFocused) textareaRef.current?.setSelectionRange(-1, -1);
+    // if (!isFocused) textareaRef.current?.setSelectionRange(-1, -1);
     calculateHeight(textareaRef);
     setIsFocused(true);
     setIsOpen(false);
@@ -107,14 +112,23 @@ const Task = ({ task }: TaskComponentProps) => {
     if (touchDuration < MAX_TIMEOUT) setCountClick(countClick + 1);
   };
 
+  const handleCheckboxChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setChecked(e.target.checked);
+    },
+    []
+  );
+
   useEffect(() => {
     if (!listId || listId === 'home' || debouncedChecked === task.checked)
       return;
     const updateTasks = updateTaskField(task.id, tasks, 'checked', checked);
     requestUpdateList(listId, { tasks: updateTasks });
+    setTasks(updateTasks);
   }, [debouncedChecked]);
 
   useEffect(() => {
+    if (deferredTaskName === task.name) return;
     const { id } = task;
     const taskNameFormatted = replaceEmojis(deferredTaskName);
     const updateTasks = updateTaskField(id, tasks, 'name', taskNameFormatted);
@@ -142,7 +156,7 @@ const Task = ({ task }: TaskComponentProps) => {
         name='checked'
         disabled={listId === 'home' || isDraggingStore}
         checked={checked}
-        onChange={(e) => setChecked(e.target.checked)}
+        onChange={handleCheckboxChange}
         classNameContainer='self-baseline'
         className='mr-2 disabled:cursor-default z-10 top-1.5'
       />
@@ -153,43 +167,40 @@ const Task = ({ task }: TaskComponentProps) => {
         value={taskName}
         onChange={handleChange}
         onBlur={handleBlur}
-        className={`${isFocused ? 'opacity-100' : 'opacity-0'}`}
+        className={`
+          !bg-neutral-900 opacity-0 text-transparent
+          ${
+            isFocused &&
+            'focus:!bg-neutral-800 focus:text-white opacity-100 peer'
+          }`}
+        // className={`${isFocused ? 'opacity-100' : 'opacity-0'}`}
+        onClick={handleClicks}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       />
 
-      <Tooltip title={taskName} disable={listId === 'home' || isDraggingStore}>
-        <button
-          disabled={listId === 'home'}
-          className={`absolute pt-3.5 left-0 z-0 w-full h-full rounded-md flex items-start text-left
-        cursor-default
-        ${isFocused && 'pointer-events-none'}
-      `}
-          onClick={handleClicks}
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
+      <button
+        disabled={listId === 'home'}
+        className={`absolute pt-1.5 left-0 z-0 w-full h-8 rounded-md flex items-start text-left pointer-events-none peer-focus:opacity-0`}
+      >
+        <span
+          className={`pl-9 ml-1.5 whitespace-nowrap overflow-hidden text-ellipsis text-sm 
+            ${task.date ? 'w-[calc(100%-8.5rem)]' : 'w-[calc(100%-6rem)]'}`}
         >
-          <span
-            className={`pl-9 ml-1.5 whitespace-nowrap overflow-hidden text-ellipsis text-sm 
-              ${!isFocused ? 'opacity-100' : 'opacity-0'}
-              ${task.date ? 'w-[calc(100%-8.5rem)]' : 'w-[calc(100%-6rem)]'}
-            `}
-          >
-            <Strikethrough checked={checked}>{taskName}</Strikethrough>
-          </span>
-        </button>
-      </Tooltip>
+          <Strikethrough checked={checked}>{taskName}</Strikethrough>
+        </span>
+      </button>
 
       {task.date && <DateBadge date={task.date} />}
 
-      <Tooltip title='Delete task' disable={isDraggingStore}>
-        <button
-          disabled={listId === 'home'}
-          onClick={handleDelete}
-          className={`group w-8 h-8 flex flex-shrink-0 items-center justify-center rounded-lg bg-black/5 dark:bg-neutral-800 transition-all hover:bg-black/10 disabled:opacity-50 
+      <button
+        disabled={listId === 'home'}
+        onClick={handleDelete}
+        className={`group w-8 h-8 flex flex-shrink-0 items-center justify-center rounded-lg bg-black/5 dark:bg-neutral-800 transition-all hover:bg-black/10 disabled:opacity-50 
             disabled:pointer-events-none touch-none cursor-default z-0 self-start`}
-        >
-          <Trash2 className='w-4 group-hover:text-red-400 select-none pointer-events-none' />
-        </button>
-      </Tooltip>
+      >
+        <Trash2 className='w-4 group-hover:text-red-400 select-none pointer-events-none' />
+      </button>
     </div>
   );
 };

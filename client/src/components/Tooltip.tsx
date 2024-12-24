@@ -7,12 +7,12 @@ import {
 
 type TooltipProps = {
   title: string;
-  disable?: boolean;
+  disabled?: boolean;
   children: React.ReactNode | React.ReactNode[];
 };
 
-const Tooltip = ({ title, disable = false, children }: TooltipProps) => {
-  if (disable) return <>{children}</>;
+const Tooltip = ({ title, disabled = false, children }: TooltipProps) => {
+  if (disabled) return <>{children}</>;
 
   return (
     <TooltipProvider delayDuration={900}>

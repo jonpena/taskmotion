@@ -1,5 +1,5 @@
+import { TASKMOTION_API_DEV, TASKMOTION_API_PROD } from '@/config';
+
 export const getApiBaseUrl = (): string => {
-  return import.meta.env.DEV
-    ? import.meta.env.VITE_TASKMOTION_API_DEV
-    : import.meta.env.VITE_TASKMOTION_API_PROD;
+  return import.meta.env.DEV ? TASKMOTION_API_DEV : TASKMOTION_API_PROD;
 };

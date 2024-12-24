@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { TaskProps } from '@shared/task.interface';
 import { useAlertDialogStore } from '@/store/dialogStore';
 
-const CleanList = () => {
+const EmptyList = () => {
   return (
     <div className=' mx-auto mt-60 lg:pl-[340px]'>
       <h2 className='w-max text-gray-500 text-lg text-center mx-auto'>
@@ -40,7 +40,7 @@ const List = () => {
     setTasks(findTasks);
   }, [listId, lists]);
 
-  return tasks.length > 0 ? <SortableList /> : <CleanList />;
+  return tasks.length > 0 ? <SortableList /> : <EmptyList />;
 };
 
 export default List;

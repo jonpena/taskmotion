@@ -1,4 +1,4 @@
-import { Command, Plus } from 'lucide-react';
+import { Command } from 'lucide-react';
 
 type ShortcutButtonProps = {
   keys: string;
@@ -7,18 +7,29 @@ type ShortcutButtonProps = {
 
 const ShortcutButton = ({ keys, className }: ShortcutButtonProps) => {
   return (
-    <code
+    <div
       className={
-        `absolute right-11 flex items-center gap-x-[2px]
-            text-neutral-600 dark:text-neutral-50 rounded-md bg-white dark:bg-neutral-800 h-7 px-[0.3rem] text-xs
-        group-focus-within:opacity-0 group-focus-within:scale-100 transition-opacity duration-200 pointer-events-none ` +
-        className
+        `absolute right-11 flex items-center gap-x-[3px]
+          text-neutral-600 dark:text-neutral-300 rounded-md h-8 text-xs
+          group-focus-within:opacity-0 group-focus-within:scale-100 
+          transition-opacity duration-200 pointer-events-none ` + className
       }
     >
-      <Command className='w-3 h-auto ' />
-      <Plus className='w-3 h-auto ' />
-      <span className='font-mono'>{keys}</span>
-    </code>
+      <div
+        className='flex items-center justify-center rounded-[3px] bg-neutral-200 dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 
+                      w-6 h-6 shadow-sm border border-input'
+      >
+        <Command className='w-3.5 h-auto' />
+      </div>
+      <div
+        className='flex items-center justify-center rounded-[4px] 
+                      bg-neutral-200 dark:bg-neutral-900 
+                      text-neutral-700 dark:text-neutral-300 
+                      w-6 h-6 shadow-sm border border-input'
+      >
+        <span className='uppercase font-medium'>{keys}</span>
+      </div>
+    </div>
   );
 };
 

@@ -21,4 +21,3 @@ export const Textarea = ({ className, reference, ...props }: textareaProps) => {
     />
   );
 };
-

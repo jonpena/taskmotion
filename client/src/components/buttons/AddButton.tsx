@@ -8,7 +8,7 @@ type AddButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const AddButton = ({ disabled, title, ...props }: AddButtonProps) => {
   return (
-    <Tooltip title={title} disable={disabled}>
+    <Tooltip title={title} disabled={disabled}>
       <button
         disabled={disabled}
         className='bg-white dark:bg-neutral-800 w-7 h-7 right-2 top-3 flex justify-center items-center 

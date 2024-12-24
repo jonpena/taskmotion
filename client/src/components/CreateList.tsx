@@ -17,9 +17,9 @@ const CreateList = () => {
   const { setLists } = useListStore();
   const { user } = UserAuth();
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
-  const navigate = useNavigate();
   const keydown = useShortcut(['Control+l']);
   const isSmallDevice = useMediaQuery('only screen and (max-width : 1023px)');
+  const navigate = useNavigate();
 
   const createList = () => {
     if (!listName) return;

@@ -48,7 +48,7 @@ const CalendarButton = ({
           disabled={disabled}
           className={
             `bg-white dark:bg-neutral-800 w-8 h-8 right-2 top-3 flex justify-center items-center 
-    text-sm font-medium flex-grow-1 rounded-lg select-none aspect-square mr-1 group-focus-within:opacity-100
+              text-sm font-medium flex-grow-1 rounded-lg select-none aspect-square mr-1 group-focus-within:opacity-100
     transition-opacity duration-200 ` + className
           }
         >
@@ -67,9 +67,9 @@ const CalendarButton = ({
           >
             <Calendar
               mode='single'
-              selected={date ? new Date(date) : undefined}
+              selected={date ? new Date(date) : new Date()}
               onSelect={(date) => {
-                setDate(date ? date.toISOString() : undefined);
+                setDate(date ? date.toISOString() : new Date().toISOString());
                 setIsCalendarVisible(false);
               }}
               className='rounded-md border shadow absolute -translate-x-[calc(100%-2rem)] translate-y-1 bg-background'

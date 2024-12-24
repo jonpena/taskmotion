@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Star, Moon, Sun } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useTheme } from '@/context/theme-provider';
+import { GITHUB_API_URL } from '@/config';
 
 const Navbar = () => {
   const [starCount, setStarCount] = useState(0);
@@ -13,7 +14,7 @@ const Navbar = () => {
 
   useEffect(() => {
     (async () => {
-      const res = await axios.get(import.meta.env.VITE_GITHUB_API_URL);
+      const res = await axios.get(GITHUB_API_URL);
       setStarCount(res.data.watchers);
     })();
 

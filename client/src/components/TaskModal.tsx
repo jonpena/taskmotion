@@ -30,7 +30,7 @@ const TaskModal = () => {
   const isSmallDevice = useMediaQuery('only screen and (max-width : 1023px)');
   const textareaRef = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
   const [taskName, setTaskName] = useState(task.name);
-  const [isFocused, setIsFocused] = useState(false);
+  // const [isFocused, setIsFocused] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTaskName(e.target.value.trimStart());
@@ -46,7 +46,7 @@ const TaskModal = () => {
       setPreviousName(newTaskName);
       requestUpdateList(listId, { tasks: updateTasks });
     } else setTaskName(previousName);
-    setIsFocused(false);
+    // setIsFocused(false);
     textareaRef.current.style.height = 'auto';
   };
 
@@ -82,10 +82,7 @@ const TaskModal = () => {
   const handleBlurDesktop = () => !isSmallDevice && setIsOpen(false);
 
   const handleClickTextarea = () => {
-    textareaRef.current?.focus();
-    if (!isFocused) textareaRef.current?.setSelectionRange(-1, -1);
     calculateHeight(textareaRef);
-    setIsFocused(true);
   };
 
   useEffect(() => {
@@ -157,27 +154,24 @@ const TaskModal = () => {
                       onChange={(e) => setChecked(e.target.checked)}
                     />
 
-                    <div className='relative w-full h-full overflow-x-hidden flex justify-between items-start '>
+                    <div className='relative w-full h-full overflow-x-hidden flex justify-between items-center'>
                       <Textarea
                         reference={textareaRef}
                         disabled={listId === 'home'}
                         value={taskName}
                         onChange={handleChange}
                         onBlur={handleBlurTextarea}
-                        className={`${isFocused ? 'opacity-100' : 'opacity-0'}`}
+                        className={`
+                          !bg-background focus:!bg-neutral-900 text-transparent focus:text-white peer`}
+                        onClick={handleClickTextarea}
                       />
 
                       <button
-                        onClick={handleClickTextarea}
                         disabled={listId === 'home'}
-                        className={`absolute pl-1.5 pt-1.5 left-0 z-0 w-full h-8 rounded-md flex items-start text-left cursor-default ${
-                          isFocused && 'pointer-events-none'
-                        }`}
+                        className={`absolute pl-1.5 pt-1.5 left-0 z-0 w-full h-8 rounded-md flex items-start text-left pointer-events-none peer-focus:opacity-0`}
                       >
                         <span
-                          className={`pl- whitespace-nowrap overflow-hidden text-ellipsis text-sm w-[calc(100%-1rem)] ${
-                            !isFocused ? 'opacity-100' : 'opacity-0'
-                          }`}
+                          className={`whitespace-nowrap overflow-hidden text-ellipsis text-sm w-[calc(100%-1rem)]`}
                         >
                           <Strikethrough checked={checked}>
                             {taskName}
