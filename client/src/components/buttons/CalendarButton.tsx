@@ -11,7 +11,7 @@ type CalendarButtonProps = {
   className?: string;
 };
 
-const CalendarButton = ({
+export const CalendarButton = ({
   date,
   setDate,
   disabled,
@@ -80,5 +80,3 @@ const CalendarButton = ({
     </div>
   );
 };
-
-export default CalendarButton;

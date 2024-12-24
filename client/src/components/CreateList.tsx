@@ -8,8 +8,8 @@ import { replaceEmojis } from '@/utils/replaceEmojis';
 import { useNavigate } from 'react-router-dom';
 import { useShortcut } from '@/hooks/useShortcut';
 import { useMediaQuery } from '@uidotdev/usehooks';
-import AddButton from './buttons/AddButton';
-import ShortcutButton from './buttons/ShortcutButton';
+import { AddButton } from './buttons/AddButton';
+import { ShortcutButton } from './buttons/ShortcutButton';
 
 const CreateList = () => {
   const [listName, setListName] = useState('');

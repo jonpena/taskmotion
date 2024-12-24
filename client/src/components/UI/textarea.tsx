@@ -12,7 +12,7 @@ export const Textarea = ({ className, reference, ...props }: textareaProps) => {
       ref={reference}
       rows={1}
       maxLength={MAX_CONTENT_TASK}
-      className={`w-full min-h-8 h-full overflow-auto pt-[6px] pl-1.5 mr-2 text-sm
+      className={`w-full h-full overflow-auto py-1 pl-1.5 mr-2 text-sm
       bg-neutral-100 dark:bg-neutral-800 resize-none
       outline-none rounded ${className}
       `}

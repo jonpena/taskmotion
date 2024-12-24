@@ -16,7 +16,7 @@ import { replaceEmojis } from '@/utils/replaceEmojis';
 import { useDragStore } from '@/store/dragStore';
 import { calculateHeight } from '@/utils/calculateHeight';
 import { Strikethrough } from './ui/strikethrough';
-import { DateBadge } from './ui/DateBadge';
+import { DateBadge } from './buttons/DateBadge';
 import { useModalStore } from '@/store/modalStore';
 import { updateTaskField } from '@/services/updateTaskField';
 import { Textarea } from '@/components/ui/textarea';
@@ -175,11 +175,13 @@ const Task = ({ task }: TaskComponentProps) => {
           }`}
         // className={`${isFocused ? 'opacity-100' : 'opacity-0'}`}
         onClick={handleClicks}
+        // onMouseDown={(e) => e.preventDefault()}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       />
 
       <button
+        onMouseDown={(e) => e.preventDefault()}
         disabled={listId === 'home'}
         className={`absolute pt-1.5 left-0 z-0 w-full h-8 rounded-md flex items-start text-left pointer-events-none peer-focus:opacity-0`}
       >

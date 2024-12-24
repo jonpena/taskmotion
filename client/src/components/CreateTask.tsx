@@ -11,9 +11,9 @@ import { MAX_CONTENT_TASK } from '@/constants/base';
 import { useShortcut } from '@/hooks/useShortcut';
 import { useMediaQuery } from '@uidotdev/usehooks';
 import { format } from 'date-fns';
-import CalendarButton from './buttons/CalendarButton';
-import ShortcutButton from './buttons/ShortcutButton';
-import AddButton from './buttons/AddButton';
+import { CalendarButton } from './buttons/CalendarButton';
+import { ShortcutButton } from './buttons/ShortcutButton';
+import { AddButton } from './buttons/AddButton';
 
 const CreateTask = () => {
   const [taskName, setTaskName] = useState('');

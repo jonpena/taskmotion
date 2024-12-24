@@ -6,7 +6,7 @@ type AddButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   title: string;
 };
 
-const AddButton = ({ disabled, title, ...props }: AddButtonProps) => {
+export const AddButton = ({ disabled, title, ...props }: AddButtonProps) => {
   return (
     <Tooltip title={title} disabled={disabled}>
       <button
@@ -20,5 +20,3 @@ const AddButton = ({ disabled, title, ...props }: AddButtonProps) => {
     </Tooltip>
   );
 };
-
-export default AddButton;

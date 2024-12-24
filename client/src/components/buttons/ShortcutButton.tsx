@@ -5,7 +5,7 @@ type ShortcutButtonProps = {
   className: string;
 };
 
-const ShortcutButton = ({ keys, className }: ShortcutButtonProps) => {
+export const ShortcutButton = ({ keys, className }: ShortcutButtonProps) => {
   return (
     <div
       className={
@@ -32,5 +32,3 @@ const ShortcutButton = ({ keys, className }: ShortcutButtonProps) => {
     </div>
   );
 };
-
-export default ShortcutButton;

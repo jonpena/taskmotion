@@ -1,8 +1,8 @@
 import { format, isPast, isToday, startOfDay } from 'date-fns';
 
-interface DateBadgeProps {
+type DateBadgeProps = {
   date: string | Date;
-}
+};
 
 export const DateBadge = ({ date }: DateBadgeProps) => {
   const dateObj = new Date(date);
@@ -17,9 +17,7 @@ export const DateBadge = ({ date }: DateBadgeProps) => {
   };
 
   const getDateText = () => {
-    if (isToday(dateObj)) {
-      return 'Today';
-    }
+    if (isToday(dateObj)) return 'Today';
     return format(dateObj, 'd.MMM');
   };
 

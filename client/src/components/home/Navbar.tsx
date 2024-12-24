@@ -48,20 +48,20 @@ const Navbar = () => {
           <div className='flex items-center lg:order-2 gap-x-3'>
             <div className='flex h-8 w-max items-center justify-center px-0.5 gap-x-2 rounded-full bg-background/95 border border-input'>
               <button
+                aria-label='Light mode'
                 onClick={() => handleTheme(false)}
                 className={`p-1.5 transition-colors
                   dark:text-neutral-400 text-neutral-800 bg-neutral-100 dark:bg-transparent rounded-full
                   `}
-                aria-label='Light mode'
               >
                 <Sun className='h-4 w-4' />
               </button>
               <button
+                aria-label='Dark mode'
                 onClick={() => handleTheme(true)}
                 className={`p-1.5 transition-colors
                   dark:text-neutral-50 text-neutral-400 bg-transparent dark:bg-neutral-800 rounded-full
                 `}
-                aria-label='Dark mode'
               >
                 <Moon className='h-4 w-4' />
               </button>
