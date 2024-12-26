@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { ListProps } from '@shared/list.interface';
 import { getApiBaseUrl } from '@/utils/getApiBaseUrl';
 
@@ -12,10 +12,9 @@ export const requestCreateList = async (
       body
     );
     return data.data;
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      throw new Error(`Error al crear la lista: ${error.message}`);
-    }
-    throw new Error('Error inesperado al crear la lista');
+  } catch (error: unknown) {
+    throw new Error(
+      `Error al crear la lista: ${(error as AxiosError).message}`
+    );
   }
 };

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { TaskProps } from '@shared/task.interface';
 import { getApiBaseUrl } from '@/utils/getApiBaseUrl';
 
@@ -13,10 +13,9 @@ export const requestUpdateList = async (
 ): Promise<void> => {
   try {
     await axios.put(`${getApiBaseUrl()}api/lists/${listId}`, body);
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      throw new Error(`Error al actualizar la lista: ${error.message}`);
-    }
-    throw new Error('Error inesperado al actualizar la lista');
+  } catch (error: unknown) {
+    throw new Error(
+      `Error al actualizar la lista: ${(error as AxiosError).message}`
+    );
   }
 };
