@@ -3,6 +3,8 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CreateList from '@/components/CreateList';
 import { useMediaQuery } from '@uidotdev/usehooks';
+import { useNavigate } from 'react-router-dom';
+// import { requestCreateList } from '@/services/requestCreateList';
 
 vi.mock('@/store/listStore', () => ({
   useListStore: () => ({
@@ -23,8 +25,17 @@ vi.mock('@uidotdev/usehooks', () => ({
   useMediaQuery: vi.fn(),
 }));
 
+vi.mocked(useNavigate).mockReturnValue(vi.fn());
+
+vi.mock('@/services/requestCreateList', () => ({
+  requestCreateList: () => Promise.resolve([]),
+}));
+
+// vi.mocked(requestCreateList).mockResolvedValue([]);
+
 describe('CreateList', () => {
   beforeEach(() => {
+    vi.clearAllMocks();
     render(<CreateList />);
   });
 
@@ -47,6 +58,7 @@ describe('CreateList', () => {
     await user.type(input, 'Creating a new list');
     await user.keyboard('{Enter}');
     expect(input).toHaveValue('');
+    // expect(requestUpdateListModule.requestUpdateList).toHaveBeenCalled();
   });
 
   it('creates new list when Add button is clicked', async () => {
@@ -56,6 +68,7 @@ describe('CreateList', () => {
     await user.type(input, 'New List');
     await user.click(addButton);
     expect(input).toHaveValue('');
+    // expect(requestUpdateListModule.requestUpdateList).toHaveBeenCalled();
   });
 
   it('focuses input when Add button is clicked with empty input', async () => {

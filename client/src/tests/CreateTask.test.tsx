@@ -26,6 +26,10 @@ vi.mock('@uidotdev/usehooks', () => ({
   useMediaQuery: vi.fn(),
 }));
 
+vi.mock('@/services/requestUpdateList', () => ({
+  requestUpdateList: vi.fn(),
+}));
+
 describe('CreateTask', () => {
   beforeEach(() => {
     render(<CreateTask />);
