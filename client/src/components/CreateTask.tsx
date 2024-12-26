@@ -18,8 +18,7 @@ import { AddButton } from './buttons/AddButton';
 const CreateTask = () => {
   const [taskName, setTaskName] = useState('');
   const { tasks, setTasks } = useTaskStore();
-  const { setLists } = useListStore();
-  const lists = useListStore((state) => state.lists);
+  const { lists, setLists } = useListStore();
   const { listId } = useParams();
   const [checked, setChecked] = useState(false);
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -27,35 +26,35 @@ const CreateTask = () => {
   const isSmallDevice = useMediaQuery('only screen and (max-width : 1023px)');
   const [date, setDate] = useState<string | undefined>(undefined);
 
-  const createTask = (name: string) => {
-    if (!listId || !name) return;
-
-    const newTask = {
-      id: uuid(),
-      name: replaceEmojis(name),
-      description: '',
-      checked,
-      date: date ? format(date, 'MM-dd-yyyy') : '',
-    };
-    const updateTasks = [newTask, ...tasks];
-    requestUpdateList(listId, { tasks: updateTasks });
-    setTasks(updateTasks);
-    const updateLists = [...lists];
-    const index = lists.findIndex((l) => l.listId === listId);
-    updateLists[index].tasks = updateTasks;
-    setLists([...updateLists]);
-    setTaskName('');
-    setChecked(false);
-    setDate(undefined);
+  const createTask = () => {
+    if (taskName && listId) {
+      const newTask = {
+        id: uuid(),
+        name: replaceEmojis(taskName),
+        description: '',
+        checked,
+        date: date ? format(date, 'MM-dd-yyyy') : '',
+      };
+      const updateTasks = [newTask, ...tasks];
+      requestUpdateList(listId, { tasks: updateTasks });
+      setTasks(updateTasks);
+      const index = lists.findIndex((l) => l.listId === listId);
+      const updateLists = [...lists];
+      if (index !== -1) updateLists[index].tasks = updateTasks;
+      setDate(undefined);
+      setChecked(false);
+      setTaskName('');
+      setLists([...updateLists]);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') createTask(taskName);
+    if (e.key === 'Enter') createTask();
   };
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    taskName ? createTask(taskName) : inputRef.current?.focus();
+    taskName ? createTask() : inputRef.current?.focus();
   };
 
   useEffect(() => {

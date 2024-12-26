@@ -13,27 +13,27 @@ import { ShortcutButton } from './buttons/ShortcutButton';
 
 const CreateList = () => {
   const [listName, setListName] = useState('');
-  const lists = useListStore((state) => state.lists);
-  const { setLists } = useListStore();
-  const { user } = UserAuth();
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const { user } = UserAuth();
   const keydown = useShortcut(['Control+l']);
   const isSmallDevice = useMediaQuery('only screen and (max-width : 1023px)');
   const navigate = useNavigate();
+  const { lists, setLists } = useListStore();
 
   const createList = () => {
-    if (!listName) return;
-    const newlist = {
-      listId: uuid(),
-      name: replaceEmojis(listName),
-      tasks: [],
-    };
-    const updateLists = [...lists, newlist];
-    requestCreateList(user.email, newlist);
-    setLists(updateLists);
-    setListName('');
-    navigate(`/list/` + newlist.listId);
-    inputRef.current?.blur();
+    if (listName) {
+      const newlist = {
+        listId: uuid(),
+        name: replaceEmojis(listName),
+        tasks: [],
+      };
+      const updateLists = [...lists, newlist];
+      requestCreateList(user.email, newlist);
+      setLists(updateLists);
+      setListName('');
+      navigate(`/list/` + newlist.listId);
+      inputRef.current?.blur();
+    }
   };
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
