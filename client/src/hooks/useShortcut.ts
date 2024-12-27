@@ -1,7 +1,7 @@
 import { useDebounce } from '@uidotdev/usehooks';
 import { useEffect, useState } from 'react';
 
-export const useShortcut = (sc: string[] = []) => {
+export const useShortcut = (sc: string[]) => {
   const [keydown, setKeydown] = useState<string[]>([]);
   const keydownDebounced = useDebounce(keydown, 100);
   const [keys, setKeys] = useState('');

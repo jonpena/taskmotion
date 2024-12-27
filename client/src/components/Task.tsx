@@ -28,7 +28,6 @@ type TaskComponentProps = {
 
 const Task = ({ task }: TaskComponentProps) => {
   const MAX_TIMEOUT = 180;
-
   const { listId } = useParams();
   const { tasks, setTasks } = useTaskStore();
   const { lists, setLists } = useListStore();
@@ -47,7 +46,6 @@ const Task = ({ task }: TaskComponentProps) => {
   const [touchStartTime, setTouchStartTime] = useState<number>(0);
 
   const handleDelete = () => {
-    // e.stopPropagation();
     if (!listId) return;
     const updateTasks = tasks.filter((elem) => elem.id !== task.id);
     requestUpdateList(listId, { tasks: updateTasks });
@@ -173,7 +171,6 @@ const Task = ({ task }: TaskComponentProps) => {
             isFocused &&
             'focus:!bg-neutral-800 focus:text-white opacity-100 peer'
           }`}
-        // className={`${isFocused ? 'opacity-100' : 'opacity-0'}`}
         onClick={handleClicks}
         // onMouseDown={(e) => e.preventDefault()}
         onTouchStart={handleTouchStart}

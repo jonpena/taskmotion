@@ -1,10 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CreateList from '@/components/CreateList';
 import { useMediaQuery } from '@uidotdev/usehooks';
 import { useNavigate } from 'react-router-dom';
-// import { requestCreateList } from '@/services/requestCreateList';
 
 vi.mock('@/store/listStore', () => ({
   useListStore: () => ({
@@ -18,7 +17,7 @@ vi.mock('react-router-dom', () => ({
 }));
 
 vi.mock('@/hooks/useShortcut', () => ({
-  useShortcut: vi.fn(),
+  useShortcut: () => 'Control+l',
 }));
 
 vi.mock('@uidotdev/usehooks', () => ({
@@ -31,17 +30,14 @@ vi.mock('@/services/requestCreateList', () => ({
   requestCreateList: () => Promise.resolve([]),
 }));
 
-// vi.mocked(requestCreateList).mockResolvedValue([]);
-
 describe('CreateList', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
     render(<CreateList />);
   });
 
   it('renders input field with correct placeholder', () => {
     expect(
-      screen.getByPlaceholderText('Create new list...')
+      screen.getByPlaceholderText(/Create new list.../i)
     ).toBeInTheDocument();
   });
 
@@ -58,7 +54,6 @@ describe('CreateList', () => {
     await user.type(input, 'Creating a new list');
     await user.keyboard('{Enter}');
     expect(input).toHaveValue('');
-    // expect(requestUpdateListModule.requestUpdateList).toHaveBeenCalled();
   });
 
   it('creates new list when Add button is clicked', async () => {
@@ -68,7 +63,6 @@ describe('CreateList', () => {
     await user.type(input, 'New List');
     await user.click(addButton);
     expect(input).toHaveValue('');
-    // expect(requestUpdateListModule.requestUpdateList).toHaveBeenCalled();
   });
 
   it('focuses input when Add button is clicked with empty input', async () => {
@@ -80,12 +74,16 @@ describe('CreateList', () => {
   });
 
   it('shows shortcut button on desktop devices', () => {
-    vi.mocked(useMediaQuery).mockReturnValue(true);
+    cleanup();
+    vi.mocked(useMediaQuery).mockReturnValue(false);
+    render(<CreateList />);
     expect(screen.getByText('L')).toBeInTheDocument();
   });
 
   it('hides shortcut button on mobile devices', () => {
-    vi.mocked(useMediaQuery).mockReturnValue(false);
+    cleanup();
+    vi.mocked(useMediaQuery).mockReturnValue(true);
+    render(<CreateList />);
     expect(screen.queryByText('L')).not.toBeInTheDocument();
   });
 
@@ -94,5 +92,12 @@ describe('CreateList', () => {
     const input = screen.getByRole('textbox');
     await user.type(input, '   Test List');
     expect(input).toHaveValue('Test List');
+  });
+
+  it('should focus input when shortcut control+l is pressed', async () => {
+    const user = userEvent.setup();
+    const input = screen.getByRole('textbox');
+    await user.keyboard('{Control}{L}');
+    expect(document.activeElement).toBe(input);
   });
 });

@@ -19,7 +19,7 @@ type ListItemProps = {
 const ListItem = ({ list }: ListItemProps) => {
   const { listId } = useParams();
   const navigate = useNavigate();
-  const tasks = useTaskStore((state) => state.tasks);
+  const { tasks } = useTaskStore();
   const { lists, setLists } = useListStore();
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [countTasks, setCountTasks] = useState(0);
@@ -137,8 +137,14 @@ const ListItem = ({ list }: ListItemProps) => {
           className='z-0 mr-2 w-7 h-7 flex justify-center items-center 
         text-sm font-medium bg-white dark:bg-neutral-800 rounded-lg select-none aspect-square'
         >
-          <Trash2 className='text-red-400 w-4 group-hover:inline-block hidden' />
-          <span className='text-center inline-block group-hover:hidden align-middle text-xs text-neutral-500 dark:text-neutral-100'>
+          <Trash2
+            data-testid='delete-icon'
+            className='text-red-400 w-4 group-hover:inline-block hidden'
+          />
+          <span
+            data-testid='task-count'
+            className='text-center inline-block group-hover:hidden align-middle text-xs text-neutral-500 dark:text-neutral-100'
+          >
             <span className='w-full'>{countTasks}</span>
           </span>
         </span>

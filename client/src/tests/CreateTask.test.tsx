@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CreateTask from '@/components/CreateTask';
 import { useMediaQuery } from '@uidotdev/usehooks';
@@ -19,7 +19,7 @@ vi.mock('react-router-dom', () => ({
 }));
 
 vi.mock('@/hooks/useShortcut', () => ({
-  useShortcut: vi.fn(),
+  useShortcut: () => 'Control+e',
 }));
 
 vi.mock('@uidotdev/usehooks', () => ({
@@ -37,7 +37,7 @@ describe('CreateTask', () => {
 
   it('renders input field with correct placeholder', () => {
     expect(
-      screen.getByPlaceholderText('Create new task...')
+      screen.getByPlaceholderText(/Create new task.../i)
     ).toBeInTheDocument();
   });
 
@@ -74,22 +74,30 @@ describe('CreateTask', () => {
   });
 
   it('shows shortcut button on desktop devices', () => {
-    vi.mocked(useMediaQuery).mockReturnValue(true);
-
+    cleanup();
+    vi.mocked(useMediaQuery).mockReturnValue(false);
+    render(<CreateTask />);
     expect(screen.getByText('E')).toBeInTheDocument();
   });
 
   it('hides shortcut button on mobile devices', () => {
-    vi.mocked(useMediaQuery).mockReturnValue(false);
-
+    cleanup();
+    vi.mocked(useMediaQuery).mockReturnValue(true);
+    render(<CreateTask />);
     expect(screen.queryByText('E')).not.toBeInTheDocument();
   });
 
   it('trims whitespace from start of input', async () => {
     const user = userEvent.setup();
     const input = screen.getByPlaceholderText('Create new task...');
-
     await user.type(input, '   Creating a new task');
     expect(input).toHaveValue('Creating a new task');
+  });
+
+  it('should focus input when shortcut control+e is pressed', async () => {
+    const user = userEvent.setup();
+    const input = screen.getByPlaceholderText('Create new task...');
+    await user.keyboard('{Control}{E}');
+    expect(document.activeElement).toBe(input);
   });
 });

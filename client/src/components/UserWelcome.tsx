@@ -7,12 +7,12 @@ import { useParams } from 'react-router-dom';
 
 const UserWelcome = () => {
   const formatedDate = format(new Date(), 'EEEE, MMMM d');
-  const { title } = useAlertDialogStore();
+  const { title: listName } = useAlertDialogStore();
   const { listId } = useParams();
   const { user } = UserAuth();
 
   useDocumentTitle(
-    'Taskmotion | ' + (listId !== 'home' ? title ?? 'Loading...' : 'Home')
+    (listId !== 'home' ? listName ?? 'Loading...' : 'Home') + ' | Taskmotion'
   );
 
   return (
@@ -27,7 +27,7 @@ const UserWelcome = () => {
       >
         {listId === 'home'
           ? `${user?.fullname ?? 'Loading...'}`
-          : `${title ?? 'Loading...'}`}
+          : `${listName ?? 'Loading...'}`}
       </h1>
     </div>
   );
