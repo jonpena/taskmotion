@@ -11,8 +11,14 @@ const useAvoidZoom = () => {
 
     // Función para desactivar zoom con Ctrl + teclas +/-/0
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.ctrlKey && (e.key === '+' || e.key === '-' || e.key === '0')) {
-        e.preventDefault(); // Previene el zoom al usar Ctrl + +/-/0
+      if (
+        e.ctrlKey &&
+        (e.key === '+' ||
+          e.key === '=' || // Add'=' porque en algunos teclados Ctrl++ es Ctrl+=
+          e.key === '-' ||
+          e.key === '0')
+      ) {
+        e.preventDefault();
       }
     };
 
