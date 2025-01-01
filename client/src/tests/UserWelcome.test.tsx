@@ -21,10 +21,6 @@ vi.mock('@/utils/getGreeting', () => ({
   getGreeting: () => 'Good morning!',
 }));
 
-vi.mock('@uidotdev/usehooks', () => ({
-  useDocumentTitle: vi.fn(),
-}));
-
 vi.mock('react-router-dom', () => ({
   useParams: vi.fn(),
 }));

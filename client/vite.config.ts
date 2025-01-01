@@ -48,7 +48,7 @@ export default defineConfig({
             manifest,
             registerType: 'autoUpdate',
             workbox: {
-              cacheId: 'taskmotionv1.3.8',
+              cacheId: 'taskmotion_v1.3.10',
               cleanupOutdatedCaches: true,
             },
           }),
@@ -64,7 +64,7 @@ export default defineConfig({
   },
   test: {
     globals: true,
-    environment: 'jsdom',
+    environment: 'happy-dom',
     setupFiles: './src/tests/setup.ts',
   },
 });
