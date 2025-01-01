@@ -1,14 +1,14 @@
 import { create } from 'zustand';
 import { TaskProps } from '@shared/task.interface';
 
-interface BearState {
+interface TaskState {
   tasks: TaskProps[];
   setTasks: (tasks: TaskProps[]) => void;
   addTask: (newTask: TaskProps) => void;
   deleteTask: (taskId: string) => void;
 }
 
-export const useTaskStore = create<BearState>()((set) => ({
+export const useTaskStore = create<TaskState>((set) => ({
   tasks: [],
   setTasks: (tasks) => set({ tasks }),
 

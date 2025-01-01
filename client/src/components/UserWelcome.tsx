@@ -1,7 +1,6 @@
 import { UserAuth } from '@/context/AuthContext';
 import { useAlertDialogStore } from '@/store/dialogStore';
 import { getGreeting } from '@/utils/getGreeting';
-import { useDocumentTitle } from '@uidotdev/usehooks';
 import { format } from 'date-fns';
 import { useParams } from 'react-router-dom';
 
@@ -10,10 +9,6 @@ const UserWelcome = () => {
   const { title: listName } = useAlertDialogStore();
   const { listId } = useParams();
   const { user } = UserAuth();
-
-  useDocumentTitle(
-    (listId !== 'home' ? listName ?? 'Loading...' : 'Home') + ' | Taskmotion'
-  );
 
   return (
     <div className='hidden lg:block'>

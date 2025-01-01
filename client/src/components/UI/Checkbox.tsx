@@ -15,9 +15,7 @@ const Checkbox = ({
   classNameContainer,
   handleChange,
   ...props
-}: //
-
-CheckboxProps) => {
+}: CheckboxProps) => {
   return (
     <label className={`flex w-fit h-fit` + ' ' + classNameContainer}>
       <input

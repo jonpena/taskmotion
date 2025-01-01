@@ -146,7 +146,7 @@ const TaskModal = () => {
                     value={taskName}
                     onChange={handleChange}
                     onBlur={handleBlurTextarea}
-                    className={`!bg-background focus:!bg-neutral-900 text-transparent focus:text-white peer`}
+                    className={` focus:!bg-neutral-200 dark:focus:!bg-neutral-900 peer opacity-0 focus:opacity-100`}
                     onClick={handleClickTextarea}
                   />
 

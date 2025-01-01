@@ -26,6 +26,7 @@ type TaskComponentProps = {
   task: TaskProps;
 };
 
+// million-ignore
 const Task = ({ task }: TaskComponentProps) => {
   const MAX_TIMEOUT = 180;
   const { listId } = useParams();
@@ -62,11 +63,9 @@ const Task = ({ task }: TaskComponentProps) => {
   };
 
   const handleDoubleClick = () => {
-    textareaRef.current?.focus();
-    // if (!isFocused) textareaRef.current?.setSelectionRange(-1, -1);
-    calculateHeight(textareaRef);
     setIsFocused(true);
     setIsOpen(false);
+    calculateHeight(textareaRef);
   };
 
   const handleClick = () => {
@@ -166,13 +165,11 @@ const Task = ({ task }: TaskComponentProps) => {
         onChange={handleChange}
         onBlur={handleBlur}
         className={`
-          !bg-neutral-900 opacity-0 text-transparent
+          opacity-0
           ${
-            isFocused &&
-            'focus:!bg-neutral-800 focus:text-white opacity-100 peer'
+            isFocused && '!bg-neutral-200 dark:!bg-neutral-800 opacity-100 peer'
           }`}
         onClick={handleClicks}
-        // onMouseDown={(e) => e.preventDefault()}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       />
@@ -180,7 +177,7 @@ const Task = ({ task }: TaskComponentProps) => {
       <button
         onMouseDown={(e) => e.preventDefault()}
         disabled={listId === 'home'}
-        className={`absolute pt-1.5 left-0 z-0 w-full h-8 rounded-md flex items-start text-left pointer-events-none peer-focus:opacity-0`}
+        className={`absolute pt-1.5 left-0 z-0 w-full h-8 rounded-md flex items-start text-left pointer-events-none peer-focus:opacity-0 peer-focus:!text-transparent`}
       >
         <span
           className={`pl-9 ml-1.5 whitespace-nowrap overflow-hidden text-ellipsis text-sm 
