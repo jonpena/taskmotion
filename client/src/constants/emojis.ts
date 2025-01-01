@@ -20,4 +20,5 @@ export const EMOJIS: { [key: string]: string } = {
   test: '✅',
   styles: '🎨',
   dream: '☁️',
+  experimental: '🧪',
 };
