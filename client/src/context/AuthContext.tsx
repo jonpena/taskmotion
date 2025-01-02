@@ -11,6 +11,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 const AuthContext = createContext({
   signInWithGoogle: () => {},
+  signInWithGithub: () => {},
   signout: async () => {},
   user: {
     email: '',
@@ -28,6 +29,22 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     try {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
+        options: {
+          redirectTo: window.location.origin,
+        },
+      });
+      if (error)
+        throw new Error('A ocurrido un error durante la autenticación');
+      return data;
+    } catch (error) {
+      throw new Error('A ocurrido un error durante la autenticación');
+    }
+  }
+
+  async function signInWithGithub() {
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'github',
         options: {
           redirectTo: window.location.origin,
         },
@@ -70,7 +87,9 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ signInWithGoogle, signout, user }}>
+    <AuthContext.Provider
+      value={{ signInWithGoogle, signInWithGithub, signout, user }}
+    >
       {children}
     </AuthContext.Provider>
   );
