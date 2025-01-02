@@ -1,7 +1,8 @@
 /// <reference types="vitest" />
 
-import million from 'million/compiler';
 import { defineConfig } from 'vite';
+import type { UserConfig } from 'vite';
+import million from 'million/compiler';
 import react from '@vitejs/plugin-react-swc';
 import path from 'path';
 import { ManifestOptions, VitePWA } from 'vite-plugin-pwa';
@@ -48,7 +49,7 @@ export default defineConfig({
             manifest,
             registerType: 'autoUpdate',
             workbox: {
-              cacheId: 'taskmotion_v1.3.10',
+              cacheId: 'taskmotion_v1.4.0',
               cleanupOutdatedCaches: true,
             },
           }),
@@ -67,4 +68,4 @@ export default defineConfig({
     environment: 'happy-dom',
     setupFiles: './src/tests/setup.ts',
   },
-});
+} as UserConfig);
