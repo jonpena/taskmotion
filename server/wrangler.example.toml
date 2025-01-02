@@ -2,7 +2,7 @@ name = "app-api"
 compatibility_date = "2024-07-01"
 
 [vars]
-SUPABASE_URL = ""
-SUPABASE_KEY = ""
-API_KEY = ""
+SUPABASE_URL = "" # https://your-supabase-url.supabase.co
+SUPABASE_KEY = "" # your-supabase-anon-key
+API_KEY = "" # your-api-key
 
