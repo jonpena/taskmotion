@@ -7,8 +7,6 @@ import {
 } from 'react';
 import { supabase } from '@/supabase/supabase.config';
 import { userProps } from '@/interfaces/user.interface';
-import { requestUserLists } from '@/services/requestUserLists';
-import { useListStore } from '@/store/listStore';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const AuthContext = createContext({
@@ -24,7 +22,6 @@ const AuthContext = createContext({
 export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState({} as userProps);
-  const { setLists } = useListStore();
   const location = useLocation();
 
   async function signInWithGoogle() {
@@ -52,7 +49,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      async (_, session) => {
         if (session === null) {
           navigate(location.pathname.includes('login') ? '/login' : '/');
           setUser({} as userProps);
@@ -64,17 +61,6 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
             fullname: user.user_metadata.full_name,
             picture: user.user_metadata.picture,
           });
-
-          if (event === 'INITIAL_SESSION') {
-            const lists = await requestUserLists(session.access_token);
-            setLists(lists);
-
-            const existsList = lists.some((list) =>
-              list.listId?.includes(location.pathname.replace('/list/', ''))
-            );
-
-            navigate(existsList ? location.pathname : '/list/home');
-          }
         }
       }
     );
