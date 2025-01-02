@@ -5,9 +5,20 @@ import UserWelcome from '@/components/UserWelcome';
 import { Outlet } from 'react-router-dom';
 import TaskModal from '@/components/TaskModal';
 import useAvoidZoom from '@/hooks/useAvoidZoom';
+import { useEffect } from 'react';
+import { useListStore } from '@/store/listStore';
+import { useLists } from '@/hooks/useLists';
 
 const Board = () => {
+  const { setLists } = useListStore();
+
   useAvoidZoom();
+
+  const { data } = useLists();
+
+  useEffect(() => {
+    if (data) setLists(data);
+  }, [data]);
 
   return (
     <>

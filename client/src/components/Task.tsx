@@ -33,7 +33,9 @@ const Task = ({ task }: TaskComponentProps) => {
   const { tasks, setTasks } = useTaskStore();
   const { lists, setLists } = useListStore();
   const { setIsOpen, setTask } = useModalStore();
-  const textareaRef = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
+  const textareaRef = useRef<HTMLTextAreaElement>(
+    null
+  ) as React.MutableRefObject<HTMLTextAreaElement>;
   const [taskName, setTaskName] = useState(task.name);
   const deferredTaskName = useDeferredValue(taskName);
   const [checked, setChecked] = useState(task.checked);

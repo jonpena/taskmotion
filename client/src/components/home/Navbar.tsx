@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Star, Moon, Sun } from 'lucide-react';
 import { Button } from '../ui/button';
-import { useTheme } from '@/context/theme-provider';
+import { useTheme } from '@/context/ThemeContext';
 import { GITHUB_API_URL } from '@/config';
 
 const Navbar = () => {

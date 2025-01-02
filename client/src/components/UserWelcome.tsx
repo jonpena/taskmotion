@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 
 const UserWelcome = () => {
   const formatedDate = format(new Date(), 'EEEE, MMMM d');
-  const { title: listName } = useAlertDialogStore();
+  const { listTitle } = useAlertDialogStore();
   const { listId } = useParams();
   const { user } = UserAuth();
 
@@ -22,7 +22,7 @@ const UserWelcome = () => {
       >
         {listId === 'home'
           ? `${user?.fullname ?? 'Loading...'}`
-          : `${listName ?? 'Loading...'}`}
+          : `${listTitle ?? 'Loading...'}`}
       </h1>
     </div>
   );

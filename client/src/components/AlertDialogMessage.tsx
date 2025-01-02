@@ -14,7 +14,7 @@ import { useAlertDialogStore } from '@/store/dialogStore';
 import { useEffect } from 'react';
 
 export function AlertDialogMessage() {
-  const { open, title, setOpen, handleDelete } = useAlertDialogStore();
+  const { open, listTitle, setOpen, handleDelete } = useAlertDialogStore();
   const keydown = useShortcut(['Escape', 'Enter']);
 
   const handleCancelClick = () => setOpen(false);
@@ -25,9 +25,10 @@ export function AlertDialogMessage() {
   };
 
   useEffect(() => {
-    if (!keydown) return;
-    if (open && keydown === 'Escape') handleCancelClick();
-    if (open && keydown === 'Enter') handleDeleteClick();
+    if (keydown) {
+      if (open && keydown === 'Escape') handleCancelClick();
+      if (open && keydown === 'Enter') handleDeleteClick();
+    }
   }, [keydown]);
 
   return (
@@ -38,7 +39,7 @@ export function AlertDialogMessage() {
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete
-            <span className='ml-1 text-indigo-400'>{title}</span>
+            <span className='ml-1 text-indigo-400'>{listTitle}</span>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

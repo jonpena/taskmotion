@@ -11,6 +11,7 @@ import { Trash2 } from 'lucide-react';
 import { Tooltip } from '@/components/Tooltip';
 import { replaceEmojis } from '@/utils/replaceEmojis';
 import { useDebounce } from '@uidotdev/usehooks';
+import { useLists } from '@/hooks/useLists';
 
 type ListItemProps = {
   list: ListProps;
@@ -24,11 +25,12 @@ const ListItem = ({ list }: ListItemProps) => {
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [countTasks, setCountTasks] = useState(0);
   const [isFocused, setIsFocused] = useState(false);
-  const { setOpen, setHandleDelete, setTitle } = useAlertDialogStore();
+  const { setOpen, setHandleDelete, setListTitle } = useAlertDialogStore();
   const [clickTimeout, setClickTimeout] = useState<NodeJS.Timeout | null>(null);
   const [listName, setListName] = useState(list.name);
   const [previousName, setPreviousName] = useState(list.name);
   const listNameDebounced = useDebounce(listName, 200);
+  const { refreshLists } = useLists();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setListName(e.target.value.trimStart());
@@ -45,9 +47,10 @@ const ListItem = ({ list }: ListItemProps) => {
       requestUpdateList(listId, { name: formattedName, tasks });
       setListName(formattedName);
       setPreviousName(formattedName);
-      setTitle(formattedName);
+      setListTitle(formattedName);
     } else setListName(previousName);
     setIsFocused(false);
+    refreshLists();
   };
 
   const handleDeleteList = (_listId: string) => {
@@ -62,7 +65,7 @@ const ListItem = ({ list }: ListItemProps) => {
 
   const handleClick = () => {
     if (isFocused || list.listId === listId) return;
-    setTitle(listName as string);
+    setListTitle(listName as string);
     navigate(`/list/` + list.listId);
   };
 
@@ -94,7 +97,7 @@ const ListItem = ({ list }: ListItemProps) => {
 
   useEffect(() => {
     if (listNameDebounced === list.name) return;
-    setTitle(listNameDebounced as string);
+    setListTitle(listNameDebounced as string);
   }, [listNameDebounced]);
 
   return (

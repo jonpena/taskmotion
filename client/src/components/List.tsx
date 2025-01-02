@@ -20,20 +20,20 @@ const List = () => {
   const { tasks, setTasks } = useTaskStore();
   const lists = useListStore((state) => state.lists);
   const { listId } = useParams();
-  const { setTitle } = useAlertDialogStore();
+  const { setListTitle } = useAlertDialogStore();
   const navigate = useNavigate();
 
   useEffect(() => {
     let findTasks: TaskProps[] = [];
     if (listId === 'home') {
-      setTitle('Home');
+      setListTitle('Home');
       lists.forEach((list) => {
         findTasks = findTasks.concat(list.tasks);
       });
     } else {
       const findList = lists.find((l) => l.listId === listId);
       if (lists.length !== 0 && !findList) navigate('/list/home');
-      setTitle(findList?.name as string);
+      setListTitle(findList?.name ?? '');
       findTasks = findList?.tasks || [];
     }
 
