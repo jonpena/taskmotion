@@ -1,14 +1,10 @@
-import { UserAuth } from '@/context/AuthContext';
 import { useAlertDialogStore } from '@/store/dialogStore';
 import { getGreeting } from '@/utils/getGreeting';
 import { format } from 'date-fns';
-import { useParams } from 'react-router-dom';
 
 const UserWelcome = () => {
   const formatedDate = format(new Date(), 'EEEE, MMMM d');
   const { listTitle } = useAlertDialogStore();
-  const { listId } = useParams();
-  const { user } = UserAuth();
 
   return (
     <div className='hidden lg:block'>
@@ -20,9 +16,7 @@ const UserWelcome = () => {
         whitespace-nowrap overflow-hidden text-ellipsis
       '
       >
-        {listId === 'home'
-          ? `${user?.fullname ?? 'Loading...'}`
-          : `${listTitle ?? 'Loading...'}`}
+        {listTitle ?? 'Loading...'}
       </h1>
     </div>
   );

@@ -31,7 +31,7 @@ const CreateList = () => {
       requestCreateList(user.email, newlist);
       setLists(updateLists);
       setListName('');
-      navigate(`/list/` + newlist.listId);
+      navigate(`/app/list/${newlist.listId}`);
       inputRef.current?.blur();
     }
   };

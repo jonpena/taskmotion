@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 type CalendarButtonProps = {
   date: string | undefined;
   setDate: React.Dispatch<React.SetStateAction<string | undefined>>;
-  disabled: boolean;
+  disabled?: boolean;
   className?: string;
 };
 

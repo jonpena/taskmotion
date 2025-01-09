@@ -6,7 +6,7 @@ import {
   useState,
 } from 'react';
 import { supabase } from '@/supabase/supabase.config';
-import { userProps } from '@/interfaces/user.interface';
+import { UserProps } from '@/interfaces/user.interface';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const AuthContext = createContext({
@@ -17,12 +17,12 @@ const AuthContext = createContext({
     email: '',
     fullname: '',
     picture: '',
-  } as userProps,
+  } as UserProps,
 });
 
 export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
-  const [user, setUser] = useState({} as userProps);
+  const [user, setUser] = useState({} as UserProps);
   const location = useLocation();
 
   async function signInWithGoogle() {
@@ -69,7 +69,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       async (_, session) => {
         if (session === null) {
           navigate(location.pathname.includes('login') ? '/login' : '/');
-          setUser({} as userProps);
+          setUser({} as UserProps);
         } else {
           const { user } = session;
 

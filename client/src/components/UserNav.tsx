@@ -12,13 +12,16 @@ import {
 import { UserAuth } from '@/context/AuthContext';
 import { createDiminutive } from '@/utils/createDiminutive';
 
-export function UserNav() {
+export const UserNav = () => {
   const { signout, user } = UserAuth();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant='ghost' className='relative h-8 w-8 rounded-full'>
+        <Button
+          variant='ghost'
+          className='absolute top-4 right-3 h-8 w-8 rounded-full z-[60]'
+        >
           <Avatar className='h-8 w-8'>
             <AvatarImage src={user?.picture} alt='Avatar' />
             <AvatarFallback>{createDiminutive(user?.fullname)}</AvatarFallback>
@@ -44,4 +47,4 @@ export function UserNav() {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+};

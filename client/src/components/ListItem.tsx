@@ -6,7 +6,7 @@ import { requestUpdateList } from '@/services/requestUpdateList';
 import { useAlertDialogStore } from '@/store/dialogStore';
 import { useListStore } from '@/store/listStore';
 import { useTaskStore } from '@/store/taskStore';
-import { listLength } from '@/utils/listLength';
+import { getTaskCount } from '@/utils/getTaskCount';
 import { Trash2 } from 'lucide-react';
 import { Tooltip } from '@/components/Tooltip';
 import { replaceEmojis } from '@/utils/replaceEmojis';
@@ -56,7 +56,7 @@ const ListItem = ({ list }: ListItemProps) => {
   const handleDeleteList = (_listId: string) => {
     setHandleDelete(() => {
       const filterListCollection = lists.filter((l) => l.listId !== _listId);
-      if (_listId === listId) navigate('/list/home');
+      if (_listId === listId) navigate('/app/dashboard');
       setLists(filterListCollection);
       requestDeleteList(_listId);
     });
@@ -66,7 +66,7 @@ const ListItem = ({ list }: ListItemProps) => {
   const handleClick = () => {
     if (isFocused || list.listId === listId) return;
     setListTitle(listName as string);
-    navigate(`/list/` + list.listId);
+    navigate(`/app/list/` + list.listId);
   };
 
   const handleDoubleClick = () => {
@@ -92,7 +92,7 @@ const ListItem = ({ list }: ListItemProps) => {
   };
 
   useEffect(() => {
-    setCountTasks(listLength(list, tasks, listId));
+    setCountTasks(getTaskCount(list, tasks, listId));
   }, [list, tasks]);
 
   useEffect(() => {

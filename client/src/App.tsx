@@ -1,16 +1,30 @@
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { UserAuth } from '@/context/AuthContext';
 import Home from '@/pages/Home';
-import Board from '@/pages/Board';
+import { TodoList } from '@/pages/TodoList';
 import LoginCard from '@/pages/Login';
-import List from '@/components/List';
+import { TaskList } from '@/components/TaskList';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { isEmptyObject } from '@/utils/isEmptyObject';
+import { Dashboard } from './pages/Dashboard';
+import useAvoidZoom from './hooks/useAvoidZoom';
+import { useListStore } from './store/listStore';
+import { useLists } from './hooks/useLists';
+import { useEffect } from 'react';
+import { Layout } from '@/layouts/Layout';
 
-export function App() {
+const App = () => {
   const { user } = UserAuth();
   const location = useLocation();
   const isAuthenticated = !isEmptyObject(user);
+  const { setLists } = useListStore();
+  const { data } = useLists();
+
+  useAvoidZoom();
+
+  useEffect(() => {
+    if (data) setLists(data);
+  }, [data]);
 
   return (
     <Routes>
@@ -19,7 +33,7 @@ export function App() {
         element={
           <ProtectedRoute
             isAuthenticated={!isAuthenticated}
-            redirect={!isAuthenticated ? location.pathname : '/list/home'}
+            redirect={!isAuthenticated ? location.pathname : '/app/dashboard'}
           >
             <Home />
           </ProtectedRoute>
@@ -28,20 +42,23 @@ export function App() {
         <Route index path='/login' element={<LoginCard />} />
       </Route>
       <Route
-        path='/list/:listId'
+        path='/app'
         element={
           <ProtectedRoute
             isAuthenticated={isAuthenticated}
             redirect={location.pathname}
           >
-            <Board />
+            <Layout />
           </ProtectedRoute>
         }
       >
-        <Route index element={<List />} />
+        <Route path='list/:listId' element={<TodoList />}>
+          <Route index element={<TaskList />} />
+        </Route>
+        <Route path='dashboard' element={<Dashboard />} />
       </Route>
     </Routes>
   );
-}
+};
 
 export default App;

@@ -1,23 +1,15 @@
 import { requestUserLists } from '@/services/requestUserLists';
+import { getLocalStorageByRegex } from '@/utils/getLocalStorageByRegex';
 import useSWR from 'swr';
 
-const getLocalStorage = (regex: RegExp) => {
-  const keys = Object.keys(localStorage);
-  const matchingKey = keys.find((key) => regex.test(key));
-
-  if (matchingKey) {
-    return localStorage.getItem(matchingKey);
-  }
-  return null;
-};
-
 export const useLists = () => {
-  const authToken = getLocalStorage(/auth-token/i);
-  const accessToken = JSON.parse(authToken as string).access_token;
+  const authToken = getLocalStorageByRegex(/auth-token/i);
+
+  const parseAuth = JSON.parse(authToken as string);
 
   const { data, error, isLoading, mutate } = useSWR(
-    accessToken ? [accessToken] : null,
-    () => requestUserLists(accessToken)
+    parseAuth ? [parseAuth.access_token] : null,
+    () => requestUserLists(parseAuth.access_token)
   );
 
   const refreshLists = async () => {
