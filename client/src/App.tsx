@@ -33,7 +33,7 @@ const App = () => {
         element={
           <ProtectedRoute
             isAuthenticated={!isAuthenticated}
-            redirect={!isAuthenticated ? location.pathname : '/app/dashboard'}
+            redirect={!isAuthenticated ? location.pathname : '/u/dashboard'}
           >
             <Home />
           </ProtectedRoute>
@@ -42,7 +42,7 @@ const App = () => {
         <Route index path='/login' element={<LoginCard />} />
       </Route>
       <Route
-        path='/app'
+        path='/'
         element={
           <ProtectedRoute
             isAuthenticated={isAuthenticated}
@@ -52,10 +52,10 @@ const App = () => {
           </ProtectedRoute>
         }
       >
-        <Route path='list/:listId' element={<TodoList />}>
+        <Route path='b/:listId' element={<TodoList />}>
           <Route index element={<TaskList />} />
         </Route>
-        <Route path='dashboard' element={<Dashboard />} />
+        <Route path='u/dashboard' element={<Dashboard />} />
       </Route>
     </Routes>
   );

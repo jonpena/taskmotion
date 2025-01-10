@@ -56,7 +56,7 @@ const ListItem = ({ list }: ListItemProps) => {
   const handleDeleteList = (_listId: string) => {
     setHandleDelete(() => {
       const filterListCollection = lists.filter((l) => l.listId !== _listId);
-      if (_listId === listId) navigate('/app/dashboard');
+      if (_listId === listId) navigate('/u/dashboard');
       setLists(filterListCollection);
       requestDeleteList(_listId);
     });
@@ -66,7 +66,7 @@ const ListItem = ({ list }: ListItemProps) => {
   const handleClick = () => {
     if (isFocused || list.listId === listId) return;
     setListTitle(listName as string);
-    navigate(`/app/list/` + list.listId);
+    navigate(`/b/` + list.listId);
   };
 
   const handleDoubleClick = () => {

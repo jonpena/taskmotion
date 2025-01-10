@@ -24,7 +24,7 @@ export const TaskList = () => {
 
   useEffect(() => {
     const findList = lists.find((l) => l.listId === listId);
-    if (!findList && lists.length !== 0) navigate('/app/dashboard');
+    if (!findList && lists.length !== 0) navigate('/u/dashboard');
     setListTitle(findList?.name ?? '');
     setTasks(findList?.tasks || []);
   }, [listId, lists]);

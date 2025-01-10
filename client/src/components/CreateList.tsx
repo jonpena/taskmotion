@@ -1,15 +1,15 @@
+import { nanoid } from 'nanoid';
 import { UserAuth } from '@/context/AuthContext';
 import { requestCreateList } from '@/services/requestCreateList';
 import { useListStore } from '@/store/listStore';
 import { useEffect, useRef, useState } from 'react';
-import { v4 as uuid } from 'uuid';
 import { Input } from './ui/input';
 import { replaceEmojis } from '@/utils/replaceEmojis';
 import { useNavigate } from 'react-router-dom';
 import { useShortcut } from '@/hooks/useShortcut';
 import { useMediaQuery } from '@uidotdev/usehooks';
 import { AddButton } from './buttons/AddButton';
-import { ShortcutButton } from './buttons/ShortcutButton';
+import { ShortcutBadge } from './buttons/ShortcutBadge';
 
 const CreateList = () => {
   const [listName, setListName] = useState('');
@@ -23,7 +23,7 @@ const CreateList = () => {
   const createList = () => {
     if (listName) {
       const newlist = {
-        listId: uuid(),
+        listId: nanoid(8),
         name: replaceEmojis(listName),
         tasks: [],
       };
@@ -64,7 +64,7 @@ const CreateList = () => {
       />
 
       {!isSmallDevice && (
-        <ShortcutButton keys='L' className={`${listName && 'opacity-0'}`} />
+        <ShortcutBadge keys='L' className={`${listName && 'opacity-0'}`} />
       )}
 
       <AddButton title='Create new list' onMouseDown={handleClick} />

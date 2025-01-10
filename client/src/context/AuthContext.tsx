@@ -71,12 +71,10 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
           navigate(location.pathname.includes('login') ? '/login' : '/');
           setUser({} as UserProps);
         } else {
-          const { user } = session;
-
           setUser({
-            email: user.user_metadata.email,
-            fullname: user.user_metadata.full_name,
-            picture: user.user_metadata.picture,
+            email: session.user.user_metadata.email,
+            fullname: session.user.user_metadata.full_name,
+            picture: session.user.user_metadata.picture,
           });
         }
       }

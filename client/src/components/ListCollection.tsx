@@ -11,7 +11,7 @@ import { BurgerButton } from './buttons/BurgerButton';
 
 const DashboardButton = () => {
   const navigate = useNavigate();
-  const handleClick = () => navigate(`/app/dashboard`);
+  const handleClick = () => navigate(`/u/dashboard`);
   return (
     <li
       id='dashboard'
@@ -51,9 +51,10 @@ export const ListCollection = () => {
         <ul
           ref={animationParent}
           onClick={(e) => e.stopPropagation()}
-          className={`w-3/4 md:w-[340px] h-[calc(100dvh-4rem)] lg:h-[calc(100dvh-4.5rem)] overflow-y-auto bg-background lg:ml-2 ml-0 rounded-md mt-2 ${
-            open ? 'left-0' : '-left-full md:-left-x-[348px]'
-          }
+          className={`w-3/4 md:w-[340px] h-[calc(100dvh-4rem)] lg:h-[calc(100dvh-4.5rem)] overflow-y-auto 
+            bg-background lg:ml-2 ml-0 rounded-md mt-2 ${
+              open ? 'left-0' : '-left-full md:-left-x-[348px]'
+            }
             p-2 border transition-all duration-700 ease-cubic 
             `}
         >

@@ -1,5 +1,5 @@
+import { nanoid } from 'nanoid';
 import { useEffect, useRef, useState } from 'react';
-import { v4 as uuid } from 'uuid';
 import { useTaskStore } from '../store/taskStore';
 import { useParams } from 'react-router-dom';
 import { requestUpdateList } from '@/services/requestUpdateList';
@@ -12,7 +12,7 @@ import { useShortcut } from '@/hooks/useShortcut';
 import { useMediaQuery } from '@uidotdev/usehooks';
 import { format } from 'date-fns';
 import { CalendarButton } from './buttons/CalendarButton';
-import { ShortcutButton } from './buttons/ShortcutButton';
+import { ShortcutBadge } from './buttons/ShortcutBadge';
 import { AddButton } from './buttons/AddButton';
 
 const CreateTask = () => {
@@ -29,7 +29,7 @@ const CreateTask = () => {
   const createTask = () => {
     if (taskName && listId) {
       const newTask = {
-        id: uuid(),
+        id: nanoid(8),
         name: replaceEmojis(taskName),
         description: '',
         checked,
@@ -82,7 +82,7 @@ const CreateTask = () => {
       />
 
       {!isSmallDevice && (
-        <ShortcutButton keys='E' className={`${taskName && 'opacity-0'}`} />
+        <ShortcutBadge keys='E' className={`${taskName && 'opacity-0'}`} />
       )}
 
       <CalendarButton

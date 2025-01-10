@@ -70,7 +70,7 @@ export const Dashboard = () => {
         Dashboard Taskmotion
       </h1>
       <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
-        <Card>
+        <Card className='bg-gray-100 dark:bg-neutral-900'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium text-neutral-700 dark:text-neutral-50'>
               Total Tasks
@@ -82,7 +82,7 @@ export const Dashboard = () => {
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className='bg-gray-100 dark:bg-neutral-900'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium text-neutral-700 dark:text-neutral-50'>
               Completed Tasks
@@ -94,7 +94,7 @@ export const Dashboard = () => {
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className='bg-gray-100 dark:bg-neutral-900'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium text-neutral-700 dark:text-neutral-50'>
               Pending Tasks
@@ -106,7 +106,7 @@ export const Dashboard = () => {
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className='bg-gray-100 dark:bg-neutral-900'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium text-neutral-700 dark:text-neutral-50'>
               Overdue Tasks
@@ -120,7 +120,7 @@ export const Dashboard = () => {
         </Card>
       </div>
       <div className='grid gap-4 md:grid-cols-2 mt-4'>
-        <Card>
+        <Card className='bg-gray-100 dark:bg-neutral-900'>
           <CardHeader>
             <CardTitle className='text-neutral-800 dark:text-neutral-50'>
               Tasks Completed last week
@@ -158,7 +158,7 @@ export const Dashboard = () => {
             </ResponsiveContainer>
           </CardContent>
         </Card>
-        <Card>
+        <Card className='bg-gray-100 dark:bg-neutral-900'>
           <CardHeader>
             <CardTitle className='text-neutral-800 dark:text-neutral-50'>
               Completion Rate
