@@ -5,7 +5,7 @@ type ShortcutButtonProps = {
   className: string;
 };
 
-export const ShortcutButton = ({ keys, className }: ShortcutButtonProps) => {
+export const ShortcutBadge = ({ keys, className }: ShortcutButtonProps) => {
   return (
     <div
       className={
