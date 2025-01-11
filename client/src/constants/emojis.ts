@@ -18,7 +18,7 @@ export const EMOJIS: { [key: string]: string } = {
   breaking: '💥',
   refactor: '🔨',
   test: '✅',
-  styles: '🎨',
+  ui: '🎨',
   dream: '☁️',
   experimental: '🧪',
 };
