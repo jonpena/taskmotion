@@ -22,21 +22,6 @@ body {
   background-color: #373737;
 }
 
-.animation-fade-in {
-  animation: fade-in 2s ease-in-out infinite;
-}
-@keyframes fade-in {
-  0% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(25px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
-}
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -66,7 +51,7 @@ body {
     --radius: 0.5rem;
   }
   .dark {
-    --background: 0 0% 6%;
+    --background: 240, 5.5%, 11%;
     --foreground: 0 0% 98%;
     --card: 0 0% 3.9%;
     --card-foreground: 0 0% 98%;
