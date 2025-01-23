@@ -1,5 +1,5 @@
-import { nanoid } from 'nanoid';
 import { useEffect, useRef, useState } from 'react';
+import { nanoid } from 'nanoid';
 import { useTaskStore } from '../store/taskStore';
 import { useParams } from 'react-router-dom';
 import { requestUpdateList } from '@/services/requestUpdateList';
@@ -7,7 +7,7 @@ import { useListStore } from '@/store/listStore';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { replaceEmojis } from '@/utils/replaceEmojis';
-import { MAX_CONTENT_TASK } from '@/constants/base';
+import { MAX_CONTENT_TASK, SIZE_ID } from '@/constants/base';
 import { useShortcut } from '@/hooks/useShortcut';
 import { useMediaQuery } from '@uidotdev/usehooks';
 import { format } from 'date-fns';
@@ -29,7 +29,7 @@ const CreateTask = () => {
   const createTask = () => {
     if (taskName && listId) {
       const newTask = {
-        id: nanoid(8),
+        id: nanoid(SIZE_ID),
         name: replaceEmojis(taskName),
         description: '',
         checked,

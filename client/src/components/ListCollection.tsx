@@ -1,5 +1,5 @@
 import { useListStore } from '@/store/listStore';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ListItem from './ListItem';
 import CreateList from './CreateList';
 import { AlertDialogMessage } from './AlertDialogMessage';
@@ -9,9 +9,13 @@ import { LayoutDashboardIcon } from 'lucide-react';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { BurgerButton } from './buttons/BurgerButton';
 
+// million-ignore
 const DashboardButton = () => {
+  const { listId } = useParams();
   const navigate = useNavigate();
+
   const handleClick = () => navigate(`/u/dashboard`);
+
   return (
     <li
       id='dashboard'
@@ -19,7 +23,7 @@ const DashboardButton = () => {
       className={`flex items-center gap-2 px-3 text-gray-700 dark:text-neutral-50 
     bg-gray-100 dark:bg-neutral-900 w-full h-12 rounded-md 
     hover:bg-gray-200 dark:hover:bg-white/15
-    cursor-pointer select-none`}
+    cursor-pointer select-none ${!listId && 'bg-gray-200 dark:bg-white/15'}`}
     >
       <LayoutDashboardIcon size={20} className='text-primary/70' />
       <span className='font-medium'>Dashboard</span>
@@ -50,13 +54,13 @@ export const ListCollection = () => {
       >
         <ul
           ref={animationParent}
-          onClick={(e) => e.stopPropagation()}
           className={`w-3/4 md:w-[340px] h-[calc(100dvh-4rem)] lg:h-[calc(100dvh-4.5rem)] overflow-y-auto 
             bg-background lg:ml-2 ml-0 rounded-md mt-2 ${
               open ? 'left-0' : '-left-full md:-left-x-[348px]'
             }
             p-2 border transition-all duration-700 ease-cubic 
             `}
+          onClick={(e) => e.stopPropagation()}
         >
           <DashboardButton />
           {lists?.map((list) => (

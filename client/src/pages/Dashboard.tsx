@@ -10,7 +10,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
-import { Bell, CheckCircle2, AlertCircle } from 'lucide-react';
+// import { Bell, CheckCircle2, AlertCircle } from 'lucide-react';
 import { DashboardAnalytics } from '@/interfaces/dashboardAnalytics.interface';
 import { useListStore } from '@/store/listStore';
 import { useTaskStore } from '@/store/taskStore';
@@ -43,9 +43,9 @@ import { getListCount } from '@/utils/getListCount';
 // };
 
 export const Dashboard = () => {
-  const [data, setData] = useState<DashboardAnalytics>();
   const { lists } = useListStore();
   const { tasks } = useTaskStore();
+  const [data, setData] = useState<DashboardAnalytics>();
 
   useEffect(() => {
     const { total, completed, overdue, pending, last7DaysStats } =
@@ -67,7 +67,7 @@ export const Dashboard = () => {
   return (
     <div className='py-8 pt-20 lg:pl-[360px] lg:pr-3 px-2'>
       <h1 className='text-3xl font-bold mb-6 text-neutral-800 dark:text-neutral-50'>
-        Dashboard Taskmotion
+        Dashboard
       </h1>
       <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
         <Card className='bg-gray-100 dark:bg-neutral-900'>
@@ -185,7 +185,7 @@ export const Dashboard = () => {
             </div>
             <div className='mt-6'>
               {/* <h3 className='text-lg font-semibold mb-2'>Recent Activity</h3> */}
-              <ul className='space-y-2'>
+              {/* <ul className='space-y-2'>
                 {data.notifications?.map((notification) => (
                   <li
                     key={notification.id}
@@ -210,7 +210,7 @@ export const Dashboard = () => {
                     </div>
                   </li>
                 ))}
-              </ul>
+              </ul> */}
             </div>
           </CardContent>
         </Card>

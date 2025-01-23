@@ -83,7 +83,7 @@ const SortableList = () => {
             itemContent={(index, item) => (
               <div
                 key={item.id}
-                className={`py-0.5 ${!index && 'lg:pt-[3rem]'} ${
+                className={`${!index && 'lg:pt-12'} ${
                   index + 1 === tasks.length && 'lg:pb-1.5'
                 }`}
               >

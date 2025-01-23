@@ -1,8 +1,8 @@
-import { nanoid } from 'nanoid';
 import { UserAuth } from '@/context/AuthContext';
 import { requestCreateList } from '@/services/requestCreateList';
 import { useListStore } from '@/store/listStore';
 import { useEffect, useRef, useState } from 'react';
+import { nanoid } from 'nanoid';
 import { Input } from './ui/input';
 import { replaceEmojis } from '@/utils/replaceEmojis';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +10,7 @@ import { useShortcut } from '@/hooks/useShortcut';
 import { useMediaQuery } from '@uidotdev/usehooks';
 import { AddButton } from './buttons/AddButton';
 import { ShortcutBadge } from './buttons/ShortcutBadge';
+import { SIZE_ID } from '@/constants/base';
 
 const CreateList = () => {
   const [listName, setListName] = useState('');
@@ -23,7 +24,7 @@ const CreateList = () => {
   const createList = () => {
     if (listName) {
       const newlist = {
-        listId: nanoid(8),
+        listId: nanoid(SIZE_ID),
         name: replaceEmojis(listName),
         tasks: [],
       };
@@ -31,7 +32,7 @@ const CreateList = () => {
       requestCreateList(user.email, newlist);
       setLists(updateLists);
       setListName('');
-      navigate(`/app/list/${newlist.listId}`);
+      navigate(`/b/${newlist.listId}`);
       inputRef.current?.blur();
     }
   };

@@ -1,8 +1,7 @@
-import SortableButton from '@/components/dnd/SortableButton';
 import { CSS } from '@dnd-kit/utilities';
 import { useSortable } from '@dnd-kit/sortable';
 import { TASK_MAXWIDTH, TASK_MINWIDTH } from '@/constants/base';
-import {Task} from '@/components/Task';
+import { Task } from '@/components/Task';
 import { TaskProps } from '@shared/task.interface';
 
 type SortableItemProps = {
@@ -28,12 +27,10 @@ const SortableItem = ({ task }: SortableItemProps) => {
         transition,
         transform: CSS.Translate.toString(transform),
       }}
-      className={`relative bg-gray-100 dark:bg-neutral-900 flex 
-        justify-between items-start flex-grow list-none user-select-none rounded-lg mx-auto px-2
+      className={`relative bg-gray-100 dark:bg-neutral-900 list-none user-select-none rounded-lg mx-auto
         `}
     >
-      <Task task={task} />
-      <SortableButton attributes={attributes} listeners={listeners} />
+      <Task task={task} attributes={attributes} listeners={listeners} />
     </li>
   );
 };

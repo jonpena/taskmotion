@@ -4,7 +4,6 @@ import {
   useRef,
   useState,
   useCallback,
-  MutableRefObject,
 } from 'react';
 import { useTaskStore } from '@/store/taskStore';
 import { useListStore } from '@/store/listStore';
@@ -24,10 +23,7 @@ export const useTaskInteractions = (task: TaskProps, listId?: string) => {
   const { tasks, setTasks } = useTaskStore();
   const { lists, setLists } = useListStore();
   const { setIsOpen, setTask } = useModalStore();
-  const textareaRef = useRef<HTMLTextAreaElement>(
-    null
-  ) as MutableRefObject<HTMLTextAreaElement>;
-
+  const textareaRef = useRef<HTMLTextAreaElement>(null!);
   // States
   const [taskName, setTaskName] = useState(task.name);
   const [checked, setChecked] = useState(task.checked);
@@ -68,12 +64,35 @@ export const useTaskInteractions = (task: TaskProps, listId?: string) => {
     setIsFocused(true);
     setIsOpen(false);
     calculateHeight(textareaRef);
+    if (textareaRef.current) textareaRef.current.focus();
   }, [setIsOpen, setIsFocused]);
 
   const handleClick = useCallback(() => {
     setIsOpen(true);
     setTask({ ...task, checked });
   }, [task, checked, setIsOpen, setTask]);
+
+  const handleTouchStart = useCallback(() => {
+    if (isFocused) return;
+    const currentTime = Date.now();
+    setTouchStartTime(currentTime);
+    const tapLength = currentTime - lastTapTime;
+    setLastTapTime(tapLength < MAX_TIMEOUT && tapLength > 0 ? 0 : currentTime);
+  }, [lastTapTime, isFocused]);
+
+  const handleTouchEnd = useCallback(
+    (e: React.TouchEvent) => {
+      if (isFocused) return;
+      e.preventDefault();
+      const touchDuration = Date.now() - touchStartTime;
+      if (touchDuration < MAX_TIMEOUT) setCountClick((prev) => prev + 1);
+    },
+    [touchStartTime, isFocused]
+  );
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(e.target.checked);
+  };
 
   const handleBlur = useCallback(() => {
     if (listId && taskName && taskName !== previousName) {
@@ -95,27 +114,7 @@ export const useTaskInteractions = (task: TaskProps, listId?: string) => {
     setCountClick(e.detail);
   };
 
-  const handleTouchStart = useCallback(() => {
-    const currentTime = Date.now();
-    setTouchStartTime(currentTime);
-    const tapLength = currentTime - lastTapTime;
-    setLastTapTime(tapLength < MAX_TIMEOUT && tapLength > 0 ? 0 : currentTime);
-  }, [lastTapTime]);
-
-  const handleTouchEnd = useCallback(
-    (e: React.TouchEvent) => {
-      e.preventDefault();
-      const touchDuration = Date.now() - touchStartTime;
-      if (touchDuration < MAX_TIMEOUT) setCountClick((prev) => prev + 1);
-    },
-    [touchStartTime]
-  );
-
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(e.target.checked);
-  };
-
-  // Effects
+  /// USE EFFECTS ///
   useEffect(() => {
     if (!listId || debouncedChecked === task.checked) return;
     const updatedTasks = mergeTaskUpdate(task.id, tasks, {
