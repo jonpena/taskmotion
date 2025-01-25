@@ -8,7 +8,6 @@ type sortableButtonProps = {
   listeners: SyntheticListenerMap | undefined;
 };
 
-// million-ignore
 const SortableButton = ({ attributes, listeners }: sortableButtonProps) => {
   const { isDragging: isDraggingStore } = useDragStore();
 

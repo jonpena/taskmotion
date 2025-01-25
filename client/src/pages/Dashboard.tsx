@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
 import {
   BarChart,
   Bar,
@@ -61,8 +60,6 @@ export const Dashboard = () => {
   }, [lists, tasks]);
 
   if (!data) return <div></div>;
-
-  const completionRate = (data.completedTasks / data.totalTasks) * 100;
 
   return (
     <div className='py-8 pt-20 lg:pl-[360px] lg:pr-3 px-2'>
@@ -127,7 +124,7 @@ export const Dashboard = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width='100%' height={320}>
+            <ResponsiveContainer width='107%' height={350} className='-mx-12'>
               <BarChart data={data.tasksByDay}>
                 <CartesianGrid strokeDasharray='3 3' className='stroke-muted' />
                 <XAxis dataKey='name' className='text-muted-foreground' />
@@ -161,28 +158,10 @@ export const Dashboard = () => {
         <Card className='bg-gray-100 dark:bg-neutral-900'>
           <CardHeader>
             <CardTitle className='text-neutral-800 dark:text-neutral-50'>
-              Completion Rate
+              Notifications Soon 🚧
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className='space-y-4'>
-              <div className='flex items-center justify-between'>
-                <div className='text-4xl font-bold text-neutral-800 dark:text-neutral-50'>
-                  {completionRate.toFixed(1)}%
-                </div>
-                <div className='text-sm text-muted-foreground text-neutral-700 dark:text-neutral-50'>
-                  {data.completedTasks} of {data.totalTasks} tasks completed
-                </div>
-              </div>
-              <Progress value={completionRate} className='h-2 bg-secondary' />
-              <div className='flex justify-between text-sm text-muted-foreground text-neutral-700 dark:text-neutral-50'>
-                <span>0%</span>
-                <span>25%</span>
-                <span>50%</span>
-                <span>75%</span>
-                <span>100%</span>
-              </div>
-            </div>
             <div className='mt-6'>
               {/* <h3 className='text-lg font-semibold mb-2'>Recent Activity</h3> */}
               {/* <ul className='space-y-2'>

@@ -9,7 +9,6 @@ import { LayoutDashboardIcon } from 'lucide-react';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { BurgerButton } from './buttons/BurgerButton';
 
-// million-ignore
 const DashboardButton = () => {
   const { listId } = useParams();
   const navigate = useNavigate();

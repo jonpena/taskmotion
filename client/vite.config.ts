@@ -2,7 +2,6 @@
 
 import { defineConfig } from 'vite';
 import type { UserConfig } from 'vite';
-import million from 'million/compiler';
 import react from '@vitejs/plugin-react-swc';
 import path from 'path';
 import { ManifestOptions, VitePWA } from 'vite-plugin-pwa';
@@ -43,13 +42,12 @@ export default defineConfig({
     process.env.NODE_ENV !== 'production'
       ? [react()]
       : [
-          million.vite({ auto: true }),
           react(),
           VitePWA({
             manifest,
             registerType: 'autoUpdate',
             workbox: {
-              cacheId: 'taskmotion_v1.5.4',
+              cacheId: 'taskmotion_v1.5.5',
               cleanupOutdatedCaches: true,
             },
           }),

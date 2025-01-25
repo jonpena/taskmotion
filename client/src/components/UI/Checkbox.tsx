@@ -6,7 +6,6 @@ type CheckboxProps = InputHTMLAttributes<HTMLInputElement> & {
   handleChange?: (e: React.MouseEvent<HTMLInputElement>) => void;
 };
 
-// million-ignore
 const Checkbox = ({
   name,
   checked,

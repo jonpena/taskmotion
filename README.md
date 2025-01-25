@@ -10,7 +10,6 @@ This is a task management project developed using React for the frontend and Nod
 - **Node.js**: JavaScript runtime environment for the backend.
 - **Honojs**: Minimalist framework for building web servers in Node.js.
 - **Supabase**: Platform providing Postgres database, authentication, and real-time functionalities.
-- **Million.js**: Library that accelerates React rendering.
 - **Tailwind CSS**: Utility-first CSS framework for rapidly building custom designs.
 - **Zustand**: State management library for React applications.
 - **Chadcn/ui**: React component library for creating beautiful and accessible UIs.
