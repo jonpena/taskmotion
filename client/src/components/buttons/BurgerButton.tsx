@@ -1,16 +1,15 @@
-import { useMediaQuery } from "@uidotdev/usehooks";
-import { Button, ButtonProps } from "../ui/button";
-import { PanelRightIcon } from "lucide-react";
+import { useMediaQuery } from '@uidotdev/usehooks';
+import { Button, ButtonProps } from '../ui/button';
+import { PanelRightIcon } from 'lucide-react';
 
 export const BurgerButton = (props: ButtonProps) => {
   const isSmallDevice = useMediaQuery('only screen and (max-width : 1023px)');
 
   return (
     <Button
-      variant='outline'
-      className={`w-10 h-10 fixed top-3 left-2 z-[70] bg-white ${
-        isSmallDevice ? 'inline-block' : 'hidden'
-      }`}
+      variant='secondary'
+      className={`w-10 h-10 fixed top-3 left-2 z-[70] bg-white 
+        ${isSmallDevice ? 'inline-block' : 'hidden'}`}
       {...props}
     >
       <PanelRightIcon
