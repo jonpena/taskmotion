@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { TaskProps } from '@shared/task.interface';
 import { Checkbox } from '@/components/ui/checkbox';
-import { DateBadge } from './buttons/DateBadge';
+import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { DeleteButton } from './buttons/DeleteButton';
 import { useDragStore } from '@/store/dragStore';
@@ -10,6 +10,7 @@ import { DraggableAttributes } from '@dnd-kit/core';
 import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
 import SortableButton from './dnd/SortableButton';
 import { TaskNameDisplay } from './TaskNameDisplay';
+import { dateStyle, dateText } from '@/utils/dateUtils';
 
 interface TaskComponentProps {
   task: TaskProps;
@@ -70,7 +71,9 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
         date={task.date || ''}
       />
 
-      {task.date && !checked && <DateBadge date={task.date} />}
+      {task.date && !checked && (
+        <Badge text={dateText(task.date)} className={dateStyle(task.date)} />
+      )}
 
       <DeleteButton onClick={handleDelete} />
 

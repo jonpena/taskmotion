@@ -9,7 +9,7 @@ import { requestUpdateList } from '@/services/requestUpdateList';
 import { useTaskStore } from '@/store/taskStore';
 import { useParams } from 'react-router-dom';
 import { replaceEmojis } from '@/utils/replaceEmojis';
-import { mergeTaskUpdate } from '@/utils/mergeTaskUpdate';
+import { updateTaskState } from '@/utils/updateTaskState';
 import { requestAIDescription } from '@/services/requestAIDescription';
 import { Textarea } from './ui/textarea';
 import { calculateHeight } from '@/utils/calculateHeight';
@@ -38,7 +38,7 @@ export const TaskDrawer = () => {
   const handleBlurTextarea = () => {
     if (listId && taskName !== previousName && taskName) {
       const newTaskName = replaceEmojis(taskName);
-      const updateTasks = mergeTaskUpdate(task.id, tasks, {
+      const updateTasks = updateTaskState(task.id, tasks, {
         name: newTaskName,
       });
       setTasks(updateTasks);
@@ -52,7 +52,7 @@ export const TaskDrawer = () => {
   const handleBlurDescription = () => {
     if (!listId || !description || description === task.description) return;
     const { id } = task;
-    const updateTasks = mergeTaskUpdate(id, tasks, { description });
+    const updateTasks = updateTaskState(id, tasks, { description });
     setTasks(updateTasks);
     requestUpdateList(listId, { tasks: updateTasks });
   };
@@ -62,7 +62,7 @@ export const TaskDrawer = () => {
     setIsGeneratingAI(true);
     try {
       const newDescription = await requestAIDescription(taskName);
-      const updateTasks = mergeTaskUpdate(task.id, tasks, {
+      const updateTasks = updateTaskState(task.id, tasks, {
         description: newDescription,
       });
       setDescription(newDescription);
@@ -79,14 +79,14 @@ export const TaskDrawer = () => {
 
   useEffect(() => {
     if (!listId || debouncedChecked === task.checked) return;
-    const updateTasks = mergeTaskUpdate(task.id, tasks, { checked });
+    const updateTasks = updateTaskState(task.id, tasks, { checked });
     setTasks(updateTasks);
     requestUpdateList(listId, { tasks: updateTasks });
   }, [debouncedChecked]);
 
   useEffect(() => {
     if (!listId || !date || date === task.date) return;
-    const updateTasks = mergeTaskUpdate(task.id, tasks, {
+    const updateTasks = updateTaskState(task.id, tasks, {
       date: date as string,
     });
     setTasks(updateTasks);

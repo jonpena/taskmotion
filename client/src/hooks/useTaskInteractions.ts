@@ -13,10 +13,10 @@ import { useDebounce } from '@uidotdev/usehooks';
 import { replaceEmojis } from '@/utils/replaceEmojis';
 import { calculateHeight, resetHeight } from '@/utils/calculateHeight';
 import { format } from 'date-fns';
-import { mergeTaskUpdate } from '@/utils/mergeTaskUpdate';
+import { updateTaskState } from '@/utils/updateTaskState';
 import { MAX_TIMEOUT } from '@/constants/base';
 import { TaskProps } from '@shared/task.interface';
-import { mergeListUpdate } from '@/utils/mergeListUpdate';
+import { updateListState } from '@/utils/updateListState';
 
 // Custom Hook
 export const useTaskInteractions = (task: TaskProps, listId?: string) => {
@@ -44,7 +44,7 @@ export const useTaskInteractions = (task: TaskProps, listId?: string) => {
       if (!listId) return;
       requestUpdateList(listId, { tasks: updatedTasks });
       setTasks(updatedTasks);
-      setLists(mergeListUpdate(listId, lists, updatedTasks));
+      setLists(updateListState(listId, lists, updatedTasks));
     },
     [listId, lists, setLists, setTasks]
   );
@@ -97,7 +97,7 @@ export const useTaskInteractions = (task: TaskProps, listId?: string) => {
   const handleBlur = useCallback(() => {
     if (listId && taskName && taskName !== previousName) {
       const taskNameFormatted = replaceEmojis(taskName);
-      const updatedTasks = mergeTaskUpdate(task.id, tasks, {
+      const updatedTasks = updateTaskState(task.id, tasks, {
         name: taskNameFormatted,
       });
       updateTaskAndLists(updatedTasks);
@@ -114,10 +114,9 @@ export const useTaskInteractions = (task: TaskProps, listId?: string) => {
     setCountClick(e.detail);
   };
 
-  /// USE EFFECTS ///
   useEffect(() => {
     if (!listId || debouncedChecked === task.checked) return;
-    const updatedTasks = mergeTaskUpdate(task.id, tasks, {
+    const updatedTasks = updateTaskState(task.id, tasks, {
       checked,
       date: format(new Date(), 'MM-dd-yyyy'),
     });
@@ -127,7 +126,7 @@ export const useTaskInteractions = (task: TaskProps, listId?: string) => {
   useEffect(() => {
     if (deferredTaskName === task.name) return;
     const taskNameFormatted = replaceEmojis(deferredTaskName);
-    const updatedTasks = mergeTaskUpdate(task.id, tasks, {
+    const updatedTasks = updateTaskState(task.id, tasks, {
       name: taskNameFormatted,
     });
     setTasks(updatedTasks);
