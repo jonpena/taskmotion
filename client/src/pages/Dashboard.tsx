@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   BarChart,
@@ -10,10 +10,11 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 // import { Bell, CheckCircle2, AlertCircle } from 'lucide-react';
-import { DashboardAnalytics } from '@/interfaces/dashboardAnalytics.interface';
+// import { DashboardAnalytics } from '@/interfaces/dashboardAnalytics.interface';
 import { useListStore } from '@/store/listStore';
 import { useTaskStore } from '@/store/taskStore';
 import { getListCount } from '@/utils/getListCount';
+import { Badge } from '@/components/ui/badge';
 
 // Simulated data - replace this with actual data fetching logic
 // const fetchTodoData = () => {
@@ -44,20 +45,8 @@ import { getListCount } from '@/utils/getListCount';
 export const Dashboard = () => {
   const { lists } = useListStore();
   const { tasks } = useTaskStore();
-  const [data, setData] = useState<DashboardAnalytics>();
 
-  useEffect(() => {
-    const { total, completed, overdue, pending, last7DaysStats } =
-      getListCount(lists);
-
-    setData({
-      totalTasks: total,
-      completedTasks: completed,
-      pendingTasks: pending,
-      overdueTasks: overdue,
-      tasksByDay: last7DaysStats,
-    });
-  }, [lists, tasks]);
+  const data = useMemo(() => getListCount(lists), [lists, tasks]);
 
   if (!data) return <div></div>;
 
@@ -75,43 +64,55 @@ export const Dashboard = () => {
           </CardHeader>
           <CardContent>
             <div className='text-2xl font-bold text-neutral-800 dark:text-neutral-50'>
-              {data.totalTasks}
+              {data.total}
             </div>
           </CardContent>
         </Card>
         <Card className='bg-gray-100 dark:bg-neutral-900'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-            <CardTitle className='text-sm font-medium text-neutral-700 dark:text-neutral-50'>
-              Completed Tasks
+            <CardTitle className='flex items-center gap-2 text-sm font-medium text-neutral-700 dark:text-neutral-50'>
+              <span>Completed Tasks</span>
+              <Badge
+                text={`${data.completedPercentage}%`}
+                className='bg-green-500/10 text-green-500'
+              />
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className='text-2xl font-bold text-green-500'>
-              {data.completedTasks}
+              {data.completed}
             </div>
           </CardContent>
         </Card>
         <Card className='bg-gray-100 dark:bg-neutral-900'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-            <CardTitle className='text-sm font-medium text-neutral-700 dark:text-neutral-50'>
-              Pending Tasks
+            <CardTitle className='flex items-center gap-2 text-sm font-medium text-neutral-700 dark:text-neutral-50'>
+              <span>Pending Tasks</span>
+              <Badge
+                text={`${data.pendingPercentage}%`}
+                className='bg-yellow-500/10 text-yellow-500'
+              />
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className='text-2xl font-bold text-yellow-500'>
-              {data.pendingTasks}
+              {data.pending}
             </div>
           </CardContent>
         </Card>
         <Card className='bg-gray-100 dark:bg-neutral-900'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-            <CardTitle className='text-sm font-medium text-neutral-700 dark:text-neutral-50'>
-              Overdue Tasks
+            <CardTitle className='flex items-center gap-2 text-sm font-medium text-neutral-700 dark:text-neutral-50'>
+              <span>Overdue Tasks</span>
+              <Badge
+                text={`${data.overduePercentage}%`}
+                className='bg-red-500/10 text-red-500'
+              />
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className='text-2xl font-bold text-red-500'>
-              {data.overdueTasks}
+              {data.overdue}
             </div>
           </CardContent>
         </Card>
@@ -125,7 +126,7 @@ export const Dashboard = () => {
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width='107%' height={350} className='-mx-12'>
-              <BarChart data={data.tasksByDay}>
+              <BarChart data={data.last7DaysStats}>
                 <CartesianGrid strokeDasharray='3 3' className='stroke-muted' />
                 <XAxis dataKey='name' className='text-muted-foreground' />
                 <YAxis className='text-muted-foreground' />

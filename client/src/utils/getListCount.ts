@@ -1,5 +1,5 @@
 import { ListProps } from '@shared/list.interface';
-import { format, isAfter, isSameDay, subDays } from 'date-fns';
+import { format, isSameDay, subDays } from 'date-fns';
 
 export const getListCount = (lists: ListProps[]) => {
   const total = lists.reduce((acc, list) => acc + list.tasks.length, 0);
@@ -9,18 +9,15 @@ export const getListCount = (lists: ListProps[]) => {
     0
   );
 
-  const overdue = lists.reduce(
-    (acc, list) =>
+  const overdue = lists.reduce((acc, list) => {
+    const today = new Date();
+    return (
       acc +
       list.tasks.filter((task) =>
-        task.date
-          ? !task.checked &&
-            isAfter(new Date(), task.date) &&
-            !isSameDay(new Date(), task.date)
-          : 0
-      ).length,
-    0
-  );
+        task.date ? !task.checked && !isSameDay(today, task.date) : 0
+      ).length
+    );
+  }, 0);
 
   const pending = total - completed - overdue;
 
@@ -43,5 +40,18 @@ export const getListCount = (lists: ListProps[]) => {
     };
   });
 
-  return { total, completed, overdue, pending, last7DaysStats };
+  const completedPercentage = Math.round((completed * 100) / total);
+  const pendingPercentage = Math.round((pending * 100) / total);
+  const overduePercentage = 100 - completedPercentage - pendingPercentage;
+
+  return {
+    total,
+    completed,
+    completedPercentage,
+    pending,
+    pendingPercentage,
+    overdue,
+    overduePercentage,
+    last7DaysStats,
+  };
 };
