@@ -7,19 +7,17 @@ import {
 
 type TooltipProps = {
   title: string;
-  disabled?: boolean;
   children: React.ReactNode | React.ReactNode[];
+  asChild?: boolean;
 };
 
-const Tooltip = ({ title, disabled = false, children }: TooltipProps) => {
-  if (disabled) return <>{children}</>;
-
+const Tooltip = ({ title, children, asChild = true }: TooltipProps) => {
   return (
     <TooltipProvider delayDuration={900}>
       <TooltipPrimitive defaultOpen={false}>
-        <TooltipTrigger asChild>{children}</TooltipTrigger>
+        <TooltipTrigger asChild={asChild}>{children}</TooltipTrigger>
         <TooltipContent>
-          <p>{title}</p>
+          <span>{title}</span>
         </TooltipContent>
       </TooltipPrimitive>
     </TooltipProvider>

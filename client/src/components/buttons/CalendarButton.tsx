@@ -41,7 +41,7 @@ export const CalendarButton = ({
 
   return (
     <div className='flex flex-col items-start relative'>
-      <Tooltip title='Pick date'>
+      <Tooltip title='Pick date' asChild={false}>
         <IconButton
           ref={buttonRef}
           onClick={() => setIsCalendarVisible(!isCalendarVisible)}
