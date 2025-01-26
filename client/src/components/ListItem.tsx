@@ -111,7 +111,7 @@ const ListItem = ({ list }: ListItemProps) => {
       <input
         ref={inputRef}
         type='text'
-        className={`w-full pl-2 mx-2 h-8 whitespace-nowrap overflow-hidden text-ellipsis text-sm bg-neutral-100 dark:bg-neutral-800
+        className={`w-full pl-2 mx-2 h-8 truncate text-sm bg-neutral-100 dark:bg-neutral-800
           outline-none rounded
           ${isFocused ? 'opacity-100' : 'opacity-0'}
           `}
@@ -126,7 +126,7 @@ const ListItem = ({ list }: ListItemProps) => {
             ${isFocused && 'pointer-events-none'}`}
         >
           <span
-            className={`pl-4 w-[calc(100%-2.5rem)] whitespace-nowrap overflow-hidden text-ellipsis text-sm ${
+            className={`pl-4 w-[calc(100%-2.5rem)] truncate text-sm ${
               !isFocused ? 'opacity-100' : 'opacity-0'
             }`}
           >

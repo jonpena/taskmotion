@@ -153,10 +153,7 @@ export const TaskDrawer = () => {
                   <button
                     className={`absolute pl-1.5 pt-1.5 left-0 z-0 w-full h-8 rounded-md flex items-start text-left pointer-events-none peer-focus:opacity-0`}
                   >
-                    <span
-                      className={`whitespace-nowrap overflow-hidden 
-                        text-ellipsis text-sm w-[calc(100%-1rem)]`}
-                    >
+                    <span className={`truncate text-sm w-[calc(100%-1rem)]`}>
                       <Strikethrough checked={checked}>
                         {taskName}
                       </Strikethrough>

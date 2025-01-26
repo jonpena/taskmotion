@@ -1,7 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { TaskProps } from '@shared/task.interface';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Strikethrough } from './ui/strikethrough';
 import { DateBadge } from './buttons/DateBadge';
 import { Textarea } from '@/components/ui/textarea';
 import { DeleteButton } from './buttons/DeleteButton';
@@ -10,6 +9,7 @@ import { useTaskInteractions } from '@/hooks/useTaskInteractions';
 import { DraggableAttributes } from '@dnd-kit/core';
 import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
 import SortableButton from './dnd/SortableButton';
+import { TaskNameDisplay } from './TaskNameDisplay';
 
 interface TaskComponentProps {
   task: TaskProps;
@@ -64,22 +64,11 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
         }`}
       />
 
-      <button
-        onMouseDown={(e) => e.preventDefault()}
-        className={`absolute pt-1.5 left-0 z-0 w-full h-8 rounded-md flex items-start text-left 
-        pointer-events-none peer-focus:opacity-0 peer-focus:!text-transparent`}
-      >
-        <span
-          className={`pl-9 ml-1.5 whitespace-nowrap overflow-hidden text-ellipsis text-sm 
-          ${
-            task.date && !checked
-              ? 'w-[calc(100%-8.5rem)]'
-              : 'w-[calc(100%-6rem)]'
-          }`}
-        >
-          <Strikethrough checked={checked}>{taskName}</Strikethrough>
-        </span>
-      </button>
+      <TaskNameDisplay
+        taskName={task.name}
+        checked={checked}
+        date={task.date || ''}
+      />
 
       {task.date && !checked && <DateBadge date={task.date} />}
 

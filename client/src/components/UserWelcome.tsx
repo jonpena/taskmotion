@@ -12,8 +12,8 @@ const UserWelcome = () => {
         {getGreeting()} Today is {formatedDate}
       </h3>
       <h1
-        className='text-gray-700 dark:text-neutral-200 text-[1.8rem] font-medium mt-0.5
-        whitespace-nowrap overflow-hidden text-ellipsis
+        className='text-gray-700 dark:text-neutral-200 
+        text-[1.8rem] font-medium mt-0.5 truncate
       '
       >
         {listTitle ?? 'Loading...'}

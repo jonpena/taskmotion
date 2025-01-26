@@ -24,8 +24,8 @@ const SortableItem = ({ task }: SortableItemProps) => {
       style={{
         maxWidth: `calc(clamp(${TASK_MINWIDTH}px, 100vw, ${TASK_MAXWIDTH}px))`,
         opacity: isDragging ? 0 : 1,
-        transition,
         transform: CSS.Translate.toString(transform),
+        transition,
       }}
       className={`relative bg-gray-100 dark:bg-neutral-900 list-none user-select-none rounded-lg mx-auto
         `}
