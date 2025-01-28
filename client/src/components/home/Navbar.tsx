@@ -46,25 +46,21 @@ const Navbar = () => {
             </span>
           </a>
           <div className='flex items-center lg:order-2 gap-x-3'>
-            <div className='flex h-8 w-max items-center justify-center px-0.5 gap-x-2 rounded-full bg-background/95 border border-input'>
-              <button
-                aria-label='Light mode'
-                onClick={() => handleTheme(false)}
-                className={`p-1.5 transition-colors
-                  dark:text-neutral-400 text-neutral-800 bg-neutral-100 dark:bg-transparent rounded-full
-                  `}
+            <div
+              className='relative w-14 h-7 rounded-full bg-background/95 border border-input cursor-pointer'
+              onClick={() => handleTheme(!isDark)}
+            >
+              <div
+                className={`absolute top-[1px] h-6 w-6 rounded-full transition-all duration-300 ease-in-out flex items-center justify-center
+                ${isDark ? 'left-[calc(100%-1.6rem)]' : 'left-0.5'} 
+                ${isDark ? 'bg-neutral-800' : 'bg-neutral-100'}`}
               >
-                <Sun className='h-4 w-4' />
-              </button>
-              <button
-                aria-label='Dark mode'
-                onClick={() => handleTheme(true)}
-                className={`p-1.5 transition-colors
-                  dark:text-neutral-50 text-neutral-400 bg-transparent dark:bg-neutral-800 rounded-full
-                `}
-              >
-                <Moon className='h-4 w-4' />
-              </button>
+                {isDark ? (
+                  <Moon className='h-4 w-4 text-neutral-50' />
+                ) : (
+                  <Sun className='h-4 w-4 text-neutral-800' />
+                )}
+              </div>
             </div>
             <a
               className='flex items-center text-gray-300 hover:text-gray-500 transition-colors'
