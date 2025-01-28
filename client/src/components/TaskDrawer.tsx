@@ -142,7 +142,7 @@ export const TaskDrawer = () => {
                 <div className='relative w-full h-full overflow-x-hidden flex justify-between items-center'>
                   <Textarea
                     id='name'
-                    reference={textareaRef}
+                    ref={textareaRef}
                     value={taskName}
                     onChange={handleChange}
                     onBlur={handleBlurTextarea}
