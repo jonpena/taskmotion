@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Tooltip } from '../Tooltip';
+import { Tooltip } from '../ui/tooltip';
 import { Calendar } from '../ui/calendar';
 import { CalendarIcon } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';

@@ -1,5 +1,5 @@
 import { Plus } from 'lucide-react';
-import { Tooltip } from '@/components/Tooltip';
+import { Tooltip } from '@/components/ui/tooltip';
 import { IconButton } from '../ui/icon-button';
 
 type AddButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {

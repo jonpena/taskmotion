@@ -8,7 +8,7 @@ import { useListStore } from '@/store/listStore';
 import { useTaskStore } from '@/store/taskStore';
 import { getTaskCount } from '@/utils/getTaskCount';
 import { Trash2 } from 'lucide-react';
-import { Tooltip } from '@/components/Tooltip';
+import { Tooltip } from '@/components/ui/tooltip';
 import { replaceEmojis } from '@/utils/replaceEmojis';
 import { useDebounce } from '@uidotdev/usehooks';
 import { useLists } from '@/hooks/useLists';
@@ -120,20 +120,19 @@ const ListItem = ({ list }: ListItemProps) => {
         onKeyDown={handleKeyPress}
         onBlur={handleBlur}
       />
-      <Tooltip title={listName as string}>
-        <div
-          className={`absolute top-0 z-0 w-full h-12 rounded-md flex items-center
+      <div
+        title={listName as string}
+        className={`absolute top-0 z-0 w-full h-12 rounded-md flex items-center
             ${isFocused && 'pointer-events-none'}`}
+      >
+        <span
+          className={`pl-4 w-[calc(100%-2.5rem)] truncate text-sm ${
+            !isFocused ? 'opacity-100' : 'opacity-0'
+          }`}
         >
-          <span
-            className={`pl-4 w-[calc(100%-2.5rem)] truncate text-sm ${
-              !isFocused ? 'opacity-100' : 'opacity-0'
-            }`}
-          >
-            {listName}
-          </span>
-        </div>
-      </Tooltip>
+          {listName}
+        </span>
+      </div>
       <Tooltip title='Delete list'>
         <span
           onClick={() => handleDeleteList(list.listId as string)}

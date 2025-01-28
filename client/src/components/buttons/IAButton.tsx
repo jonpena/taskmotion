@@ -1,4 +1,4 @@
-import { Tooltip } from '@/components/Tooltip';
+import { Tooltip } from '@/components/ui/tooltip';
 import { Button } from '@/components/ui/button';
 import { Loader2, Sparkles } from 'lucide-react';
 
