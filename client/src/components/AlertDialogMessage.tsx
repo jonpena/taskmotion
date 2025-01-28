@@ -39,7 +39,7 @@ export function AlertDialogMessage() {
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete
-            <span className='ml-1 text-indigo-400'>{listTitle}</span>
+            <span className='text-neutral-200 font-bold'> {listTitle} </span>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
