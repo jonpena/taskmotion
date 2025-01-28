@@ -18,8 +18,8 @@ export const TaskNameDisplay = ({
     pointer-events-none peer-focus:opacity-0 peer-focus:!text-transparent`}
     >
       <span
-        className={`pl-9 ml-1.5 truncate text-sm ${
-          date && !checked ? 'w-[calc(100%-8.5rem)]' : 'w-[calc(100%-6rem)]'
+        className={`pl-9 ml-8 truncate text-sm ${
+          date && !checked ? 'w-[calc(100%-8.4rem)]' : 'w-[calc(100%-5rem)]'
         }`}
       >
         <Strikethrough checked={checked}>{taskName}</Strikethrough>
