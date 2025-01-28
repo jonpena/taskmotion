@@ -14,15 +14,15 @@ const SortableButton = ({ attributes, listeners }: sortableButtonProps) => {
 
   return (
     <IconButton
-      className='self-start ml-1'
+      className='self-start dark:bg-neutral-900'
       style={{ cursor: isDraggingStore ? 'grabbing' : 'grab' }}
       {...attributes}
       {...listeners}
       icon={
         <GripVertical
-          className='text-neutral-500 dark:text-neutral-300'
-          width={20}
-          strokeWidth={2}
+          className='text-neutral-500 dark:text-neutral-300 group-hover:brightness-75'
+          width={18}
+          strokeWidth={1.5}
         />
       }
     />

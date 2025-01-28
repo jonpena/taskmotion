@@ -38,12 +38,14 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
 
   return (
     <div
-      className='w-full h-full p-2 my-1 overflow-x-hidden rounded-lg flex justify-between items-center 
+      className='w-full h-full p-2 pl-1 my-1 overflow-x-hidden rounded-lg flex justify-between items-center 
       text-neutral-500 dark:text-neutral-100 bg-neutral-100 dark:bg-neutral-900'
       onClick={handleClicks}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
+      <SortableButton attributes={attributes} listeners={listeners} />
+
       <Checkbox
         name='checked'
         disabled={isDraggingStore}
@@ -54,7 +56,7 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
       />
 
       <Textarea
-        reference={textareaRef}
+        ref={textareaRef}
         value={taskName}
         onChange={handleChange}
         onBlur={handleBlur}
@@ -74,10 +76,7 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
       {task.date && !checked && (
         <Badge text={dateText(task.date)} className={dateStyle(task.date)} />
       )}
-
       <DeleteButton onClick={handleDelete} />
-
-      <SortableButton attributes={attributes} listeners={listeners} />
     </div>
   );
 };
