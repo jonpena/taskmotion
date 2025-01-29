@@ -38,6 +38,7 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
 
   return (
     <div
+      title={task.name}
       className='w-full h-full p-2 pl-1 my-1 overflow-x-hidden rounded-lg flex justify-between items-center 
       text-neutral-500 dark:text-neutral-100 bg-neutral-100 dark:bg-neutral-900'
       onClick={handleClicks}
@@ -76,6 +77,7 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
       {task.date && !checked && (
         <Badge text={dateText(task.date)} className={dateStyle(task.date)} />
       )}
+
       <DeleteButton onClick={handleDelete} />
     </div>
   );
