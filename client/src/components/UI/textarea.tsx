@@ -14,7 +14,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, textareaProps>(
         rows={1}
         maxLength={MAX_CONTENT_TASK}
         className={cn(
-          'w-full h-full overflow-auto py-1 pl-1 mr-2 text-sm bg-neutral-100 text-neutral-900 dark:bg-neutral-800 dark:text-white resize-none outline-none rounded',
+          'w-full h-full overflow-auto py-1 pl-1 text-sm bg-neutral-100 text-neutral-900 dark:bg-neutral-800 dark:text-white resize-none outline-none rounded',
           className
         )}
         onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.blur()}

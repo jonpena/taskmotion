@@ -12,5 +12,5 @@ export const dateStyle = (dateString: string) => {
 
 export const dateText = (dateString: string) => {
   const date = new Date(dateString);
-  return isToday(date) ? 'Today' : format(date, 'd.MMM');
+  return isToday(date) ? 'Today' : format(date, 'd MMM');
 };

@@ -84,7 +84,7 @@ const SortableList = () => {
               <div
                 key={item.id}
                 className={`${!index && 'lg:pt-12'} ${
-                  index + 1 === tasks.length && 'lg:pb-1.5'
+                  index + 1 === tasks.length && 'lg:pb-0.5'
                 }`}
               >
                 <SortableItem task={item} />
