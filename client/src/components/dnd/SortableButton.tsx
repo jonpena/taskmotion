@@ -14,7 +14,7 @@ const SortableButton = ({ attributes, listeners }: sortableButtonProps) => {
 
   return (
     <IconButton
-      className='self-start dark:bg-neutral-900'
+      className='self-start bg-neutral-100 dark:bg-neutral-900'
       style={{ cursor: isDraggingStore ? 'grabbing' : 'grab' }}
       {...attributes}
       {...listeners}

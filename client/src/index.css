@@ -9,7 +9,7 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  @apply dark:bg-background bg-gray-50;
+  @apply dark:bg-background bg-background;
   scroll-behavior: smooth;
   user-select: none;
 }

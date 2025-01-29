@@ -43,9 +43,6 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
       className={`w-full h-full py-2 px-1.5 my-1 overflow-x-hidden
       rounded-lg flex justify-between items-center text-neutral-500 dark:text-neutral-100
       bg-neutral-100 dark:bg-neutral-900`}
-      onClick={handleClicks}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
     >
       <SortableButton attributes={attributes} listeners={listeners} />
 
@@ -66,8 +63,8 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
         className={`mx-1.5 opacity-0 ${
           isFocused &&
           `
-           bg-neutral-200 dark:bg-neutral-900 dark:focus:bg-neutral-800
-           dark:focus:opacity-100 peer`
+           bg-neutral-200 focus:bg-white dark:bg-neutral-900 dark:focus:bg-neutral-800
+           focus:opacity-100 peer`
         }`}
       />
 
@@ -75,6 +72,9 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
         taskName={task.name}
         checked={checked}
         date={task.date || ''}
+        onClick={handleClicks}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       />
 
       {task.date && !checked && (
