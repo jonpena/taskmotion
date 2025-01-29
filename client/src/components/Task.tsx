@@ -11,6 +11,7 @@ import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
 import SortableButton from './dnd/SortableButton';
 import { TaskNameDisplay } from './TaskNameDisplay';
 import { dateStyle, dateText } from '@/utils/dateUtils';
+import { OptionTaskButton } from './buttons/OptionTaskButton';
 
 interface TaskComponentProps {
   task: TaskProps;
@@ -39,8 +40,9 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
   return (
     <div
       title={task.name}
-      className='w-full h-full p-2 pl-1 my-1 overflow-x-hidden rounded-lg flex justify-between items-center 
-      text-neutral-500 dark:text-neutral-100 bg-neutral-100 dark:bg-neutral-900'
+      className={`w-full h-full py-2 px-1.5 my-1 overflow-x-hidden
+      rounded-lg flex justify-between items-center text-neutral-500 dark:text-neutral-100
+      bg-neutral-100 dark:bg-neutral-900`}
       onClick={handleClicks}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
@@ -53,7 +55,7 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
         checked={checked}
         onChange={handleCheckboxChange}
         classNameContainer='self-baseline'
-        className='mr-2 disabled:cursor-default z-10 top-1.5'
+        className='ml-0 disabled:cursor-default z-10 top-1.5'
       />
 
       <Textarea
@@ -61,9 +63,10 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
         value={taskName}
         onChange={handleChange}
         onBlur={handleBlur}
-        className={`opacity-0 ${
+        className={`mx-1.5 opacity-0 ${
           isFocused &&
-          `bg-neutral-200 dark:bg-neutral-900 dark:focus:bg-neutral-800
+          `
+           bg-neutral-200 dark:bg-neutral-900 dark:focus:bg-neutral-800
            dark:focus:opacity-100 peer`
         }`}
       />
@@ -79,6 +82,8 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
       )}
 
       <DeleteButton onClick={handleDelete} />
+
+      <OptionTaskButton />
     </div>
   );
 };
