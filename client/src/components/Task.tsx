@@ -81,7 +81,7 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
         <Badge text={dateText(task.date)} className={dateStyle(task.date)} />
       )}
 
-      <DeleteButton onClick={handleDelete} />
+      <DeleteButton onClick={handleDelete} onTouchStart={handleDelete} />
 
       <OptionTaskButton />
     </div>
