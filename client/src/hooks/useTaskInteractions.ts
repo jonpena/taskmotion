@@ -18,7 +18,6 @@ import { MAX_TIMEOUT } from '@/constants/base';
 import { TaskProps } from '@shared/task.interface';
 import { updateListState } from '@/utils/updateListState';
 
-// Custom Hook
 export const useTaskInteractions = (task: TaskProps, listId?: string) => {
   const { tasks, setTasks } = useTaskStore();
   const { lists, setLists } = useListStore();
@@ -32,12 +31,10 @@ export const useTaskInteractions = (task: TaskProps, listId?: string) => {
   const [countClick, setCountClick] = useState(0);
   const [lastTapTime, setLastTapTime] = useState<number>(0);
   const [touchStartTime, setTouchStartTime] = useState<number>(0);
-
   // Derived states
   const deferredTaskName = useDeferredValue(taskName);
   const debouncedChecked = useDebounce(checked, 300);
   const debouncedCountClick = useDebounce(countClick, MAX_TIMEOUT);
-
   // Memoized handlers
   const updateTaskAndLists = useCallback(
     (updatedTasks: TaskProps[]) => {
