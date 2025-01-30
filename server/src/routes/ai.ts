@@ -20,7 +20,10 @@ aiApp.get('/generateDescription', async (c: Context) => {
   }
 
   const genAI = new GoogleGenerativeAI(c.env.API_KEY);
-  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+  const model = genAI.getGenerativeModel({
+    model: 'gemini-1.5-flash',
+    generationConfig: { temperature: 0.3, maxOutputTokens: 200 },
+  });
   const prompt = `creame una descripcion de la tarea a realizar: ${c.req.query(
     'task'
   )} que sea una descripcion clara, concisa, resumida.`;
