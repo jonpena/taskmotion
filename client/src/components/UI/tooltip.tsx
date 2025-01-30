@@ -29,14 +29,13 @@ TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 export type TooltipProps = {
   title: string;
   children: React.ReactNode | React.ReactNode[];
-  asChild?: boolean;
 };
 
-const Tooltip = ({ title, children, asChild = true }: TooltipProps) => {
+const Tooltip = ({ title, children }: TooltipProps) => {
   return (
     <TooltipProvider delayDuration={900}>
       <TooltipRoot defaultOpen={false}>
-        <TooltipTrigger asChild={asChild}>{children}</TooltipTrigger>
+        <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent>
           <span>{title}</span>
         </TooltipContent>

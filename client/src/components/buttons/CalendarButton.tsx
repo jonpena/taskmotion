@@ -3,7 +3,7 @@ import { Tooltip } from '../ui/tooltip';
 import { Calendar } from '../ui/calendar';
 import { CalendarIcon } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { IconButton } from '../ui/icon-button';
+import { Button } from '../ui/button';
 
 type CalendarButtonProps = {
   date: string | undefined;
@@ -41,19 +41,20 @@ export const CalendarButton = ({
 
   return (
     <div className='flex flex-col items-start relative'>
-      <Tooltip title='Pick date' asChild={false}>
-        <IconButton
+      <Tooltip title='Pick date'>
+        <Button
+          variant='secondary'
+          size='icon'
           ref={buttonRef}
           onClick={() => setIsCalendarVisible(!isCalendarVisible)}
           disabled={disabled}
           className='w-7 h-7 mr-1 opacity-0 group-focus-within:opacity-100'
-          icon={
-            <CalendarIcon
-              className='w-4 select-none pointer-events-none
+        >
+          <CalendarIcon
+            className='w-4 select-none pointer-events-none
              text-neutral-500 dark:text-neutral-300'
-            />
-          }
-        />
+          />
+        </Button>
       </Tooltip>
       <AnimatePresence>
         {isCalendarVisible && (

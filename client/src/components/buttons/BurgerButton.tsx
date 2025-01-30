@@ -8,7 +8,7 @@ export const BurgerButton = (props: ButtonProps) => {
   return (
     <Button
       variant='secondary'
-      className={`w-10 h-10 fixed top-3 left-2 z-[70] bg-white 
+      className={`!w-10 !h-10 fixed top-3 left-2 z-[70] bg-white 
         ${isSmallDevice ? 'inline-block' : 'hidden'}`}
       {...props}
     >
