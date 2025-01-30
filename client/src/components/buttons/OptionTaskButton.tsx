@@ -1,5 +1,5 @@
 import { ArrowDownUp, Copy, EllipsisVertical } from 'lucide-react';
-import { IconButton } from '../ui/icon-button';
+import { Button } from '../ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,20 +11,29 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useListStore } from '@/store/listStore';
+import { useParams } from 'react-router-dom';
 
-export const OptionTaskButton = () => {
+type OptionTaskButton = {
+  handleDuplicate: () => void;
+  handleMoveTo: (listIdMove?: string) => void;
+};
+
+export const OptionTaskButton = ({
+  handleDuplicate,
+  handleMoveTo,
+}: OptionTaskButton) => {
   const { lists } = useListStore();
+  const { listId } = useParams();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <IconButton
-          className='ml-1 cursor-pointer self-start'
-          icon={<EllipsisVertical width={18} strokeWidth={1.5} />}
-        />
+        <Button size='icon' className='w-7 h-8 self-start'>
+          <EllipsisVertical width={18} strokeWidth={1.5} />
+        </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align='end' className='w-[180px]'>
-        <DropdownMenuItem disabled>
+      <DropdownMenuContent align='end' className='w-[11rem]'>
+        <DropdownMenuItem onClick={handleDuplicate}>
           <Copy className='mr-2 h-4 w-4' />
           <span>Duplicate</span>
         </DropdownMenuItem>
@@ -38,11 +47,16 @@ export const OptionTaskButton = () => {
             className='max-h-[240px] overflow-y-auto dark:bg-background
           [scrollbar-width:thin] translate-x-1'
           >
-            {lists.map((list) => (
-              <DropdownMenuItem key={list.listId} disabled>
-                <span className='truncate'>{list.name}</span>
-              </DropdownMenuItem>
-            ))}
+            {lists
+              .filter((_) => _.listId !== listId)
+              .map((l) => (
+                <DropdownMenuItem
+                  key={l.listId}
+                  onClick={() => handleMoveTo(l.listId)}
+                >
+                  <span className='truncate'>{l.name}</span>
+                </DropdownMenuItem>
+              ))}
           </DropdownMenuSubContent>
         </DropdownMenuSub>
       </DropdownMenuContent>

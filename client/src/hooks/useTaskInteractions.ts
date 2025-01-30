@@ -14,9 +14,10 @@ import { replaceEmojis } from '@/utils/replaceEmojis';
 import { calculateHeight, resetHeight } from '@/utils/calculateHeight';
 import { format } from 'date-fns';
 import { updateTaskState } from '@/utils/updateTaskState';
-import { MAX_TIMEOUT } from '@/constants/base';
+import { MAX_TIMEOUT, SIZE_ID } from '@/constants/base';
 import { TaskProps } from '@shared/task.interface';
 import { updateListState } from '@/utils/updateListState';
+import { nanoid } from 'nanoid';
 
 export const useTaskInteractions = (task: TaskProps, listId?: string) => {
   const { tasks, setTasks } = useTaskStore();
@@ -44,6 +45,39 @@ export const useTaskInteractions = (task: TaskProps, listId?: string) => {
       setLists(updateListState(listId, lists, updatedTasks));
     },
     [listId, lists, setLists, setTasks]
+  );
+
+  const handleDuplicate = useCallback(() => {
+    if (!listId) return;
+    const newTask = { ...task, id: nanoid(SIZE_ID) };
+    const updateTasks = [newTask, ...tasks];
+    requestUpdateList(listId, { tasks: updateTasks });
+    setTasks(updateTasks);
+  }, [task, listId, tasks]);
+
+  const handleMoveTo = useCallback(
+    (listIdMove?: string) => {
+      if (!listId || !listIdMove) return;
+      const removeTask = tasks.filter((t) => t.id !== task.id);
+      setTasks(removeTask);
+
+      const currentIndex = lists.findIndex((l) => l.listId === listId);
+      const currentList = [...lists];
+
+      if (currentIndex !== -1) {
+        currentList[currentIndex].tasks = removeTask;
+        requestUpdateList(listId, { tasks: removeTask });
+      }
+
+      const moveList = [...lists];
+      const moveIndex = lists.findIndex((l) => l.listId === listIdMove);
+
+      if (moveIndex !== -1) {
+        moveList[moveIndex].tasks = [task, ...lists[moveIndex].tasks];
+        requestUpdateList(listIdMove, { tasks: moveList[moveIndex].tasks });
+      }
+    },
+    [task, listId, tasks]
   );
 
   const handleDelete = useCallback(() => {
@@ -91,6 +125,10 @@ export const useTaskInteractions = (task: TaskProps, listId?: string) => {
     setChecked(e.target.checked);
   };
 
+  const handleClicks = (e: React.MouseEvent) => {
+    setCountClick(e.detail);
+  };
+
   const handleBlur = useCallback(() => {
     if (listId && taskName && taskName !== previousName) {
       const taskNameFormatted = replaceEmojis(taskName);
@@ -105,11 +143,7 @@ export const useTaskInteractions = (task: TaskProps, listId?: string) => {
     }
     setIsFocused(false);
     resetHeight(textareaRef);
-  }, [listId, taskName, previousName, task.id, tasks, updateTaskAndLists]);
-
-  const handleClicks = (e: React.MouseEvent) => {
-    setCountClick(e.detail);
-  };
+  }, [listId, taskName, previousName, tasks]);
 
   useEffect(() => {
     if (!listId || debouncedChecked === task.checked) return;
@@ -148,5 +182,7 @@ export const useTaskInteractions = (task: TaskProps, listId?: string) => {
     handleClicks,
     handleTouchStart,
     handleTouchEnd,
+    handleDuplicate,
+    handleMoveTo,
   };
 };

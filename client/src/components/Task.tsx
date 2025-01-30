@@ -35,6 +35,8 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
     handleClicks,
     handleTouchStart,
     handleTouchEnd,
+    handleDuplicate,
+    handleMoveTo,
   } = useTaskInteractions(task, listId);
 
   return (
@@ -52,7 +54,7 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
         checked={checked}
         onChange={handleCheckboxChange}
         classNameContainer='self-baseline'
-        className='ml-0 disabled:cursor-default z-10 top-1.5'
+        className='ml-1 disabled:cursor-default z-10 top-1.5'
       />
 
       <Textarea
@@ -60,12 +62,13 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
         value={taskName}
         onChange={handleChange}
         onBlur={handleBlur}
-        className={`mx-1.5 opacity-0 ${
-          isFocused &&
-          `
-           bg-neutral-200 focus:bg-white dark:bg-neutral-900 dark:focus:bg-neutral-800
-           focus:opacity-100 peer`
-        }`}
+        className={`mx-1.5 opacity-0 
+          ${
+            isFocused &&
+            `
+           bg-neutral-200 focus:bg-white dark:bg-neutral-900
+           dark:focus:bg-neutral-800 focus:opacity-100 peer`
+          }`}
       />
 
       <TaskNameDisplay
@@ -83,7 +86,10 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
 
       <DeleteButton onClick={handleDelete} onTouchStart={handleDelete} />
 
-      <OptionTaskButton />
+      <OptionTaskButton
+        handleDuplicate={handleDuplicate}
+        handleMoveTo={handleMoveTo}
+      />
     </div>
   );
 };
