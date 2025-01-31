@@ -44,8 +44,10 @@ export const OptionTaskButton = ({
             <span>Move to</span>
           </DropdownMenuSubTrigger>
           <DropdownMenuSubContent
-            className='max-h-[240px] overflow-y-auto dark:bg-background
-          [scrollbar-width:thin] translate-x-1'
+            alignOffset={-5}
+            sideOffset={5}
+            className='w-44 lg:w-full max-h-[240px] overflow-y-auto dark:bg-background
+          [scrollbar-width:thin]'
           >
             {lists
               .filter((_) => _.listId !== listId)

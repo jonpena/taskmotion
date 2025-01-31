@@ -4,7 +4,7 @@
 
 * {
   scrollbar-width: none;
-  scrollbar-color: hsl(var(--background)) hsl(var(--muted));
+  scrollbar-color: hsl(var(--muted)) hsl(var(--background));
 }
 
 body {
@@ -25,7 +25,6 @@ body {
 
 ::-webkit-scrollbar-corner {
   border-radius: 0.8rem;
-  font-weight: 400;
 }
 
 ::-webkit-scrollbar-thumb {
