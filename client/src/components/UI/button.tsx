@@ -10,13 +10,13 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'group w-7 h-8 dark:w-7 dark:h-8 flex flex-shrink-0 items-center justify-center rounded-lg bg-black/5 dark:bg-neutral-900 transition-all hover:bg-black/10 disabled:opacity-50 disabled:pointer-events-none touch-none cursor-default aspect-square z-10 hover:brightness-125',
+          'group w-7 h-8 dark:w-7 dark:h-8 flex flex-shrink-0 items-center justify-center rounded-lg bg-neutral-100 dark:bg-neutral-900 transition-all hover:bg-black/10 disabled:opacity-50 disabled:pointer-events-none touch-none cursor-default aspect-square z-10 hover:brightness-125',
         destructive:
           'bg-red-500 text-neutral-50 shadow-sm hover:bg-red-500/90 dark:bg-red-900 dark:text-neutral-50 dark:hover:bg-red-900/90',
         outline:
           'border border-neutral-200 bg-white shadow-sm hover:bg-neutral-100 hover:text-neutral-900 dark:border-neutral-800 dark:bg-neutral-950 dark:hover:bg-neutral-800 dark:hover:text-neutral-50',
         secondary:
-          'group w-7 h-7 dark:w-7 dark:h-7 flex flex-shrink-0 items-center justify-center rounded-lg bg-black/5 dark:bg-neutral-800 transition-all hover:bg-black/10 disabled:opacity-50 disabled:pointer-events-none touch-none cursor-default aspect-square z-10',
+          'group !w-7 !h-7 flex flex-shrink-0 items-center justify-center rounded-lg bg-black/5 dark:bg-neutral-800 transition-all hover:bg-black/10 disabled:opacity-50 disabled:pointer-events-none touch-none cursor-default aspect-square z-10',
         ghost:
           'hover:bg-neutral-100 hover:text-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-neutral-50',
         link: 'text-neutral-900 underline-offset-4 hover:underline dark:text-neutral-50',
