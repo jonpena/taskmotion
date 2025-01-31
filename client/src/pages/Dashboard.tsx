@@ -125,7 +125,7 @@ export const Dashboard = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width='107%' height={350} className='-mx-12'>
+            <ResponsiveContainer className='-mx-11 !w-[calc(100%+3rem)] !h-[300px] xl:!h-[350px]'>
               <BarChart data={data.last7DaysStats}>
                 <CartesianGrid strokeDasharray='3 3' className='stroke-muted' />
                 <XAxis dataKey='name' className='text-muted-foreground' />
