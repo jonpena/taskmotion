@@ -1,4 +1,4 @@
-import {
+import React, {
   useDeferredValue,
   useEffect,
   useRef,
@@ -80,15 +80,30 @@ export const useTaskInteractions = (task: TaskProps, listId?: string) => {
     [task, listId, tasks]
   );
 
-  const handleDelete = useCallback(() => {
-    if (!listId) return;
-    const updatedTasks = tasks.filter((elem: TaskProps) => elem.id !== task.id);
-    updateTaskAndLists(updatedTasks);
-  }, [listId, task.id, tasks, updateTaskAndLists]);
+  const handleDelete = useCallback(
+    (e: React.MouseEvent | React.TouchEvent) => {
+      if (!listId) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const updatedTasks = tasks.filter(
+        (elem: TaskProps) => elem.id !== task.id
+      );
+      updateTaskAndLists(updatedTasks);
+    },
+    [listId, tasks, updateTaskAndLists]
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTaskName(e.target.value.trimStart());
     calculateHeight(textareaRef);
+  };
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(e.target.checked);
+  };
+
+  const handleClicks = (e: React.MouseEvent) => {
+    setCountClick(e.detail);
   };
 
   const handleDoubleClick = useCallback(() => {
@@ -121,14 +136,6 @@ export const useTaskInteractions = (task: TaskProps, listId?: string) => {
     [touchStartTime, isFocused]
   );
 
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(e.target.checked);
-  };
-
-  const handleClicks = (e: React.MouseEvent) => {
-    setCountClick(e.detail);
-  };
-
   const handleBlur = useCallback(() => {
     if (listId && taskName && taskName !== previousName) {
       const taskNameFormatted = replaceEmojis(taskName);
@@ -143,7 +150,7 @@ export const useTaskInteractions = (task: TaskProps, listId?: string) => {
     }
     setIsFocused(false);
     resetHeight(textareaRef);
-  }, [listId, taskName, previousName, tasks]);
+  }, [listId, taskName, tasks]);
 
   useEffect(() => {
     if (!listId || debouncedChecked === task.checked) return;
