@@ -81,12 +81,7 @@ const SortableList = () => {
             className='lg:!h-custom !h-customMobile'
             totalCount={tasks.length}
             itemContent={(index, item) => (
-              <div
-                key={item.id}
-                className={`${!index && 'lg:pt-12'} ${
-                  index + 1 === tasks.length && 'lg:pb-0.5'
-                }`}
-              >
+              <div key={item.id} className={`${!index && 'lg:pt-12'} `}>
                 <SortableItem task={item} />
               </div>
             )}

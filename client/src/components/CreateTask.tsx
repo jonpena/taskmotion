@@ -88,7 +88,9 @@ const CreateTask = () => {
       <CalendarButton
         date={date}
         setDate={setDate}
-        className={`${!taskName && 'opacity-0'}`}
+        className={`opacity-0 group-focus-within:opacity-100 ${
+          !taskName && 'opacity-0'
+        }`}
       />
 
       <AddButton title='Create new task' onMouseDown={handleClick} />

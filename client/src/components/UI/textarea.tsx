@@ -1,25 +1,25 @@
-import { MAX_CONTENT_TASK } from '@/constants/base';
 import { cn } from '@/lib/utils';
-import { forwardRef, TextareaHTMLAttributes } from 'react';
+import { TextareaHTMLAttributes } from 'react';
 
-type textareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
-  className?: string;
+type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
+  classname?: string;
 };
 
-export const Textarea = forwardRef<HTMLTextAreaElement, textareaProps>(
-  ({ className, ...props }, ref) => {
-    return (
-      <textarea
-        ref={ref}
-        rows={1}
-        maxLength={MAX_CONTENT_TASK}
-        className={cn(
-          'w-full h-full overflow-auto py-1 pl-1 text-sm bg-neutral-100 text-neutral-500 dark:bg-neutral-800 dark:text-white resize-none outline-none rounded',
-          className
-        )}
-        onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.blur()}
-        {...props}
-      />
-    );
-  }
-);
+export const Textarea = ({ className, ...rest }: TextareaProps) => {
+  return (
+    <textarea
+      rows={rest.rows ?? 8}
+      maxLength={rest.maxLength ?? 1024}
+      className={cn(
+        `w-full pl-3 pr-12 py-1 text-sm rounded-md
+          bg-neutral-200 dark:bg-neutral-900 
+          placeholder:text-muted-foreground
+          focus:outline-none focus:ring-0 focus:ring-transparent
+          resize-none transition-all duration-200
+           border-none focus-visible:ring-0 outline-none text-pretty`,
+        className
+      )}
+      {...rest}
+    />
+  );
+};

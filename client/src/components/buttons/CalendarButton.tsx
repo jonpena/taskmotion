@@ -4,18 +4,22 @@ import { Calendar } from '../ui/calendar';
 import { CalendarIcon } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Button } from '../ui/button';
+import { cn } from '@/lib/utils';
 
 type CalendarButtonProps = {
   date: string | undefined;
   setDate: React.Dispatch<React.SetStateAction<string | undefined>>;
   disabled?: boolean;
   className?: string;
+  classNameButton?: string;
 };
 
 export const CalendarButton = ({
   date,
   setDate,
-  disabled,
+  className,
+  classNameButton,
+  disabled = false,
 }: CalendarButtonProps) => {
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
   const calendarRef = useRef<HTMLDivElement>(null);
@@ -40,7 +44,7 @@ export const CalendarButton = ({
   }, []);
 
   return (
-    <div className='flex flex-col items-start relative'>
+    <div className={cn(`flex flex-col items-start relative`, className)}>
       <Tooltip title='Pick date'>
         <Button
           variant='secondary'
@@ -48,7 +52,7 @@ export const CalendarButton = ({
           ref={buttonRef}
           onClick={() => setIsCalendarVisible(!isCalendarVisible)}
           disabled={disabled}
-          className='w-7 h-7 mr-1 opacity-0 group-focus-within:opacity-100'
+          className={cn(`w-7 dark:w-7 h-7 dark:h-7 mr-1`, classNameButton)}
         >
           <CalendarIcon
             className='w-4 select-none pointer-events-none

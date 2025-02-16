@@ -4,6 +4,7 @@ import React, {
   useRef,
   useState,
   useCallback,
+  ChangeEvent,
 } from 'react';
 import { useTaskStore } from '@/store/taskStore';
 import { useListStore } from '@/store/listStore';
@@ -18,15 +19,19 @@ import { MAX_TIMEOUT, SIZE_ID } from '@/constants/base';
 import { TaskProps } from '@shared/task.interface';
 import { updateListState } from '@/utils/updateListState';
 import { nanoid } from 'nanoid';
+import { useParams } from 'react-router-dom';
 
-export const useTaskInteractions = (task: TaskProps, listId?: string) => {
+export const useTaskInteractions = (task: TaskProps) => {
+  const { listId } = useParams();
   const { tasks, setTasks } = useTaskStore();
   const { lists, setLists } = useListStore();
-  const { setIsOpen, setTask } = useModalStore();
+  const { isOpen, setIsOpen, setTask } = useModalStore();
   const textareaRef = useRef<HTMLTextAreaElement>(null!);
   // States
   const [taskName, setTaskName] = useState(task.name);
   const [checked, setChecked] = useState(task.checked);
+  const [date, setDate] = useState(task.date ?? undefined);
+  const [description, setDescription] = useState(task.description);
   const [isFocused, setIsFocused] = useState(false);
   const [previousName, setPreviousName] = useState(task.name);
   const [countClick, setCountClick] = useState(0);
@@ -36,7 +41,7 @@ export const useTaskInteractions = (task: TaskProps, listId?: string) => {
   const deferredTaskName = useDeferredValue(taskName);
   const debouncedChecked = useDebounce(checked, 300);
   const debouncedCountClick = useDebounce(countClick, MAX_TIMEOUT);
-  // Memoized handlers
+  // Memorized handlers
   const updateTaskAndLists = useCallback(
     (updatedTasks: TaskProps[]) => {
       if (!listId) return;
@@ -93,12 +98,24 @@ export const useTaskInteractions = (task: TaskProps, listId?: string) => {
     [listId, tasks, updateTaskAndLists]
   );
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleBlurDescription = () => {
+    if (!listId || description === task.description) return;
+    const { id } = task;
+    const updateTasks = updateTaskState(id, tasks, { description });
+    setTasks(updateTasks);
+    requestUpdateList(listId, { tasks: updateTasks });
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setTaskName(e.target.value.trimStart());
     calculateHeight(textareaRef);
   };
 
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeDescription = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setDescription(e.target.value.trimStart());
+  };
+
+  const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
     setChecked(e.target.checked);
   };
 
@@ -115,6 +132,7 @@ export const useTaskInteractions = (task: TaskProps, listId?: string) => {
 
   const handleClick = useCallback(() => {
     setIsOpen(true);
+
     setTask({ ...task, checked });
   }, [task, checked, setIsOpen, setTask]);
 
@@ -171,16 +189,33 @@ export const useTaskInteractions = (task: TaskProps, listId?: string) => {
   }, [deferredTaskName]);
 
   useEffect(() => {
+    if (!listId || !date || date === task.date) return;
+    const updateTasks = updateTaskState(task.id, tasks, {
+      date: date as string,
+    });
+    updateTaskAndLists(updateTasks);
+  }, [date]);
+
+  useEffect(() => {
     if (debouncedCountClick === 0) return;
     if (debouncedCountClick === 1 && !isFocused) handleClick();
     if (debouncedCountClick > 1) handleDoubleClick();
     setCountClick(0);
   }, [debouncedCountClick]);
 
+  useEffect(() => {
+    setTaskName(task.name);
+    setChecked(task.checked);
+    setDate(task.date);
+    setDescription(task.description);
+  }, [isOpen]);
+
   return {
     textareaRef,
     taskName,
     checked,
+    date,
+    setDate,
     isFocused,
     handleChange,
     handleBlur,
@@ -191,5 +226,8 @@ export const useTaskInteractions = (task: TaskProps, listId?: string) => {
     handleTouchEnd,
     handleDuplicate,
     handleMoveTo,
+    description,
+    handleBlurDescription,
+    handleChangeDescription,
   };
 };

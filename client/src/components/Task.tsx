@@ -1,15 +1,14 @@
-import { useParams } from 'react-router-dom';
 import { TaskProps } from '@shared/task.interface';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
-import { Textarea } from '@/components/ui/textarea';
+import { TextInput } from '@/components/ui/text-input';
 import { DeleteButton } from './buttons/DeleteButton';
 import { useDragStore } from '@/store/dragStore';
 import { useTaskInteractions } from '@/hooks/useTaskInteractions';
 import { DraggableAttributes } from '@dnd-kit/core';
 import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
 import SortableButton from './dnd/SortableButton';
-import { TaskNameDisplay } from './TaskNameDisplay';
+import { TextDisplay } from './TextDisplay';
 import { dateStyle, dateText } from '@/utils/dateUtils';
 import { OptionTaskButton } from './buttons/OptionTaskButton';
 
@@ -20,7 +19,6 @@ interface TaskComponentProps {
 }
 
 export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
-  const { listId } = useParams();
   const { isDragging: isDraggingStore } = useDragStore();
 
   const {
@@ -37,7 +35,7 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
     handleTouchEnd,
     handleDuplicate,
     handleMoveTo,
-  } = useTaskInteractions(task, listId);
+  } = useTaskInteractions(task);
 
   return (
     <div
@@ -57,7 +55,7 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
         className='ml-1 disabled:cursor-default z-10 top-1.5'
       />
 
-      <Textarea
+      <TextInput
         ref={textareaRef}
         value={taskName}
         onChange={handleChange}
@@ -71,7 +69,7 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
           }`}
       />
 
-      <TaskNameDisplay
+      <TextDisplay
         taskName={task.name}
         checked={checked}
         date={task.date || ''}

@@ -1,7 +1,7 @@
 import CreateTask from '@/components/CreateTask';
 import UserWelcome from '@/components/UserWelcome';
 import { Outlet } from 'react-router-dom';
-// import { TaskDrawer } from '@/components/TaskDrawer';
+import { TaskDrawer } from '@/components/TaskDrawer';
 
 export const TodoList = () => {
   return (
@@ -13,7 +13,7 @@ export const TodoList = () => {
         </div>
       </main>
       <Outlet />
-      {/* <TaskDrawer /> */}
+      <TaskDrawer />
     </>
   );
 };
