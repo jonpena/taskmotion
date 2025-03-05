@@ -20,8 +20,9 @@ import { TaskProps } from '@shared/task.interface';
 import { updateListState } from '@/utils/updateListState';
 import { nanoid } from 'nanoid';
 import { useParams } from 'react-router-dom';
+import { requestAIDescription } from '@/services/requestAIDescription';
 
-export const useTaskInteractions = (task: TaskProps) => {
+export const useTaskActions = (task: TaskProps) => {
   const { listId } = useParams();
   const { tasks, setTasks } = useTaskStore();
   const { lists, setLists } = useListStore();
@@ -37,6 +38,7 @@ export const useTaskInteractions = (task: TaskProps) => {
   const [countClick, setCountClick] = useState(0);
   const [lastTapTime, setLastTapTime] = useState<number>(0);
   const [touchStartTime, setTouchStartTime] = useState<number>(0);
+  const [isGeneratingAI, setIsGeneratingAI] = useState(false);
   // Derived states
   const deferredTaskName = useDeferredValue(taskName);
   const debouncedChecked = useDebounce(checked, 300);
@@ -49,7 +51,7 @@ export const useTaskInteractions = (task: TaskProps) => {
       setTasks(updatedTasks);
       setLists(updateListState(listId, lists, updatedTasks));
     },
-    [listId, lists, setLists, setTasks]
+    [listId, setLists, setTasks]
   );
 
   const handleDuplicate = useCallback(() => {
@@ -170,6 +172,24 @@ export const useTaskInteractions = (task: TaskProps) => {
     resetHeight(textareaRef);
   }, [listId, taskName, tasks]);
 
+  const handleGenerateAIDescription = async () => {
+    if (!listId || !taskName) return;
+    setIsGeneratingAI(true);
+    try {
+      const newDescription = await requestAIDescription(taskName);
+      const updateTasks = updateTaskState(task.id, tasks, {
+        description: newDescription,
+      });
+      setDescription(newDescription);
+      setTasks(updateTasks);
+      requestUpdateList(listId, { tasks: updateTasks });
+    } catch (error) {
+      console.error('Error generating AI description:', error);
+    } finally {
+      setIsGeneratingAI(false);
+    }
+  };
+
   useEffect(() => {
     if (!listId || debouncedChecked === task.checked) return;
     const updatedTasks = updateTaskState(task.id, tasks, {
@@ -217,6 +237,7 @@ export const useTaskInteractions = (task: TaskProps) => {
     date,
     setDate,
     isFocused,
+    isGeneratingAI,
     handleChange,
     handleBlur,
     handleDelete,
@@ -229,5 +250,6 @@ export const useTaskInteractions = (task: TaskProps) => {
     description,
     handleBlurDescription,
     handleChangeDescription,
+    handleGenerateAIDescription,
   };
 };
