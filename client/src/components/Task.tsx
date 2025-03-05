@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { TextInput } from '@/components/ui/text-input';
 import { DeleteButton } from './buttons/DeleteButton';
 import { useDragStore } from '@/store/dragStore';
-import { useTaskInteractions } from '@/hooks/useTaskInteractions';
+import { useTaskInteractions } from '@/hooks/useTaskActions';
 import { DraggableAttributes } from '@dnd-kit/core';
 import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
 import SortableButton from './dnd/SortableButton';
