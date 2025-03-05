@@ -93,7 +93,8 @@ export const TaskDrawer = () => {
                   }}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className={`mx-1.5 focus:bg-neutral-200 dark:bg-background dark:focus:bg-neutral-900 focus:opacity-100 peer`}
+                  className={`mx-1.5 focus:bg-neutral-200 dark:bg-background dark:focus:bg-neutral-900 
+                    opacity-0 focus:opacity-100 peer`}
                 />
 
                 <TextDisplay
