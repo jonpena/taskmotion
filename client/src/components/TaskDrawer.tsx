@@ -6,35 +6,20 @@ import { useModalStore } from '@/store/modalStore';
 import { TextInput } from './ui/text-input';
 import { calculateHeight } from '@/utils/calculateHeight';
 import { DrawerModal } from './ui/drawer';
-import { useTaskInteractions } from '@/hooks/useTaskInteractions';
+import { useTaskActions } from '@/hooks/useTaskActions';
 import { TextDisplay } from './TextDisplay';
 import { Textarea } from './ui/textarea';
+import { IAButton } from './buttons/IAButton';
 
 export const TaskDrawer = () => {
   const { task, isOpen, setIsOpen } = useModalStore();
 
-  // const handleGenerateAIDescription = async () => {
-  //   if (!listId || !taskName) return;
-  //   setIsGeneratingAI(true);
-  //   try {
-  //     const newDescription = await requestAIDescription(taskName);
-  //     const updateTasks = updateTaskState(task.id, tasks, {
-  //       description: newDescription,
-  //     });
-  //     setDescription(newDescription);
-  //     setTasks(updateTasks);
-  //     requestUpdateList(listId, { tasks: updateTasks });
-  //   } catch (error) {
-  //     console.error('Error generating AI description:', error);
-  //   } finally {
-  //     setIsGeneratingAI(false);
-  //   }
-  // };
   const {
     textareaRef,
     taskName,
     date,
     description,
+    isGeneratingAI,
     handleBlurDescription,
     handleChangeDescription,
     setDate,
@@ -42,7 +27,8 @@ export const TaskDrawer = () => {
     handleChange,
     handleBlur,
     handleCheckboxChange,
-  } = useTaskInteractions(task);
+    handleGenerateAIDescription,
+  } = useTaskActions(task);
 
   return (
     <DrawerModal open={isOpen} onClose={() => setIsOpen(false)}>
@@ -131,11 +117,11 @@ export const TaskDrawer = () => {
                   placeholder='Add more details to this task...'
                 />
 
-                {/* <IAButton
+                <IAButton
                   isLoading={isGeneratingAI}
-                  // onClick={handleGenerateAIDescription}
+                  onClick={handleGenerateAIDescription}
                   disabled={isGeneratingAI}
-                /> */}
+                />
               </div>
             </div>
           </div>
