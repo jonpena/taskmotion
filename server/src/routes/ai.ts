@@ -21,12 +21,13 @@ aiApp.get('/generateDescription', async (c: Context) => {
 
   const genAI = new GoogleGenerativeAI(c.env.API_KEY);
   const model = genAI.getGenerativeModel({
-    model: 'gemini-1.5-flash',
-    generationConfig: { temperature: 0.3, maxOutputTokens: 200 },
+    model: 'gemini-2.0-flash',
+    generationConfig: { temperature: 0.2, maxOutputTokens: 200 },
   });
-  const prompt = `creame una descripcion de la tarea a realizar: ${c.req.query(
-    'task'
-  )} que sea una descripcion clara, concisa, resumida.`;
+
+  const task = c.req.query('task');
+
+  const prompt = `crear descripcion de "${task}". no enumerar, crear parrafos, conciso y que tenga un maximo de 600 caracteres`;
   const result = await model.generateContent(prompt);
   return c.json({ result });
 });
