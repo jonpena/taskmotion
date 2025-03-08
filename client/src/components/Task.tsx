@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { TextInput } from '@/components/ui/text-input';
 import { DeleteButton } from './buttons/DeleteButton';
 import { useDragStore } from '@/store/dragStore';
-import { useTaskActions } from '@/hooks/useTaskActions';
+import { useTask } from '@/hooks/task/useTask';
 import { DraggableAttributes } from '@dnd-kit/core';
 import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
 import SortableButton from './dnd/SortableButton';
@@ -35,7 +35,7 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
     handleTouchEnd,
     handleDuplicate,
     handleMoveTo,
-  } = useTaskActions(task);
+  } = useTask(task);
 
   return (
     <div

@@ -6,7 +6,7 @@ import { useModalStore } from '@/store/modalStore';
 import { TextInput } from './ui/text-input';
 import { calculateHeight } from '@/utils/calculateHeight';
 import { DrawerModal } from './ui/drawer';
-import { useTaskActions } from '@/hooks/useTaskActions';
+import { useTask } from '@/hooks/task/useTask';
 import { TextDisplay } from './TextDisplay';
 import { Textarea } from './ui/textarea';
 import { IAButton } from './buttons/IAButton';
@@ -28,7 +28,7 @@ export const TaskDrawer = () => {
     handleBlur,
     handleCheckboxChange,
     handleGenerateAIDescription,
-  } = useTaskActions(task);
+  } = useTask(task);
 
   return (
     <DrawerModal open={isOpen} onClose={() => setIsOpen(false)}>
