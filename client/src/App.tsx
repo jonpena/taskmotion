@@ -12,6 +12,8 @@ import { useListStore } from './store/listStore';
 import { useLists } from './hooks/useLists';
 import { useEffect } from 'react';
 import { Layout } from '@/layouts/Layout';
+import { useNotificationsStore } from './store/notificationsStore';
+import { requestNotifications } from './services/requestNotifications';
 
 const App = () => {
   const { user } = UserAuth();
@@ -19,12 +21,19 @@ const App = () => {
   const isAuthenticated = !isEmptyObject(user);
   const { setLists } = useListStore();
   const { data } = useLists();
-
+  const { setNotifications } = useNotificationsStore();
+  
   useAvoidZoom();
 
   useEffect(() => {
     if (data) setLists(data);
   }, [data]);
+
+  useEffect(() => {
+    requestNotifications(user?.email).then(res => {
+      setNotifications(res);
+    });
+  }, [user]);
 
   return (
     <Routes>
