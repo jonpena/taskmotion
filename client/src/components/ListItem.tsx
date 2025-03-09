@@ -12,6 +12,9 @@ import { Tooltip } from '@/components/ui/tooltip';
 import { replaceEmojis } from '@/utils/replaceEmojis';
 import { useDebounce } from '@uidotdev/usehooks';
 import { useLists } from '@/hooks/useLists';
+import { createNotification } from '@/utils/createNotification';
+import { UserAuth } from '@/context/AuthContext';
+import { useNotificationsStore } from '@/store/notificationsStore';
 
 type ListItemProps = {
   list: ListProps;
@@ -31,6 +34,8 @@ const ListItem = ({ list }: ListItemProps) => {
   const [previousName, setPreviousName] = useState(list.name);
   const listNameDebounced = useDebounce(listName, 200);
   const { refreshLists } = useLists();
+  const { email } = UserAuth().user;
+  const notificationsStore = useNotificationsStore();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setListName(e.target.value.trimStart());
@@ -59,6 +64,11 @@ const ListItem = ({ list }: ListItemProps) => {
       if (_listId === listId) navigate('/u/dashboard');
       setLists(filterListCollection);
       requestDeleteList(_listId);
+      createNotification(notificationsStore, email, {
+        type: 'list',
+        action: 'deleted',
+        message: list.name,
+      })
     });
     setOpen(true);
   };

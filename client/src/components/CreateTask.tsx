@@ -14,6 +14,9 @@ import { format } from 'date-fns';
 import { CalendarButton } from './buttons/CalendarButton';
 import { ShortcutBadge } from './buttons/ShortcutBadge';
 import { AddButton } from './buttons/AddButton';
+import { UserAuth } from '@/context/AuthContext';
+import { createNotification } from '@/utils/createNotification';
+import { useNotificationsStore } from '@/store/notificationsStore';
 
 const CreateTask = () => {
   const [taskName, setTaskName] = useState('');
@@ -25,8 +28,11 @@ const CreateTask = () => {
   const keydown = useShortcut(['Control+e']);
   const isSmallDevice = useMediaQuery('only screen and (max-width : 1023px)');
   const [date, setDate] = useState<string | undefined>(undefined);
+  const { email } = UserAuth().user;
+  const notificationsStore = useNotificationsStore();
 
   const createTask = () => {
+    // Create task
     if (taskName && listId) {
       const newTask = {
         id: nanoid(SIZE_ID),
@@ -45,6 +51,13 @@ const CreateTask = () => {
       setChecked(false);
       setTaskName('');
       setLists([...updateLists]);
+
+      // Create notification
+      createNotification(notificationsStore, email, {
+        type: 'task',
+        action: 'created',
+        message: taskName,
+      });
     }
   };
 

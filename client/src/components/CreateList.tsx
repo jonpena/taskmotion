@@ -11,17 +11,21 @@ import { useMediaQuery } from '@uidotdev/usehooks';
 import { AddButton } from './buttons/AddButton';
 import { ShortcutBadge } from './buttons/ShortcutBadge';
 import { SIZE_ID } from '@/constants/base';
+import { createNotification } from '@/utils/createNotification';
+import { useNotificationsStore } from '@/store/notificationsStore';
 
 const CreateList = () => {
   const [listName, setListName] = useState('');
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
-  const { user } = UserAuth();
+  const { email } = UserAuth().user;
   const keydown = useShortcut(['Control+l']);
   const isSmallDevice = useMediaQuery('only screen and (max-width : 1023px)');
   const navigate = useNavigate();
   const { lists, setLists } = useListStore();
+  const notificationsStore = useNotificationsStore();
 
   const createList = () => {
+    // Create list
     if (listName) {
       const newlist = {
         listId: nanoid(SIZE_ID),
@@ -29,11 +33,18 @@ const CreateList = () => {
         tasks: [],
       };
       const updateLists = [...lists, newlist];
-      requestCreateList(user.email, newlist);
+      requestCreateList(email, newlist);
       setLists(updateLists);
       setListName('');
       navigate(`/b/${newlist.listId}`);
       inputRef.current?.blur();
+
+      // Create notification
+      createNotification(notificationsStore, email, {
+        type: 'list',
+        action: 'created',
+        message: listName,
+      });
     }
   };
 
