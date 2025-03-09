@@ -4,6 +4,7 @@ import { cors } from 'hono/cors';
 import { userApp } from './routes/users';
 import { listApp } from './routes/lists';
 import { aiApp } from './routes/ai';
+import { notificationsApp } from './routes/notifications';
 
 const app = new Hono().basePath('/api');
 
@@ -23,5 +24,6 @@ app.use(
 app.route('/lists', listApp);
 app.route('/users', userApp);
 app.route('/ai', aiApp);
+app.route('/notifications', notificationsApp);
 
 export default app;
