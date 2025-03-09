@@ -9,42 +9,20 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
-// import { Bell, CheckCircle2, AlertCircle } from 'lucide-react';
-// import { DashboardAnalytics } from '@/interfaces/dashboardAnalytics.interface';
 import { useListStore } from '@/store/listStore';
 import { useTaskStore } from '@/store/taskStore';
 import { getListCount } from '@/utils/getListCount';
 import { Badge } from '@/components/ui/badge';
+import { useNotificationsStore } from '@/store/notificationsStore';
+import { formatDistanceToNow } from 'date-fns';
+import { notificationsStyle } from '@/utils/notificationsUtils';
+import { Clock } from 'lucide-react';
 
-// Simulated data - replace this with actual data fetching logic
-// const fetchTodoData = () => {
-//   return {
-//     notifications: [
-//       // {
-//       //   id: 1,
-//       //   type: 'created',
-//       //   message: 'New task "Prepare presentation" created',
-//       //   timestamp: '2 hours ago',
-//       // },
-//       // {
-//       //   id: 2,
-//       //   type: 'completed',
-//       //   message: 'Task "Send email to client" completed',
-//       //   timestamp: '4 hours ago',
-//       // },
-//       // {
-//       //   id: 3,
-//       //   type: 'overdue',
-//       //   message: 'Task "Submit report" is overdue',
-//       //   timestamp: '1 day ago',
-//       // },
-//     ],
-//   };
-// };
 
 export const Dashboard = () => {
   const { lists } = useListStore();
   const { tasks } = useTaskStore();
+  const { notifications } = useNotificationsStore();
 
   const data = useMemo(() => getListCount(lists), [lists, tasks]);
 
@@ -159,38 +137,33 @@ export const Dashboard = () => {
         <Card className='bg-gray-100 dark:bg-neutral-900'>
           <CardHeader>
             <CardTitle className='text-neutral-800 dark:text-neutral-50'>
-              Notifications Soon 🚧
+              Recent Activity
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className='mt-6'>
-              {/* <h3 className='text-lg font-semibold mb-2'>Recent Activity</h3> */}
-              {/* <ul className='space-y-2'>
-                {data.notifications?.map((notification) => (
+            <div className='mt-0 overflow-y-auto !h-[300px] xl:!h-[350px]'>
+              <ul className='space-y-2'>
+                {notifications?.map((notification, index) => (
                   <li
-                    key={notification.id}
-                    className='flex items-start space-x-2 text-sm'
+                    key={index}
+                    className='flex items-start p-2 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm hover:shadow-md transition-shadow duration-200'
                   >
-                    {notification.type === 'created' && (
-                      <Bell className='h-5 w-5 text-primary' />
-                    )}
-                    {notification.type === 'completed' && (
-                      <CheckCircle2 className='h-5 w-5 text-green-500' />
-                    )}
-                    {notification.type === 'overdue' && (
-                      <AlertCircle className='h-5 w-5 text-destructive' />
-                    )}
-                    <div>
-                      <p className='text-card-foreground'>
-                        {notification.message}
-                      </p>
-                      <p className='text-xs text-muted-foreground'>
-                        {notification.timestamp}
-                      </p>
+                    <div className='w-full'>
+                      <div className='flex items-center justify-between'>
+                        <p className='text-card-foreground font-medium text-sm'>
+                          {notification.message}
+                        </p>
+                        <Badge text={notification.action + ' ' + notification.type}
+                          className={`ml-2 ${notificationsStyle(notification.action)}`} />
+                      </div>
+                      <div className="flex items-center mt-1 gap-1.5 text-xs text-zinc-400">
+                        <Clock className="h-3 w-3" />
+                        <span>{formatDistanceToNow(new Date(notification.timestamp), { addSuffix: true })}</span>
+                      </div>
                     </div>
                   </li>
                 ))}
-              </ul> */}
+              </ul>
             </div>
           </CardContent>
         </Card>
