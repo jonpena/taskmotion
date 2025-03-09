@@ -13,6 +13,9 @@ import { updateTaskState } from "@/utils/updateTaskState";
 import { requestAIDescription } from "@/services/requestAIDescription";
 import { calculateHeight, resetHeight } from "@/utils/calculateHeight";
 import { replaceEmojis } from "@/utils/replaceEmojis";
+import { createNotification } from "@/utils/createNotification";
+import { UserAuth } from "@/context/AuthContext";
+import { useNotificationsStore } from "@/store/notificationsStore";
 
 // Hook para manejar los handlers de la tarea
 export const useTaskHandlers = (task: TaskProps, state: ReturnType<typeof useTaskState>) => {
@@ -20,6 +23,9 @@ export const useTaskHandlers = (task: TaskProps, state: ReturnType<typeof useTas
   const { tasks, setTasks } = useTaskStore();
   const { lists, setLists } = useListStore();
   const { setIsOpen, setTask } = useModalStore();
+  const { email } = UserAuth().user;
+  const notificationsStore = useNotificationsStore();
+
 
   // Función utilitaria para actualizar tareas y listas
   const updateTaskAndLists = useCallback(
@@ -74,6 +80,11 @@ export const useTaskHandlers = (task: TaskProps, state: ReturnType<typeof useTas
         (elem: TaskProps) => elem.id !== task.id
       );
       updateTaskAndLists(updatedTasks);
+      createNotification(notificationsStore, email, {
+        type: 'task',
+        action: 'deleted',
+        message: task.name,
+      });
     },
     [listId, tasks, updateTaskAndLists]
   );
@@ -97,6 +108,13 @@ export const useTaskHandlers = (task: TaskProps, state: ReturnType<typeof useTas
 
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
     state.setChecked(e.target.checked);
+    if (e.target.checked) {
+      createNotification(notificationsStore,email, {
+        type: 'task',
+        action: 'completed',
+        message: task.name,
+      });
+    };
   };
 
   const handleClicks = (e: React.MouseEvent) => {

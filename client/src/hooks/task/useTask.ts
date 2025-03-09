@@ -9,7 +9,6 @@ import { useParams } from 'react-router-dom';
 import { useTaskState } from './useTaskState';
 import { useTaskHandlers } from './useTaskHandlers';
 
-
 // Hook principal que compone los otros hooks y contiene los efectos
 export const useTask = (task: TaskProps) => {
   const { listId } = useParams();
@@ -65,15 +64,5 @@ export const useTask = (task: TaskProps) => {
     state.setCountClick(0);
   }, [state.debouncedCountClick]);
 
-  return {
-    textareaRef: state.textareaRef,
-    taskName: state.taskName,
-    checked: state.checked,
-    date: state.date,
-    setDate: state.setDate,
-    isFocused: state.isFocused,
-    isGeneratingAI: state.isGeneratingAI,
-    description: state.description,
-    ...handlers
-  };
+  return {...state,...handlers};
 };
