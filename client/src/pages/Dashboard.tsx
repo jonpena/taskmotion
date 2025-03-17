@@ -100,7 +100,7 @@ export const Dashboard = () => {
           <Tabs defaultValue='week'>
             <CardHeader className='h-16 flex flex-row items-center'>
               <CardTitle className='text-neutral-800 flex items-center gap-x-2.5 dark:text-neutral-50'>
-                <span>Tasks Completed last week</span>
+                <span>Completed Tasks</span>
                 <TabsList className='self-start'>
                   <TabsTrigger value='week'>Week</TabsTrigger>
                   <TabsTrigger value='month'>Month</TabsTrigger>
