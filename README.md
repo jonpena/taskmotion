@@ -29,5 +29,3 @@ We use pnpm with workspaces to manage this project as a monorepo, facilitating e
 ## License
 
 #### This project is licensed under the MIT License. For more details, see the [LICENSE](LICENSE) file.
-
-<img  alt="Star on GitHub to support the project" src="star_repo.gif" width="200px">
