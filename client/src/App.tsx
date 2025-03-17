@@ -61,10 +61,10 @@ const App = () => {
           </ProtectedRoute>
         }
       >
+        <Route path='u/dashboard' element={<Dashboard />} />
         <Route path='b/:listId' element={<TodoList />}>
           <Route index element={<TaskList />} />
         </Route>
-        <Route path='u/dashboard' element={<Dashboard />} />
       </Route>
     </Routes>
   );
