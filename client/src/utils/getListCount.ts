@@ -38,7 +38,7 @@ export const getListCount = (lists: ListProps[]) => {
       name: format(date, 'EEE'),
       tasks: completedTasksForDay,
     };
-  });
+  }).reverse();
 
   const lastMonthStats = (() => {
     const today = new Date();
