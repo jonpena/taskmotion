@@ -107,8 +107,8 @@ export const Dashboard = () => {
                 </TabsList>
               </CardTitle>
             </CardHeader>
-            <TabsContent value='week'>
-              <CardContent>
+            <CardContent>
+              <TabsContent value='week'>
                 <ResponsiveContainer className='-mx-10 !w-[calc(100%+2.75rem)] !h-[300px] xl:!h-[350px]'>
                   <BarChart data={data.last7DaysStats}>
                     <CartesianGrid
@@ -141,10 +141,8 @@ export const Dashboard = () => {
                     <Bar dataKey='tasks' className='fill-primary' />
                   </BarChart>
                 </ResponsiveContainer>
-              </CardContent>
-            </TabsContent>
-            <TabsContent value='month'>
-              <CardContent>
+              </TabsContent>
+              <TabsContent value='month'>
                 <ResponsiveContainer className='-mx-10 !w-[calc(100%+2.75rem)] !h-[300px] xl:!h-[350px]'>
                   <BarChart data={data.lastMonthStats}>
                     <CartesianGrid
@@ -177,8 +175,8 @@ export const Dashboard = () => {
                     <Bar dataKey='tasks' className='fill-primary' />
                   </BarChart>
                 </ResponsiveContainer>
-              </CardContent>
-            </TabsContent>
+              </TabsContent>
+            </CardContent>
           </Tabs>
         </Card>
         <Card className='bg-gray-100 dark:bg-neutral-900'>
