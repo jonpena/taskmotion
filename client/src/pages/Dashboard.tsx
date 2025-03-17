@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   BarChart,
   Bar,
@@ -17,7 +18,6 @@ import { useNotificationsStore } from '@/store/notificationsStore';
 import { formatDistanceToNow } from 'date-fns';
 import { notificationsStyle } from '@/utils/notificationsUtils';
 import { Clock } from 'lucide-react';
-
 
 export const Dashboard = () => {
   const { lists } = useListStore();
@@ -97,42 +97,89 @@ export const Dashboard = () => {
       </div>
       <div className='grid gap-4 md:grid-cols-2 mt-4'>
         <Card className='bg-gray-100 dark:bg-neutral-900'>
-          <CardHeader>
-            <CardTitle className='text-neutral-800 dark:text-neutral-50'>
-              Tasks Completed last week
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer className='-mx-11 !w-[calc(100%+3rem)] !h-[300px] xl:!h-[350px]'>
-              <BarChart data={data.last7DaysStats}>
-                <CartesianGrid strokeDasharray='3 3' className='stroke-muted' />
-                <XAxis dataKey='name' className='text-muted-foreground' />
-                <YAxis className='text-muted-foreground' />
-                <Tooltip
-                  cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }}
-                  contentStyle={{
-                    backgroundColor: 'hsl(var(--card))',
-                    borderRadius: '8px',
-                    border: '1px solid hsl(var(--border))',
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-                    padding: '6px 10px',
-                  }}
-                  labelStyle={{
-                    color: 'hsl(var(--foreground))',
-                    fontWeight: 600,
-                    marginBottom: '4px',
-                  }}
-                  itemStyle={{
-                    color: 'hsl(var(--muted-foreground))',
-                    fontSize: '0.875rem',
-                  }}
-                  formatter={(value: number) => [`${value} tasks`, 'Tasks']}
-                  labelFormatter={(label) => `${label}'s Tasks`}
-                />
-                <Bar dataKey='tasks' className='fill-primary' />
-              </BarChart>
-            </ResponsiveContainer>
-          </CardContent>
+          <Tabs defaultValue='week'>
+            <CardHeader className='h-16 flex flex-row items-center'>
+              <CardTitle className='text-neutral-800 flex items-center gap-x-2.5 dark:text-neutral-50'>
+                <span>Tasks Completed last week</span>
+                <TabsList className='self-start'>
+                  <TabsTrigger value='week'>Week</TabsTrigger>
+                  <TabsTrigger value='month'>Month</TabsTrigger>
+                </TabsList>
+              </CardTitle>
+            </CardHeader>
+            <TabsContent value='week'>
+              <CardContent>
+                <ResponsiveContainer className='-mx-10 !w-[calc(100%+2.75rem)] !h-[300px] xl:!h-[350px]'>
+                  <BarChart data={data.last7DaysStats}>
+                    <CartesianGrid
+                      strokeDasharray='3 3'
+                      className='stroke-muted'
+                    />
+                    <XAxis dataKey='name' className='text-muted-foreground' />
+                    <YAxis className='text-muted-foreground' />
+                    <Tooltip
+                      cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }}
+                      contentStyle={{
+                        backgroundColor: 'hsl(var(--card))',
+                        borderRadius: '8px',
+                        border: '1px solid hsl(var(--border))',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+                        padding: '6px 10px',
+                      }}
+                      labelStyle={{
+                        color: 'hsl(var(--foreground))',
+                        fontWeight: 600,
+                        marginBottom: '4px',
+                      }}
+                      itemStyle={{
+                        color: 'hsl(var(--muted-foreground))',
+                        fontSize: '0.875rem',
+                      }}
+                      formatter={(value: number) => [`${value} tasks`, 'Tasks']}
+                      labelFormatter={(label) => `${label}'s Tasks`}
+                    />
+                    <Bar dataKey='tasks' className='fill-primary' />
+                  </BarChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </TabsContent>
+            <TabsContent value='month'>
+              <CardContent>
+                <ResponsiveContainer className='-mx-10 !w-[calc(100%+2.75rem)] !h-[300px] xl:!h-[350px]'>
+                  <BarChart data={data.lastMonthStats}>
+                    <CartesianGrid
+                      strokeDasharray='3 3'
+                      className='stroke-muted'
+                    />
+                    <XAxis dataKey='name' className='text-muted-foreground' />
+                    <YAxis className='text-muted-foreground' />
+                    <Tooltip
+                      cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }}
+                      contentStyle={{
+                        backgroundColor: 'hsl(var(--card))',
+                        borderRadius: '8px',
+                        border: '1px solid hsl(var(--border))',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+                        padding: '6px 10px',
+                      }}
+                      labelStyle={{
+                        color: 'hsl(var(--foreground))',
+                        fontWeight: 600,
+                        marginBottom: '4px',
+                      }}
+                      itemStyle={{
+                        color: 'hsl(var(--muted-foreground))',
+                        fontSize: '0.875rem',
+                      }}
+                      formatter={(value: number) => [`${value} tasks`, 'Tasks']}
+                      labelFormatter={(label) => `${label}'s Tasks`}
+                    />
+                    <Bar dataKey='tasks' className='fill-primary' />
+                  </BarChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </TabsContent>
+          </Tabs>
         </Card>
         <Card className='bg-gray-100 dark:bg-neutral-900'>
           <CardHeader>
@@ -153,12 +200,21 @@ export const Dashboard = () => {
                         <p className='text-card-foreground font-medium text-sm'>
                           {notification.message}
                         </p>
-                        <Badge text={notification.action + ' ' + notification.type}
-                          className={`ml-2 ${notificationsStyle(notification.action)}`} />
+                        <Badge
+                          text={notification.action + ' ' + notification.type}
+                          className={`ml-2 ${notificationsStyle(
+                            notification.action
+                          )}`}
+                        />
                       </div>
-                      <div className="flex items-center mt-1 gap-1.5 text-xs text-zinc-400">
-                        <Clock className="h-3 w-3" />
-                        <span>{formatDistanceToNow(new Date(notification.timestamp), { addSuffix: true })}</span>
+                      <div className='flex items-center mt-1 gap-1.5 text-xs text-zinc-400'>
+                        <Clock className='h-3 w-3' />
+                        <span>
+                          {formatDistanceToNow(
+                            new Date(notification.timestamp),
+                            { addSuffix: true }
+                          )}
+                        </span>
                       </div>
                     </div>
                   </li>

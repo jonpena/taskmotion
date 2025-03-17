@@ -40,6 +40,28 @@ export const getListCount = (lists: ListProps[]) => {
     };
   });
 
+  const lastMonthStats = (() => {
+    const today = new Date();
+
+    return Array.from({ length: 30 }, (_, index) => {
+      const date = subDays(today, 29 - index); // Start from 29 days ago to include today
+
+      const tasksForDay = lists.reduce((acc, list) => {
+        return (
+          acc +
+          list.tasks.filter(
+            (task) => task.date && isSameDay(new Date(task.date), date)
+          ).length
+        );
+      }, 0);
+
+      return {
+        name: format(date, 'd MMM'), // Day and month abbreviated (e.g., "15 Mar")
+        tasks: tasksForDay,
+      };
+    });
+  })();
+
   const completedPercentage = Math.round((completed * 100) / total);
   const pendingPercentage = Math.round((pending * 100) / total);
   const overduePercentage = 100 - completedPercentage - pendingPercentage;
@@ -53,5 +75,6 @@ export const getListCount = (lists: ListProps[]) => {
     overdue,
     overduePercentage,
     last7DaysStats,
+    lastMonthStats,
   };
 };
