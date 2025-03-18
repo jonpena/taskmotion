@@ -1,24 +1,27 @@
-import { TaskProps } from "@shared/task.interface";
-import { useTaskState } from "./useTaskState";
-import { useParams } from "react-router-dom";
-import { useTaskStore } from "@/store/taskStore";
-import { useListStore } from "@/store/listStore";
-import { useModalStore } from "@/store/modalStore";
-import { ChangeEvent, useCallback } from "react";
-import { requestUpdateList } from "@/services/requestUpdateList";
-import { updateListState } from "@/utils/updateListState";
-import { MAX_TIMEOUT, SIZE_ID } from "@/constants/base";
-import { nanoid } from "nanoid";
-import { updateTaskState } from "@/utils/updateTaskState";
-import { requestAIDescription } from "@/services/requestAIDescription";
-import { calculateHeight, resetHeight } from "@/utils/calculateHeight";
-import { replaceEmojis } from "@/utils/replaceEmojis";
-import { createNotification } from "@/utils/createNotification";
-import { UserAuth } from "@/context/AuthContext";
-import { useNotificationsStore } from "@/store/notificationsStore";
+import { TaskProps } from '@shared/task.interface';
+import { useTaskState } from './useTaskState';
+import { useParams } from 'react-router-dom';
+import { useTaskStore } from '@/store/taskStore';
+import { useListStore } from '@/store/listStore';
+import { useModalStore } from '@/store/modalStore';
+import { ChangeEvent, useCallback } from 'react';
+import { requestUpdateList } from '@/services/requestUpdateList';
+import { updateListState } from '@/utils/updateListState';
+import { MAX_TIMEOUT, SIZE_ID } from '@/constants/base';
+import { nanoid } from 'nanoid';
+import { updateTaskState } from '@/utils/updateTaskState';
+import { requestAIDescription } from '@/services/requestAIDescription';
+import { calculateHeight, resetHeight } from '@/utils/calculateHeight';
+import { replaceEmojis } from '@/utils/replaceEmojis';
+import { createNotification } from '@/utils/createNotification';
+import { UserAuth } from '@/context/AuthContext';
+import { useNotificationsStore } from '@/store/notificationsStore';
 
 // Hook para manejar los handlers de la tarea
-export const useTaskHandlers = (task: TaskProps, state: ReturnType<typeof useTaskState>) => {
+export const useTaskHandlers = (
+  task: TaskProps,
+  state: ReturnType<typeof useTaskState>
+) => {
   const { listId } = useParams();
   const { tasks, setTasks } = useTaskStore();
   const { lists, setLists } = useListStore();
@@ -26,8 +29,6 @@ export const useTaskHandlers = (task: TaskProps, state: ReturnType<typeof useTas
   const { email } = UserAuth().user;
   const notificationsStore = useNotificationsStore();
 
-
-  // Función utilitaria para actualizar tareas y listas
   const updateTaskAndLists = useCallback(
     (updatedTasks: TaskProps[]) => {
       if (!listId) return;
@@ -42,8 +43,7 @@ export const useTaskHandlers = (task: TaskProps, state: ReturnType<typeof useTas
     if (!listId) return;
     const newTask = { ...task, id: nanoid(SIZE_ID) };
     const updateTasks = [newTask, ...tasks];
-    requestUpdateList(listId, { tasks: updateTasks });
-    setTasks(updateTasks);
+    updateTaskAndLists(updateTasks);
   }, [task, listId, tasks]);
 
   const handleMoveTo = useCallback(
@@ -92,9 +92,10 @@ export const useTaskHandlers = (task: TaskProps, state: ReturnType<typeof useTas
   const handleBlurDescription = () => {
     if (!listId || state.description === task.description) return;
     const { id } = task;
-    const updateTasks = updateTaskState(id, tasks, { description: state.description });
-    setTasks(updateTasks);
-    requestUpdateList(listId, { tasks: updateTasks });
+    const updateTasks = updateTaskState(id, tasks, {
+      description: state.description,
+    });
+    updateTaskAndLists(updateTasks);
   };
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -109,12 +110,12 @@ export const useTaskHandlers = (task: TaskProps, state: ReturnType<typeof useTas
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
     state.setChecked(e.target.checked);
     if (e.target.checked) {
-      createNotification(notificationsStore,email, {
+      createNotification(notificationsStore, email, {
         type: 'task',
         action: 'completed',
         message: task.name,
       });
-    };
+    }
   };
 
   const handleClicks = (e: React.MouseEvent) => {
@@ -139,7 +140,9 @@ export const useTaskHandlers = (task: TaskProps, state: ReturnType<typeof useTas
     const currentTime = Date.now();
     state.setTouchStartTime(currentTime);
     const tapLength = currentTime - state.lastTapTime;
-    state.setLastTapTime(tapLength < MAX_TIMEOUT && tapLength > 0 ? 0 : currentTime);
+    state.setLastTapTime(
+      tapLength < MAX_TIMEOUT && tapLength > 0 ? 0 : currentTime
+    );
   }, [state.lastTapTime, state.isFocused]);
 
   const handleTouchEnd = useCallback(
@@ -158,9 +161,9 @@ export const useTaskHandlers = (task: TaskProps, state: ReturnType<typeof useTas
       const updatedTasks = updateTaskState(task.id, tasks, {
         name: taskNameFormatted,
       });
-      setTasks(updatedTasks);
       state.setPreviousName(taskNameFormatted);
       state.setTaskName(taskNameFormatted);
+      updateTaskAndLists(updatedTasks);
     } else {
       state.setTaskName(state.previousName);
     }
@@ -177,8 +180,7 @@ export const useTaskHandlers = (task: TaskProps, state: ReturnType<typeof useTas
         description: newDescription,
       });
       state.setDescription(newDescription);
-      setTasks(updateTasks);
-      requestUpdateList(listId, { tasks: updateTasks });
+      updateTaskAndLists(updateTasks);
     } catch (error) {
       console.error('Error generating AI description:', error);
     } finally {
@@ -201,6 +203,6 @@ export const useTaskHandlers = (task: TaskProps, state: ReturnType<typeof useTas
     handleTouchStart,
     handleTouchEnd,
     handleBlur,
-    handleGenerateAIDescription
+    handleGenerateAIDescription,
   };
 };

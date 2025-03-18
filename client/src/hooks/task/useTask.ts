@@ -1,4 +1,4 @@
-import  {useEffect} from 'react';
+import { useEffect } from 'react';
 import { useTaskStore } from '@/store/taskStore';
 import { useModalStore } from '@/store/modalStore';
 import { replaceEmojis } from '@/utils/replaceEmojis';
@@ -14,10 +14,10 @@ export const useTask = (task: TaskProps) => {
   const { listId } = useParams();
   const { tasks, setTasks } = useTaskStore();
   const { isOpen } = useModalStore();
-  
+
   // Obtener el estado y los handlers
   const state = useTaskState(task);
-  const handlers = useTaskHandlers(task, state);  
+  const handlers = useTaskHandlers(task, state);
 
   // Sincronizar estados cuando se abre/cierra el modal
   useEffect(() => {
@@ -59,10 +59,11 @@ export const useTask = (task: TaskProps) => {
   // Manejar clics y doble clics
   useEffect(() => {
     if (state.debouncedCountClick === 0) return;
-    if (state.debouncedCountClick === 1 && !state.isFocused) handlers.handleClick();
+    if (state.debouncedCountClick === 1 && !state.isFocused)
+      handlers.handleClick();
     if (state.debouncedCountClick > 1) handlers.handleDoubleClick();
     state.setCountClick(0);
   }, [state.debouncedCountClick]);
 
-  return {...state,...handlers};
+  return { ...state, ...handlers };
 };
