@@ -24,7 +24,7 @@ const CreateTask = () => {
   const { lists, setLists } = useListStore();
   const { listId } = useParams();
   const [checked, setChecked] = useState(false);
-  const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const inputRef = useRef(null!) as React.RefObject<HTMLInputElement>;
   const keydown = useShortcut(['Control+e']);
   const isSmallDevice = useMediaQuery('only screen and (max-width : 1023px)');
   const [date, setDate] = useState<string | undefined>(undefined);

@@ -64,11 +64,11 @@ export const CalendarButton = ({
         {isCalendarVisible && (
           <motion.div
             ref={calendarRef}
-            className='z-50'
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.13 }}
+            style={{ zIndex: 50 }}
           >
             <Calendar
               mode='single'

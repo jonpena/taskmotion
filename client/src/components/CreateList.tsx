@@ -16,7 +16,7 @@ import { useNotificationsStore } from '@/store/notificationsStore';
 
 const CreateList = () => {
   const [listName, setListName] = useState('');
-  const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const inputRef = useRef(null!) as React.RefObject<HTMLInputElement>;
   const { email } = UserAuth().user;
   const keydown = useShortcut(['Control+l']);
   const isSmallDevice = useMediaQuery('only screen and (max-width : 1023px)');
