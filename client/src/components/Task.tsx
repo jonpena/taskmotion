@@ -70,7 +70,7 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
       />
 
       <TextDisplay
-        taskName={task.name}
+        taskName={taskName}
         checked={checked}
         date={task.date || ''}
         onClick={handleClicks}
