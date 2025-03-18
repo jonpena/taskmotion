@@ -25,7 +25,7 @@ const ListItem = ({ list }: ListItemProps) => {
   const navigate = useNavigate();
   const { tasks } = useTaskStore();
   const { lists, setLists } = useListStore();
-  const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const inputRef = useRef(null!) as React.MutableRefObject<HTMLInputElement>;
   const [countTasks, setCountTasks] = useState(0);
   const [isFocused, setIsFocused] = useState(false);
   const { setOpen, setHandleDelete, setListTitle } = useAlertDialogStore();
@@ -68,7 +68,7 @@ const ListItem = ({ list }: ListItemProps) => {
         type: 'list',
         action: 'deleted',
         message: list.name,
-      })
+      });
     });
     setOpen(true);
   };
