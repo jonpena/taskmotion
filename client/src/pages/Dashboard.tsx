@@ -136,7 +136,7 @@ export const Dashboard = () => {
                         fontSize: '0.875rem',
                       }}
                       formatter={(value: number) => [`${value} tasks`, 'Tasks']}
-                      labelFormatter={(label) => `${label}'s Tasks`}
+                      labelFormatter={(label: string) => `${label}'s Tasks`}
                     />
                     <Bar dataKey='tasks' className='fill-primary' />
                   </BarChart>
@@ -170,7 +170,7 @@ export const Dashboard = () => {
                         fontSize: '0.875rem',
                       }}
                       formatter={(value: number) => [`${value} tasks`, 'Tasks']}
-                      labelFormatter={(label) => `${label}'s Tasks`}
+                      labelFormatter={(label: string) => `${label}'s Tasks`}
                     />
                     <Bar dataKey='tasks' className='fill-primary' />
                   </BarChart>
