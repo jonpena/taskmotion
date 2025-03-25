@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
@@ -23,8 +23,20 @@ export const Dashboard = () => {
   const { lists } = useListStore();
   const { tasks } = useTaskStore();
   const { notifications } = useNotificationsStore();
+  const [totalCompleted, setTotalCompleted] = useState(0);
+
+  const handleTabClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!data) setTotalCompleted(0);
+    let stats = data.last7DaysStats;
+    if (e.currentTarget.textContent !== 'Week') stats = data.lastMonthStats;
+    setTotalCompleted(stats.reduce((acc, c) => acc + c.tasks, 0));
+  };
 
   const data = useMemo(() => getListCount(lists), [lists, tasks]);
+
+  useEffect(() => {
+    setTotalCompleted(data.last7DaysStats.reduce((acc, c) => acc + c.tasks, 0));
+  }, [data]);
 
   if (!data) return <div></div>;
 
@@ -99,12 +111,27 @@ export const Dashboard = () => {
         <Card className='bg-gray-100 dark:bg-neutral-900'>
           <Tabs defaultValue='week'>
             <CardHeader className='h-16 flex flex-row items-center'>
-              <CardTitle className='text-neutral-800 flex items-center gap-x-2.5 dark:text-neutral-50'>
-                <span>Completed Tasks</span>
-                <TabsList className='self-start'>
-                  <TabsTrigger value='week'>Week</TabsTrigger>
-                  <TabsTrigger value='month'>Month</TabsTrigger>
-                </TabsList>
+              <CardTitle className='w-full text-neutral-800 flex justify-between items-center dark:text-neutral-50'>
+                <span className='flex items-center gap-x-2.5 dark:text-neutral-50'>
+                  <span className='hidden sm:inline-block'>
+                    Completed Tasks
+                  </span>
+                  <TabsList className='self-start'>
+                    <TabsTrigger value='week' onClick={handleTabClick}>
+                      <span>Week</span>
+                    </TabsTrigger>
+                    <TabsTrigger value='month' onClick={handleTabClick}>
+                      Month
+                    </TabsTrigger>
+                  </TabsList>
+                </span>
+                <Badge
+                  text={totalCompleted.toString()}
+                  className={`w-7 py-1 text-sm bg-neutral-500/10 self-center text-center
+                    ${
+                      totalCompleted === 0 ? 'text-red-500' : 'text-green-500'
+                    }`}
+                />
               </CardTitle>
             </CardHeader>
             <CardContent>
