@@ -62,9 +62,13 @@ export const getListCount = (lists: ListProps[]) => {
     });
   })();
 
-  const completedPercentage = Math.round((completed * 100) / total);
-  const pendingPercentage = Math.round((pending * 100) / total);
-  const overduePercentage = 100 - completedPercentage - pendingPercentage;
+  const completedAux = Math.round((completed * 100) / total);
+  const pendingAux = Math.round((pending * 100) / total);
+  const overdueAux = 100 - completedAux - pendingAux;
+
+  let completedPercentage = isNaN(completedAux) ? 100 : completedAux;
+  const pendingPercentage = isNaN(pendingAux) ? 0 : pendingAux;
+  const overduePercentage = isNaN(overdueAux) ? 0 : overdueAux;
 
   return {
     total,
