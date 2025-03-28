@@ -38,6 +38,8 @@ export const Dashboard = () => {
     setTotalCompleted(data.last7DaysStats.reduce((acc, c) => acc + c.tasks, 0));
   }, [data]);
 
+  console.log(notifications);
+
   if (!data) return <div></div>;
 
   return (
@@ -214,6 +216,11 @@ export const Dashboard = () => {
           </CardHeader>
           <CardContent>
             <div className='mt-0 overflow-y-auto !h-[300px] xl:!h-[350px]'>
+              {notifications?.length === 0 && (
+                <div className='flex items-center justify-center h-full'>
+                  No recent activity.
+                </div>
+              )}
               <ul className='space-y-2'>
                 {notifications?.map((notification, index) => (
                   <li
