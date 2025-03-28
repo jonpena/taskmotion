@@ -173,14 +173,17 @@ export const useTaskHandlers = (
 
   const handleGenerateAIDescription = async () => {
     if (!listId || !state.taskName) return;
-    state.setIsGeneratingAI(true);
     try {
-      const newDescription = await requestAIDescription(state.taskName);
-      const updateTasks = updateTaskState(task.id, tasks, {
+      state.setIsGeneratingAI(true);
+      const newDescription = await requestAIDescription(
+        state.taskName,
+        state.description
+      );
+      const updatedTasks = updateTaskState(task.id, tasks, {
         description: newDescription,
       });
       state.setDescription(newDescription);
-      updateTaskAndLists(updateTasks);
+      updateTaskAndLists(updatedTasks);
     } catch (error) {
       console.error('Error generating AI description:', error);
     } finally {
