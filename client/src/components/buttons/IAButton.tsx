@@ -4,11 +4,12 @@ import { Loader2, Sparkles } from 'lucide-react';
 
 interface IAButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading: boolean;
+  title: string;
 }
 
-export const IAButton = ({ isLoading, ...props }: IAButtonProps) => {
+export const IAButton = ({ isLoading, title, ...props }: IAButtonProps) => {
   return (
-    <Tooltip title='Generate with AI'>
+    <Tooltip title={title}>
       <Button
         size='icon'
         variant='ghost'

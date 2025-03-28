@@ -119,6 +119,11 @@ export const TaskDrawer = () => {
 
                 <IAButton
                   isLoading={isGeneratingAI}
+                  title={
+                    description
+                      ? 'Enhance Description'
+                      : 'Generate AI description'
+                  }
                   onClick={handleGenerateAIDescription}
                   disabled={isGeneratingAI}
                 />
