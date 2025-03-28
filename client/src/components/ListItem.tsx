@@ -58,7 +58,9 @@ const ListItem = ({ list }: ListItemProps) => {
     refreshLists();
   };
 
-  const handleDeleteList = (_listId: string) => {
+  const handleDeleteList = (e: React.MouseEvent, _listId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
     setHandleDelete(() => {
       const filterListCollection = lists.filter((l) => l.listId !== _listId);
       if (_listId === listId) navigate('/u/dashboard');
@@ -112,7 +114,9 @@ const ListItem = ({ list }: ListItemProps) => {
 
   return (
     <li
+      tabIndex={0}
       onClick={handleClicks}
+      onKeyDown={(e) => e.key === 'Enter' && handleClicks()}
       className={`relative w-full h-12 mx-auto mt-1 flex items-center justify-between text-neutral-500 dark:text-neutral-100
         bg-gray-100 dark:bg-neutral-900 rounded-md hover:bg-gray-200 dark:hover:bg-white/20 
         transition-colors duration-200 select-none group
@@ -144,8 +148,8 @@ const ListItem = ({ list }: ListItemProps) => {
         </span>
       </div>
       <Tooltip title='Delete list'>
-        <span
-          onClick={() => handleDeleteList(list.listId as string)}
+        <button
+          onClick={(e) => handleDeleteList(e, list.listId as string)}
           className='z-0 mr-2 w-7 h-7 flex justify-center items-center 
         text-sm font-medium bg-white dark:bg-neutral-800 rounded-lg select-none aspect-square'
         >
@@ -159,7 +163,7 @@ const ListItem = ({ list }: ListItemProps) => {
           >
             <span className='w-full'>{countTasks}</span>
           </span>
-        </span>
+        </button>
       </Tooltip>
     </li>
   );

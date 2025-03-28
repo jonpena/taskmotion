@@ -5,6 +5,7 @@ import { CalendarIcon } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';
+import { useShortcut } from '@/hooks/useShortcut';
 
 type CalendarButtonProps = {
   date: string | undefined;
@@ -24,6 +25,7 @@ export const CalendarButton = ({
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
   const calendarRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const keydown = useShortcut(['Escape']);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -42,6 +44,11 @@ export const CalendarButton = ({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    if (keydown && isCalendarVisible && keydown === 'Escape')
+      setIsCalendarVisible(false);
+  }, [keydown]);
 
   return (
     <div className={cn(`flex flex-col items-start relative`, className)}>

@@ -38,8 +38,6 @@ export const Dashboard = () => {
     setTotalCompleted(data.last7DaysStats.reduce((acc, c) => acc + c.tasks, 0));
   }, [data]);
 
-  console.log(notifications);
-
   if (!data) return <div></div>;
 
   return (

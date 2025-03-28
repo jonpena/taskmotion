@@ -67,6 +67,17 @@ const CreateTask = () => {
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    handleTaskCreation();
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleTaskCreation();
+    }
+  };
+
+  const handleTaskCreation = () => {
     taskName ? createTask() : inputRef.current?.focus();
   };
 
@@ -81,6 +92,7 @@ const CreateTask = () => {
         checked={checked}
         className='transition-all duration-1000'
         onChange={(e) => setChecked(e.target.checked)}
+        onKeyDown={(e) => e.key === 'Enter' && setChecked(!checked)}
       />
 
       <Input
@@ -106,7 +118,11 @@ const CreateTask = () => {
         }`}
       />
 
-      <AddButton title='Create new task' onMouseDown={handleClick} />
+      <AddButton
+        title='Create new task'
+        onMouseDown={handleClick}
+        onKeyDown={handleKeyDown}
+      />
     </div>
   );
 };

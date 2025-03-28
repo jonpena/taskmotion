@@ -17,18 +17,13 @@ export function AlertDialogMessage() {
   const { open, listTitle, setOpen, handleDelete } = useAlertDialogStore();
   const keydown = useShortcut(['Escape', 'Enter']);
 
-  const handleCancelClick = () => setOpen(false);
-
   const handleDeleteClick = () => {
-    setOpen(false);
     handleDelete();
+    setOpen(false);
   };
 
   useEffect(() => {
-    if (keydown) {
-      if (open && keydown === 'Escape') handleCancelClick();
-      if (open && keydown === 'Enter') handleDeleteClick();
-    }
+    if (keydown && open && keydown === 'Escape') setOpen(false);
   }, [keydown]);
 
   return (
@@ -43,12 +38,12 @@ export function AlertDialogMessage() {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={handleCancelClick}>
+          <AlertDialogCancel onClick={() => setOpen(false)}>
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction
-            autoFocus
             className='!bg-red-600 !hover:bg-red-700 dark:text-neutral-200'
+            autoFocus
             onClick={handleDeleteClick}
           >
             Delete list

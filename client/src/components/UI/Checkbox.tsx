@@ -4,7 +4,6 @@ import { InputHTMLAttributes } from 'react';
 
 type CheckboxProps = InputHTMLAttributes<HTMLInputElement> & {
   classNameContainer?: string;
-  handleChange?: (e: React.MouseEvent<HTMLInputElement>) => void;
 };
 
 const Checkbox = ({
@@ -13,7 +12,6 @@ const Checkbox = ({
   disabled,
   className,
   classNameContainer,
-  handleChange,
   ...props
 }: CheckboxProps) => {
   return (
@@ -33,6 +31,10 @@ const Checkbox = ({
           ${disabled && 'cursor-not-allowed'}`,
           className
         )}
+        role='checkbox'
+        tabIndex={0}
+        aria-checked={checked}
+        {...props}
       >
         <CheckIcon className='text-gray-700 dark:text-neutral-50 absolute inset-0 m-auto w-[0.6rem] animate-none stroke-[6px] text-foreground opacity-0' />
       </div>

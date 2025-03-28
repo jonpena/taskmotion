@@ -9,8 +9,10 @@ export const DashboardButton = () => {
 
   return (
     <li
+      tabIndex={0}
       id='dashboard'
       onClick={handleClick}
+      onKeyDown={(e) => e.key === 'Enter' && handleClick()}
       className={`flex items-center gap-2 px-3 text-gray-700 dark:text-neutral-50 
     bg-gray-100 dark:bg-neutral-900 w-full h-12 rounded-md 
     hover:bg-gray-200 dark:hover:bg-white/15

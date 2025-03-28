@@ -53,6 +53,13 @@ const CreateList = () => {
     listName ? createList() : inputRef.current?.focus();
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      listName ? createList() : inputRef.current?.focus();
+    }
+  };
+
   const handleKeyPress = (e: React.KeyboardEvent) =>
     e.key === 'Enter' && createList();
 
@@ -79,7 +86,11 @@ const CreateList = () => {
         <ShortcutBadge keys='L' className={`${listName && 'opacity-0'}`} />
       )}
 
-      <AddButton title='Create new list' onMouseDown={handleClick} />
+      <AddButton
+        title='Create new list'
+        onMouseDown={handleClick}
+        onKeyDown={handleKeyDown}
+      />
     </div>
   );
 };
