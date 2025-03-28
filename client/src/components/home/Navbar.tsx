@@ -21,9 +21,9 @@ const Navbar = () => {
     setIsDark(theme === 'dark');
   }, []);
 
-  const handleTheme = (_isDark: boolean) => {
-    if (isDark === _isDark) return;
-    setIsDark(_isDark);
+  const handleTheme = (isThemeDark: boolean) => {
+    if (isDark === isThemeDark) return;
+    setIsDark(isThemeDark);
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
@@ -46,7 +46,7 @@ const Navbar = () => {
             </span>
           </a>
           <div className='flex items-center lg:order-2 gap-x-3'>
-            <div
+            <button
               className='relative w-14 h-7 rounded-full bg-background/95 border border-input cursor-pointer'
               onClick={() => handleTheme(!isDark)}
             >
@@ -61,7 +61,7 @@ const Navbar = () => {
                   <Sun className='h-4 w-4 text-neutral-800' />
                 )}
               </div>
-            </div>
+            </button>
             <a
               className='flex items-center text-gray-300 hover:text-gray-500 transition-colors'
               href='https://github.com/jonpena/taskmotion'
