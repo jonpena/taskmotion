@@ -87,7 +87,7 @@ export const TaskDrawer = () => {
                   taskName={taskName}
                   checked={checked}
                   date={task.date || ''}
-                  className='pl-1 w-[calc(100%-5rem)]'
+                  className='pl-0.5 w-[calc(100%-5rem)]'
                   classNameButton='pt-3.5 pointer-events-none'
                 />
 
