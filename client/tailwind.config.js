@@ -14,7 +14,7 @@ export default {
         strikethrough: 'cubic-bezier(0.55, 0, 0.1, 1)',
       },
       height: {
-        custom: 'calc(100dvh - 17rem)',
+        custom: 'calc(100dvh - 17.2rem)',
         customMobile: 'calc(100dvh - 4rem)',
       },
       borderRadius: {
