@@ -43,7 +43,7 @@
     "react-day-picker": "8.10.1",
     "react-dom": "^19.1.0",
     "react-router-dom": "^6.21.1",
-    "react-virtuoso": "^4.12.3",
+    "react-virtuoso": "^4.12.6",
     "recharts": "^2.15.0",
     "swr": "^2.3.0",
     "tailwind-merge": "^2.5.2",
