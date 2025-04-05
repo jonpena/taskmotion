@@ -20,7 +20,7 @@ export const TextDisplay = ({
     <button
       onMouseDown={(e) => e.preventDefault()}
       className={cn(
-        `cursor-text absolute pt-3 left-0 z-0 w-full h-full rounded-md flex items-start text-left 
+        `cursor-text absolute pt-3.5 left-0.5 z-0 w-full h-full rounded-md flex items-start text-left 
     peer-focus:pointer-events-none peer-focus:opacity-0 peer-focus:!text-transparent`,
         classNameButton
       )}
