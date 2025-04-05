@@ -41,7 +41,7 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
     <div
       title={task.name}
       className={`w-full h-full p-2 my-1 overflow-x-hidden
-      rounded-lg flex justify-between items-center text-neutral-500 dark:text-neutral-100
+      rounded-md flex justify-between items-center text-neutral-500 dark:text-neutral-100
       bg-neutral-100 dark:bg-neutral-900`}
     >
       <SortableButton attributes={attributes} listeners={listeners} />

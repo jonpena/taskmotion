@@ -9,7 +9,7 @@ export const Badge = ({ text, className }: BadgeProps) => {
   return (
     <div
       className={cn(
-        `table self-baseline rounded-lg text-xs font-medium leading-none px-1 py-1.5 mr-1 text-nowrap
+        `table self-baseline rounded-md text-xs font-medium leading-none px-1 py-1.5 mr-1 text-nowrap
         }`,
         className
       )}

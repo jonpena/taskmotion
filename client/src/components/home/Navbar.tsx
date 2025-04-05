@@ -1,24 +1,18 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Star, Moon, Sun } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useTheme } from '@/context/ThemeContext';
-import { GITHUB_API_URL } from '@/config';
+import { requestGithubStar } from '@/services/requestGithubStar';
 
 const Navbar = () => {
-  const [starCount, setStarCount] = useState(0);
   const { theme, setTheme } = useTheme();
   const navigate = useNavigate();
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(theme === 'dark');
+  const [starCount, setStarCount] = useState(0);
 
   useEffect(() => {
-    (async () => {
-      const res = await axios.get(GITHUB_API_URL);
-      setStarCount(res.data.watchers);
-    })();
-
-    setIsDark(theme === 'dark');
+    requestGithubStar().then((value) => setStarCount(value));
   }, []);
 
   const handleTheme = (isThemeDark: boolean) => {
@@ -68,12 +62,12 @@ const Navbar = () => {
               target='_blank'
               rel='noopener noreferrer'
             >
-              <div className='h-9 pl-3 flex items-center rounded-lg bg-gray-200 dark:bg-neutral-800 dark:hover:bg-neutral-700/60 cursor-pointer shadow-sm transition-transform transform'>
+              <div className='h-9 pl-3 flex items-center rounded-md bg-gray-200 dark:bg-neutral-800 dark:hover:bg-neutral-700/60 cursor-pointer shadow-sm transition-transform transform'>
                 <Star className='w-4 h-4 mr-2 text-gray-800 dark:text-gray-200' />
                 <div className='hidden mr-2 sm:inline-block text-gray-800 dark:text-white'>
                   stars
                 </div>
-                <span className='h-9 font-medium text-sm bg-gray-500 text-white dark:text-gray-800 dark:bg-gray-400 rounded-r-lg border-gray-700 px-3 flex items-center'>
+                <span className='h-9 font-medium text-sm bg-gray-500 text-white dark:text-gray-800 dark:bg-gray-400 rounded-r-md border-gray-700 px-3 flex items-center'>
                   {starCount}
                 </span>
               </div>

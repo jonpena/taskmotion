@@ -27,7 +27,7 @@ const SortableItem = ({ task }: SortableItemProps) => {
         transform: CSS.Translate.toString(transform),
         transition,
       }}
-      className={`relative bg-gray-100 dark:bg-neutral-900 list-none user-select-none rounded-lg mx-auto
+      className={`relative bg-gray-100 dark:bg-neutral-900 list-none user-select-none rounded-md mx-auto
         `}
     >
       <Task task={task} attributes={attributes} listeners={listeners} />

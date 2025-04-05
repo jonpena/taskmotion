@@ -151,7 +151,7 @@ const ListItem = ({ list }: ListItemProps) => {
         <button
           onClick={(e) => handleDeleteList(e, list.listId as string)}
           className='z-0 mr-2 w-7 h-7 flex justify-center items-center 
-        text-sm font-medium bg-white dark:bg-neutral-800 rounded-lg select-none aspect-square'
+        text-sm font-medium bg-white dark:bg-neutral-800 rounded-md select-none aspect-square'
         >
           <Trash2
             data-testid='delete-icon'

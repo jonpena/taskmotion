@@ -44,7 +44,7 @@ export const TaskDrawer = () => {
             variant='ghost'
             size='icon'
             onClick={() => setIsOpen(false)}
-            className='rounded-xl'
+            className='rounded-sm'
           >
             <X className='h-4 w-4' />
           </Button>
@@ -60,7 +60,7 @@ export const TaskDrawer = () => {
                 Task name
               </label>
               <div
-                className={`relative w-full h-full py-2 px-1.5 my-1 rounded-lg flex justify-between items-center text-neutral-500 dark:text-neutral-100`}
+                className={`relative w-full h-full py-2 px-1.5 my-1 rounded-md flex justify-between items-center text-neutral-500 dark:text-neutral-100`}
               >
                 <Checkbox
                   name='checked'

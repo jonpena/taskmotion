@@ -13,7 +13,7 @@ export const IAButton = ({ isLoading, title, ...props }: IAButtonProps) => {
       <Button
         size='icon'
         variant='ghost'
-        className='absolute right-1.5 top-1.5 text-muted-foreground hover:text-primary transition-colors duration-200'
+        className='absolute right-1.5 top-1.5 text-muted-foreground hover:text-primary transition-colors duration-200 rounded-sm'
         {...props}
       >
         {isLoading ? (
