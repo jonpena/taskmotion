@@ -25,7 +25,7 @@ const CreateTask = () => {
   const { listId } = useParams();
   const [checked, setChecked] = useState(false);
   const inputRef = useRef(null!) as React.RefObject<HTMLInputElement>;
-  const keydown = useShortcut(['Control+e']);
+  const keydown = useShortcut(['ctrl+e']);
   const isSmallDevice = useMediaQuery('only screen and (max-width : 1023px)');
   const [date, setDate] = useState<string | undefined>(undefined);
   const { email } = UserAuth().user;
@@ -82,7 +82,7 @@ const CreateTask = () => {
   };
 
   useEffect(() => {
-    if (keydown === 'Control+e') inputRef.current?.focus();
+    if (keydown === 'ctrl+e') inputRef.current?.focus();
   }, [keydown]);
 
   return (
