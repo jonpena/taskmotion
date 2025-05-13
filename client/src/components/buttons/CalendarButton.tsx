@@ -25,7 +25,7 @@ export const CalendarButton = ({
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
   const calendarRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const keydown = useShortcut(['Escape']);
+  const keydown = useShortcut(['escape']);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -46,7 +46,8 @@ export const CalendarButton = ({
   }, []);
 
   useEffect(() => {
-    if (keydown && isCalendarVisible && keydown === 'Escape')
+    console.log(keydown);
+    if (keydown && isCalendarVisible && keydown === 'escape')
       setIsCalendarVisible(false);
   }, [keydown]);
 
