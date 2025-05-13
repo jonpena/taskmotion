@@ -18,16 +18,16 @@ vi.mock('react-router-dom', () => ({
   }),
 }));
 
-vi.mock('@/hooks/useShortcut', () => ({
-  useShortcut: () => 'Control+e',
-}));
-
 vi.mock('@uidotdev/usehooks', () => ({
   useMediaQuery: vi.fn(),
 }));
 
 vi.mock('@/services/requestUpdateList', () => ({
   requestUpdateList: vi.fn(),
+}));
+
+vi.mock('@/services/requestUpdateNotifications', () => ({
+  requestUpdateNotifications: vi.fn().mockResolvedValue([]), // O lo que esperes
 }));
 
 describe('CreateTask', () => {
@@ -96,8 +96,8 @@ describe('CreateTask', () => {
 
   it('should focus input when shortcut control+e is pressed', async () => {
     const user = userEvent.setup();
-    const input = screen.getByPlaceholderText('Create new task...');
-    await user.keyboard('{Control}{E}');
+    const input = screen.getByRole('textbox');
+    await user.keyboard('{Control>}{e}{/Control}');
     expect(document.activeElement).toBe(input);
   });
 });
