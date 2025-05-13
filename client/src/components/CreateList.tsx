@@ -25,7 +25,6 @@ const CreateList = () => {
   const notificationsStore = useNotificationsStore();
 
   const createList = () => {
-    // Create list
     if (listName) {
       const newlist = {
         listId: nanoid(SIZE_ID),
