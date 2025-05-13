@@ -15,7 +15,7 @@ import { useEffect } from 'react';
 
 export function AlertDialogMessage() {
   const { open, listTitle, setOpen, handleDelete } = useAlertDialogStore();
-  const keydown = useShortcut(['Escape', 'Enter']);
+  const keydown = useShortcut(['escape', 'enter']);
 
   const handleDeleteClick = () => {
     handleDelete();
@@ -23,7 +23,7 @@ export function AlertDialogMessage() {
   };
 
   useEffect(() => {
-    if (keydown && open && keydown === 'Escape') setOpen(false);
+    if (keydown && open && keydown === 'escape') setOpen(false);
   }, [keydown]);
 
   return (
