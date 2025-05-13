@@ -46,7 +46,6 @@ export const CalendarButton = ({
   }, []);
 
   useEffect(() => {
-    console.log(keydown);
     if (keydown && isCalendarVisible && keydown === 'escape')
       setIsCalendarVisible(false);
   }, [keydown]);
