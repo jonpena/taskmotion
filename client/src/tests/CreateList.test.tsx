@@ -16,10 +16,6 @@ vi.mock('react-router-dom', () => ({
   useNavigate: vi.fn(),
 }));
 
-vi.mock('@/hooks/useShortcut', () => ({
-  useShortcut: () => 'Control+l',
-}));
-
 vi.mock('@uidotdev/usehooks', () => ({
   useMediaQuery: vi.fn(),
 }));
@@ -28,6 +24,10 @@ vi.mocked(useNavigate).mockReturnValue(vi.fn());
 
 vi.mock('@/services/requestCreateList', () => ({
   requestCreateList: () => Promise.resolve([]),
+}));
+
+vi.mock('@/services/requestUpdateNotifications', () => ({
+  requestUpdateNotifications: vi.fn().mockResolvedValue([]), // O lo que esperes
 }));
 
 describe('CreateList', () => {
@@ -97,7 +97,7 @@ describe('CreateList', () => {
   it('should focus input when shortcut control+l is pressed', async () => {
     const user = userEvent.setup();
     const input = screen.getByRole('textbox');
-    await user.keyboard('{Control}{L}');
+    await user.keyboard('{Control>}{l}{/Control}');
     expect(document.activeElement).toBe(input);
   });
 });
