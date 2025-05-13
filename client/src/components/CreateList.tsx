@@ -18,7 +18,7 @@ const CreateList = () => {
   const [listName, setListName] = useState('');
   const inputRef = useRef(null!) as React.RefObject<HTMLInputElement>;
   const { email } = UserAuth().user;
-  const keydown = useShortcut(['Control+l']);
+  const keydown = useShortcut(['ctrl+l']);
   const isSmallDevice = useMediaQuery('only screen and (max-width : 1023px)');
   const navigate = useNavigate();
   const { lists, setLists } = useListStore();
@@ -64,7 +64,7 @@ const CreateList = () => {
     e.key === 'Enter' && createList();
 
   useEffect(() => {
-    if (keydown === 'Control+l') inputRef.current?.focus();
+    if (keydown === 'ctrl+l') inputRef.current?.focus();
   }, [keydown]);
 
   return (
