@@ -21,7 +21,7 @@ const Hero = () => {
       </div>
 
       {/* Stats Card - Updated background and text colors */}
-      <div className='bg-card/60 backdrop-blur-lg rounded-xl p-6 text-card-foreground border border-border/50'>
+      <div className='bg-card/60 dark:bg-neutral-950/60 backdrop-blur-lg rounded-xl p-6 text-card-foreground border border-border/50'>
         <div className='flex flex-col h-full justify-center items-center'>
           <h3 className='text-2xl font-semibold mb-2'>Trusted by Users</h3>
           <p className='text-5xl font-bold text-primary'>10k+</p>
@@ -30,7 +30,7 @@ const Hero = () => {
       </div>
 
       {/* Features Grid - Updated styling for all feature cards */}
-      <div className='bg-card/60 backdrop-blur-lg rounded-xl p-6 text-card-foreground border border-border/50'>
+      <div className='bg-card/60 dark:bg-neutral-950/60  backdrop-blur-lg rounded-xl p-6 text-card-foreground border border-border/50'>
         <ListTodo className='h-8 w-8 text-primary mb-4' />
         <h3 className='text-xl font-semibold mb-2'>Smart Lists</h3>
         <p className='text-muted-foreground'>
@@ -38,7 +38,7 @@ const Hero = () => {
         </p>
       </div>
 
-      <div className='bg-card/60 backdrop-blur-lg rounded-xl p-6 text-card-foreground border border-border/50'>
+      <div className='bg-card/60 dark:bg-neutral-950/60  backdrop-blur-lg rounded-xl p-6 text-card-foreground border border-border/50'>
         <Target className='h-8 w-8 text-primary mb-4' />
         <h3 className='text-xl font-semibold mb-2'>Goal Tracking</h3>
         <p className='text-muted-foreground'>
@@ -46,7 +46,7 @@ const Hero = () => {
         </p>
       </div>
 
-      <div className='bg-card/60 backdrop-blur-lg rounded-xl p-6 text-card-foreground border border-border/50'>
+      <div className='bg-card/60 dark:bg-neutral-950/60  backdrop-blur-lg rounded-xl p-6 text-card-foreground border border-border/50'>
         <Zap className='h-8 w-8 text-primary mb-4' />
         <h3 className='text-xl font-semibold mb-2'>Quick Actions</h3>
         <p className='text-muted-foreground'>
@@ -55,7 +55,7 @@ const Hero = () => {
       </div>
 
       {/* Testimonial - Updated styling */}
-      <div className='md:col-span-2 bg-card/60 backdrop-blur-lg rounded-xl p-6 text-card-foreground border border-border/50'>
+      <div className='md:col-span-2 bg-card/60 dark:bg-neutral-950/60  backdrop-blur-lg rounded-xl p-6 text-card-foreground border border-border/50'>
         <Star className='h-6 w-6 text-yellow-500 mb-4' />
         <p className='text-lg mb-4'>
           "This todo app has completely transformed how I manage my daily tasks.
@@ -66,7 +66,7 @@ const Hero = () => {
       </div>
 
       {/* Calendar Preview */}
-      <div className='bg-card/60 backdrop-blur-lg rounded-xl p-6 text-card-foreground border border-border/50'>
+      <div className='bg-card/60 dark:bg-neutral-950/60  backdrop-blur-lg rounded-xl p-6 text-card-foreground border border-border/50'>
         <Calendar className='h-8 w-8 text-primary mb-4' />
         <h3 className='text-xl font-semibold mb-2'>Calendar View</h3>
         <p className='text-muted-foreground'>

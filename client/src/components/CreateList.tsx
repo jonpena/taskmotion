@@ -68,7 +68,7 @@ const CreateList = () => {
 
   return (
     <div
-      className='mt-1 w-full sticky bottom-0 flex items-center group bg-gray-100 
+      className='mt-1 w-full sticky bottom-0 flex items-center group bg-neutral-100 
     dark:bg-neutral-900 rounded-md px-2'
     >
       <Input
@@ -78,7 +78,7 @@ const CreateList = () => {
         onChange={(e) => setListName(e.target.value.trimStart())}
         onKeyDown={handleKeyPress}
         placeholder='Create new list...'
-        className='text-neutral-600 dark:text-neutral-50 pl-2 h-12 border-none bg-gray-100 dark:bg-neutral-900 hover:bg-gray-200 focus-visible:ring-0 focus-visible:bg-gray-200 focus-visible:placeholder:text-neutral-400 dark:focus-visible:placeholder:text-neutral-200'
+        className='text-neutral-600 dark:text-neutral-50 px-2 outline-none w-full h-12 border-none focus-visible:ring-0 focus-visible:placeholder:text-neutral-400 dark:focus-visible:placeholder:text-neutral-100 rounded-none shadow-none'
       />
 
       {!isSmallDevice && (

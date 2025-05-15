@@ -78,7 +78,7 @@ const SortableList = () => {
         <SortableContext items={tasks}>
           <Virtuoso
             data={tasks}
-            className='lg:!h-custom !h-customMobile'
+            className='lg:!h-custom !h-custom-mobile'
             totalCount={tasks.length}
             itemContent={(index, item) => (
               <div key={item.id} className={`${!index && 'lg:pt-12'} `}>

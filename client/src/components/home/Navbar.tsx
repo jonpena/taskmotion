@@ -23,7 +23,7 @@ const Navbar = () => {
 
   return (
     <header className='fixed w-full z-50'>
-      <nav className='backdrop-blur-lg bg-neutral-50 dark:bg-background border-gray-200 py-2.5'>
+      <nav className='backdrop-blur-lg bg-background dark:bg-background border-gray-200 py-2.5'>
         <div className='flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto'>
           <a
             href='/'
@@ -41,7 +41,7 @@ const Navbar = () => {
           </a>
           <div className='flex items-center lg:order-2 gap-x-3'>
             <button
-              className='relative w-14 h-7 rounded-full bg-background/95 border border-input cursor-pointer'
+              className='relative w-14 h-7 rounded-full bg-background/95 border border-foreground/10 dark:border-input/40 cursor-pointer'
               onClick={() => handleTheme(!isDark)}
             >
               <div

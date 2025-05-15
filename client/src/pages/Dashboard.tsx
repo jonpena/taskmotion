@@ -46,7 +46,7 @@ export const Dashboard = () => {
         Dashboard
       </h1>
       <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
-        <Card className='bg-gray-100 dark:bg-neutral-900'>
+        <Card className='bg-neutral-50 dark:bg-neutral-900'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium text-neutral-700 dark:text-neutral-50'>
               Total Tasks
@@ -58,7 +58,7 @@ export const Dashboard = () => {
             </div>
           </CardContent>
         </Card>
-        <Card className='bg-gray-100 dark:bg-neutral-900'>
+        <Card className='bg-neutral-50 dark:bg-neutral-900'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='flex items-center gap-2 text-sm font-medium text-neutral-700 dark:text-neutral-50'>
               <span>Completed Tasks</span>
@@ -74,7 +74,7 @@ export const Dashboard = () => {
             </div>
           </CardContent>
         </Card>
-        <Card className='bg-gray-100 dark:bg-neutral-900'>
+        <Card className='bg-neutral-50 dark:bg-neutral-900'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='flex items-center gap-2 text-sm font-medium text-neutral-700 dark:text-neutral-50'>
               <span>Pending Tasks</span>
@@ -90,7 +90,7 @@ export const Dashboard = () => {
             </div>
           </CardContent>
         </Card>
-        <Card className='bg-gray-100 dark:bg-neutral-900'>
+        <Card className='bg-neutral-50 dark:bg-neutral-900'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='flex items-center gap-2 text-sm font-medium text-neutral-700 dark:text-neutral-50'>
               <span>Overdue Tasks</span>
@@ -108,7 +108,7 @@ export const Dashboard = () => {
         </Card>
       </div>
       <div className='grid gap-4 md:grid-cols-2 mt-4'>
-        <Card className='bg-gray-100 dark:bg-neutral-900'>
+        <Card className='bg-neutral-50 dark:bg-neutral-900'>
           <Tabs defaultValue='week'>
             <CardHeader className='h-16 flex flex-row items-center'>
               <CardTitle className='w-full text-neutral-800 flex justify-between items-center dark:text-neutral-50'>
@@ -147,19 +147,19 @@ export const Dashboard = () => {
                     <Tooltip
                       cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }}
                       contentStyle={{
-                        backgroundColor: 'hsl(var(--card))',
+                        backgroundColor: 'var(--card)',
                         borderRadius: '8px',
-                        border: '1px solid hsl(var(--border))',
+                        border: '1px solid var(--border)',
                         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
                         padding: '6px 10px',
                       }}
                       labelStyle={{
-                        color: 'hsl(var(--foreground))',
+                        color: 'var(--foreground)',
                         fontWeight: 600,
                         marginBottom: '4px',
                       }}
                       itemStyle={{
-                        color: 'hsl(var(--muted-foreground))',
+                        color: 'var(--muted-foreground)',
                         fontSize: '0.875rem',
                       }}
                       formatter={(value: number) => [`${value} tasks`, 'Tasks']}
@@ -181,19 +181,19 @@ export const Dashboard = () => {
                     <Tooltip
                       cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }}
                       contentStyle={{
-                        backgroundColor: 'hsl(var(--card))',
+                        backgroundColor: 'var(--card)',
                         borderRadius: '8px',
-                        border: '1px solid hsl(var(--border))',
+                        border: '1px solid var(--border)',
                         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
                         padding: '6px 10px',
                       }}
                       labelStyle={{
-                        color: 'hsl(var(--foreground))',
+                        color: 'var(--foreground)',
                         fontWeight: 600,
                         marginBottom: '4px',
                       }}
                       itemStyle={{
-                        color: 'hsl(var(--muted-foreground))',
+                        color: 'var(--muted-foreground)',
                         fontSize: '0.875rem',
                       }}
                       formatter={(value: number) => [`${value} tasks`, 'Tasks']}
@@ -206,7 +206,7 @@ export const Dashboard = () => {
             </CardContent>
           </Tabs>
         </Card>
-        <Card className='bg-gray-100 dark:bg-neutral-900'>
+        <Card className='bg-neutral-50 dark:bg-neutral-900'>
           <CardHeader>
             <CardTitle className='text-neutral-800 dark:text-neutral-50'>
               Recent Activity
@@ -223,7 +223,7 @@ export const Dashboard = () => {
                 {notifications?.map((notification, index) => (
                   <li
                     key={index}
-                    className='flex items-start p-2 rounded-md border border-neutral-200 dark:border-neutral-800 bg-gray-100 dark:bg-neutral-900'
+                    className='flex items-start p-2 rounded-md border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900'
                   >
                     <div className='w-full'>
                       <div className='flex items-center justify-between'>

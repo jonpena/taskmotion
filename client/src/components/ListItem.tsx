@@ -118,9 +118,9 @@ const ListItem = ({ list }: ListItemProps) => {
       onClick={handleClicks}
       onKeyDown={(e) => e.key === 'Enter' && handleClicks()}
       className={`relative w-full h-12 mx-auto mt-1 flex items-center justify-between text-neutral-500 dark:text-neutral-100
-        bg-gray-100 dark:bg-neutral-900 rounded-md hover:bg-gray-200 dark:hover:bg-white/20 
+        bg-neutral-50 dark:bg-neutral-900 rounded-md hover:bg-black/10 dark:hover:bg-white/20 
         transition-colors duration-200 select-none group
-        ${listId === list.listId && 'bg-gray-200 dark:bg-white/15'}`}
+        ${listId === list.listId && 'bg-neutral-300 dark:bg-white/15'}`}
     >
       <input
         ref={inputRef}

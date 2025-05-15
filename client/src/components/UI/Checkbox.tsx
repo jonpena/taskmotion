@@ -36,7 +36,7 @@ const Checkbox = ({
         aria-checked={checked}
         {...props}
       >
-        <CheckIcon className='text-gray-700 dark:text-neutral-50 absolute inset-0 m-auto w-[0.6rem] animate-none stroke-[6px] text-foreground opacity-0' />
+        <CheckIcon className='dark:text-neutral-50 absolute inset-0 m-auto w-[0.6rem] animate-none stroke-[6px] text-foreground opacity-0' />
       </div>
     </label>
   );
