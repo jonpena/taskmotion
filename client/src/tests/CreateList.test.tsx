@@ -22,12 +22,12 @@ vi.mock('@uidotdev/usehooks', () => ({
 
 vi.mocked(useNavigate).mockReturnValue(vi.fn());
 
-vi.mock('@/services/requestCreateList', () => ({
-  requestCreateList: () => Promise.resolve([]),
+vi.mock('@/services/listService', () => ({
+  createList: () => Promise.resolve([]),
 }));
 
-vi.mock('@/services/requestUpdateNotifications', () => ({
-  requestUpdateNotifications: vi.fn().mockResolvedValue([]), // O lo que esperes
+vi.mock('@/services/notificationsService', () => ({
+  updateNotifications: vi.fn().mockResolvedValue([]), // O lo que esperes
 }));
 
 describe('CreateList', () => {

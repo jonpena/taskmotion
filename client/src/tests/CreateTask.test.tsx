@@ -22,12 +22,12 @@ vi.mock('@uidotdev/usehooks', () => ({
   useMediaQuery: vi.fn(),
 }));
 
-vi.mock('@/services/requestUpdateList', () => ({
-  requestUpdateList: vi.fn(),
+vi.mock('@/services/listService', () => ({
+  updateList: vi.fn(),
 }));
 
-vi.mock('@/services/requestUpdateNotifications', () => ({
-  requestUpdateNotifications: vi.fn().mockResolvedValue([]), // O lo que esperes
+vi.mock('@/services/notificationsService', () => ({
+  updateNotifications: vi.fn().mockResolvedValue([]), // O lo que esperes
 }));
 
 describe('CreateTask', () => {

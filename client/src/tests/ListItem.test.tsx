@@ -6,11 +6,12 @@ import { useTaskStore } from '@/store/taskStore';
 import ListItem from '../components/ListItem';
 import { ListProps } from '@shared/list.interface';
 import { useNavigate } from 'react-router-dom';
+import { TaskProps } from '@shared/task.interface';
 
 const mockTasks = [
   { id: '1', checked: false, name: 'Task 1', description: 'Description 1' },
   { id: '2', checked: true, name: 'Task 2', description: 'Description 2' },
-];
+] satisfies TaskProps[];
 
 const mockList: ListProps = {
   listId: '1',
@@ -22,8 +23,7 @@ const mockList: ListProps = {
 // Mock the modules
 vi.mock('@/store/listStore');
 vi.mock('@/store/taskStore');
-vi.mock('@/services/requestUpdateList');
-vi.mock('@/services/requestDeleteList');
+vi.mock('@/services/listService');
 
 vi.mocked(useListStore).mockReturnValue({
   lists: [mockList],
