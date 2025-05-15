@@ -13,7 +13,7 @@ export const DashboardButton = () => {
       id='dashboard'
       onClick={handleClick}
       onKeyDown={(e) => e.key === 'Enter' && handleClick()}
-      className={`flex items-center gap-2 px-3 text-neutral-700 dark:text-neutral-50 
+      className={`flex items-center gap-2 px-3 text-neutral-600 dark:text-neutral-50 
     bg-neutral-50 dark:bg-neutral-900 w-full h-12 rounded-md 
     hover:bg-black/10 dark:hover:bg-white/15
     cursor-pointer select-none ${!listId && 'bg-neutral-300 dark:bg-white/15'}`}

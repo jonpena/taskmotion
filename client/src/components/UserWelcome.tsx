@@ -8,7 +8,7 @@ const UserWelcome = () => {
 
   return (
     <div className='hidden lg:block'>
-      <h3 className='text-gray-400 dark:text-neutral-300 text-[17px]'>
+      <h3 className='text-gray-600 dark:text-neutral-300 text-[17px]'>
         {getGreeting()} Today is {formatedDate}
       </h3>
       <h1

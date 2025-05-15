@@ -42,7 +42,7 @@ export const Dashboard = () => {
 
   return (
     <div className='py-8 pt-20 lg:pl-[360px] lg:pr-3 px-2'>
-      <h1 className='text-3xl font-bold mb-6 text-neutral-800 dark:text-neutral-50'>
+      <h1 className='text-3xl font-bold mb-6 text-neutral-700 dark:text-neutral-50'>
         Dashboard
       </h1>
       <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
@@ -53,7 +53,7 @@ export const Dashboard = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className='text-2xl font-bold text-neutral-800 dark:text-neutral-50'>
+            <div className='text-2xl font-bold text-neutral-700 dark:text-neutral-50'>
               {data.total}
             </div>
           </CardContent>
@@ -111,7 +111,7 @@ export const Dashboard = () => {
         <Card className='bg-neutral-50 dark:bg-neutral-900'>
           <Tabs defaultValue='week'>
             <CardHeader className='h-16 flex flex-row items-center'>
-              <CardTitle className='w-full text-neutral-800 flex justify-between items-center dark:text-neutral-50'>
+              <CardTitle className='w-full text-neutral-700 flex justify-between items-center dark:text-neutral-50'>
                 <span className='flex items-center gap-x-2.5 dark:text-neutral-50'>
                   <span className='hidden sm:inline-block'>
                     Completed Tasks
@@ -208,7 +208,7 @@ export const Dashboard = () => {
         </Card>
         <Card className='bg-neutral-50 dark:bg-neutral-900'>
           <CardHeader>
-            <CardTitle className='text-neutral-800 dark:text-neutral-50'>
+            <CardTitle className='text-neutral-700 dark:text-neutral-50'>
               Recent Activity
             </CardTitle>
           </CardHeader>
@@ -223,11 +223,11 @@ export const Dashboard = () => {
                 {notifications?.map((notification, index) => (
                   <li
                     key={index}
-                    className='flex items-start p-2 rounded-md border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900'
+                    className='flex items-start p-2 rounded-md border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900'
                   >
                     <div className='w-full'>
                       <div className='flex items-center justify-between'>
-                        <p className='text-card-foreground font-medium text-sm'>
+                        <p className='text-neutral-700 dark:text-card-foreground font-medium text-sm '>
                           {notification.message}
                         </p>
                         <Badge
@@ -237,7 +237,7 @@ export const Dashboard = () => {
                           )}`}
                         />
                       </div>
-                      <div className='flex items-center mt-1 gap-1.5 text-xs text-zinc-400'>
+                      <div className='flex items-center mt-1 gap-1.5 text-xs text-foreground'>
                         <Clock className='h-3 w-3' />
                         <span>
                           {formatDistanceToNow(

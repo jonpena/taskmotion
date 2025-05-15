@@ -14,7 +14,7 @@ const SortableButton = ({ attributes, listeners }: sortableButtonProps) => {
 
   return (
     <Button
-      size={'icon'}
+      size={'none'}
       className='self-start'
       style={{ cursor: isDraggingStore ? 'grabbing' : 'grab' }}
       {...attributes}
