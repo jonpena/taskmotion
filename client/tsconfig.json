@@ -22,14 +22,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@shared/*": ["../shared/interfaces/*"]
+      "@shared/*": ["../shared/*"]
     }
   },
-  "include": [
-    "src",
-    "declarations.d.ts",
-    "src/interfaces",
-    "../shared/interfaces/*"
-  ],
+  "include": ["src", "declarations.d.ts", "src/interfaces", "../shared/*"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

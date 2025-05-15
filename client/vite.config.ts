@@ -49,7 +49,7 @@ export default defineConfig({
             manifest,
             registerType: 'autoUpdate',
             workbox: {
-              cacheId: 'taskmotion_v1.6.7',
+              cacheId: 'taskmotion_v1.6.15',
               cleanupOutdatedCaches: true,
             },
           }),
@@ -57,6 +57,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      '@shared': path.resolve(__dirname, '../shared'),
     },
   },
   server: {
