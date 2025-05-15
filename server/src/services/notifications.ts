@@ -1,7 +1,7 @@
 import { getSupabase } from '@server/middleware/supabase';
 import { Context } from 'hono';
 import { BlankEnv, BlankInput } from 'hono/types';
-import { INotification } from '@shared/notification.interface';
+import { INotification } from '@shared/interfaces/notification.interface';
 
 type ctx = Context<BlankEnv, '/', BlankInput>;
 

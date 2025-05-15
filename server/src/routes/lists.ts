@@ -77,7 +77,7 @@ listApp.post('/:email', zListValidator, async (c) => {
 });
 
 // UPDATE A LIST
-listApp.put('/:listId', zListValidator, async (c) => {
+listApp.put('/:listId', async (c) => {
   const body = (await c.req.json()) as ListProps;
   const listId = c.req.param('listId');
 
