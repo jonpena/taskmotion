@@ -9,7 +9,7 @@ export const ShortcutBadge = ({ keys, className }: ShortcutButtonProps) => {
   return (
     <div
       className={
-        `absolute right-11 flex items-center gap-x-[3px]
+        `mr-1 flex items-center gap-x-[3px]
           text-neutral-600 dark:text-neutral-300 rounded-md h-8 text-xs
           group-focus-within:opacity-0 group-focus-within:scale-100 
           transition-opacity duration-200 pointer-events-none ` + className
