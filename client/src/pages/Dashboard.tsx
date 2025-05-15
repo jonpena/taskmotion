@@ -223,7 +223,7 @@ export const Dashboard = () => {
                 {notifications?.map((notification, index) => (
                   <li
                     key={index}
-                    className='flex items-start p-2 rounded-md border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900'
+                    className='flex items-start p-2 rounded-md border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900'
                   >
                     <div className='w-full'>
                       <div className='flex items-center justify-between'>
