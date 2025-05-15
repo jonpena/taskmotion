@@ -1,5 +1,5 @@
 import { UserAuth } from '@/context/AuthContext';
-import { requestCreateList } from '@/services/requestCreateList';
+import { createList } from '@/services/listService';
 import { useListStore } from '@/store/listStore';
 import { useEffect, useRef, useState } from 'react';
 import { nanoid } from 'nanoid';
@@ -20,7 +20,7 @@ const CreateList = () => {
   const { lists, setLists } = useListStore();
   const notificationsStore = useNotificationsStore();
 
-  const createList = () => {
+  const handleCreateList = () => {
     if (listName) {
       const newlist = {
         listId: nanoid(SIZE_ID),
@@ -28,7 +28,7 @@ const CreateList = () => {
         tasks: [],
       };
       const updateLists = [...lists, newlist];
-      requestCreateList(email, newlist);
+      createList(email, newlist);
       setLists(updateLists);
       setListName('');
       navigate(`/b/${newlist.listId}`);
@@ -38,12 +38,13 @@ const CreateList = () => {
         type: 'list',
         action: 'created',
         message: listName,
+        id: newlist.listId,
       });
     }
   };
 
-  const handleListCreation = () => {
-    listName ? createList() : inputRef.current?.focus();
+  const handleForm = () => {
+    listName ? handleCreateList() : inputRef.current?.focus();
   };
 
   useEffect(() => {
@@ -54,7 +55,7 @@ const CreateList = () => {
     <CreateInput
       value={listName}
       onChange={setListName}
-      onSubmit={handleListCreation}
+      onSubmit={handleForm}
       inputRef={inputRef}
       placeholder='Create new list...'
       shortcutKey='l'

@@ -5,7 +5,7 @@ import { useTaskStore } from '@/store/taskStore';
 import { useListStore } from '@/store/listStore';
 import { useModalStore } from '@/store/modalStore';
 import { ChangeEvent, useCallback } from 'react';
-import { requestUpdateList } from '@/services/requestUpdateList';
+import { updateList } from '@/services/listService';
 import { updateListState } from '@/utils/updateListState';
 import { MAX_TIMEOUT, SIZE_ID } from '@/constants/base';
 import { nanoid } from 'nanoid';
@@ -32,7 +32,7 @@ export const useTaskHandlers = (
   const updateTaskAndLists = useCallback(
     (updatedTasks: TaskProps[]) => {
       if (!listId) return;
-      requestUpdateList(listId, { tasks: updatedTasks });
+      updateList(listId, { tasks: updatedTasks });
       setTasks(updatedTasks);
       setLists(updateListState(listId, lists, updatedTasks));
     },
@@ -57,7 +57,7 @@ export const useTaskHandlers = (
 
       if (currentIndex !== -1) {
         currentList[currentIndex].tasks = removeTask;
-        requestUpdateList(listId, { tasks: removeTask });
+        updateList(listId, { tasks: removeTask });
       }
 
       const moveList = [...lists];
@@ -65,7 +65,7 @@ export const useTaskHandlers = (
 
       if (moveIndex !== -1) {
         moveList[moveIndex].tasks = [task, ...lists[moveIndex].tasks];
-        requestUpdateList(listIdMove, { tasks: moveList[moveIndex].tasks });
+        updateList(listIdMove, { tasks: moveList[moveIndex].tasks });
       }
     },
     [task, listId, tasks]
@@ -84,6 +84,7 @@ export const useTaskHandlers = (
         type: 'task',
         action: 'deleted',
         message: task.name,
+        id: task.id,
       });
     },
     [listId, tasks, updateTaskAndLists]
@@ -114,6 +115,7 @@ export const useTaskHandlers = (
         type: 'task',
         action: 'completed',
         message: task.name,
+        id: task.id,
       });
     }
   };

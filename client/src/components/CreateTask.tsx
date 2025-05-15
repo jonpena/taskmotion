@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { nanoid } from 'nanoid';
 import { useTaskStore } from '../store/taskStore';
 import { useParams } from 'react-router-dom';
-import { requestUpdateList } from '@/services/requestUpdateList';
+import { updateList } from '@/services/listService';
 import { useListStore } from '@/store/listStore';
 import { replaceEmojis } from '@/utils/replaceEmojis';
 import { SIZE_ID } from '@/constants/base';
@@ -37,7 +37,7 @@ const CreateTask = () => {
         date: date ? format(date, 'MM-dd-yyyy') : '',
       };
       const updateTasks = [newTask, ...tasks];
-      requestUpdateList(listId, { tasks: updateTasks });
+      updateList(listId, { tasks: updateTasks });
       setTasks(updateTasks);
       const index = lists.findIndex((l) => l.listId === listId);
       const updateLists = [...lists];
@@ -51,6 +51,7 @@ const CreateTask = () => {
         type: 'task',
         action: 'created',
         message: taskName,
+        id: newTask.id,
       });
     }
   };

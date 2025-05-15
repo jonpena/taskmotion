@@ -13,7 +13,7 @@ import { useLists } from './hooks/useLists';
 import { useEffect } from 'react';
 import { Layout } from '@/layouts/Layout';
 import { useNotificationsStore } from './store/notificationsStore';
-import { requestNotifications } from './services/requestNotifications';
+import { getNotifications } from './services/notificationsService';
 
 const App = () => {
   const { user } = UserAuth();
@@ -31,7 +31,7 @@ const App = () => {
 
   useEffect(() => {
     if (user.email)
-      requestNotifications(user.email).then((res) => {
+      getNotifications(user.email).then((res) => {
         setNotifications(res);
       });
   }, [user]);

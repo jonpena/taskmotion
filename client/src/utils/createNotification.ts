@@ -1,17 +1,20 @@
-import { requestUpdateNotifications } from "@/services/requestUpdateNotifications";
-import { NotificationsState } from "@/store/notificationsStore";
-import { INotification } from "@shared/notification.interface";
-import { replaceEmojis } from "./replaceEmojis";
+import { updateNotifications } from '@/services/notificationsService';
+import { NotificationsState } from '@/store/notificationsStore';
+import { INotification } from '@shared/notification.interface';
+import { replaceEmojis } from './replaceEmojis';
 
 export const createNotification = (
-  n: NotificationsState,
-  email: string, body: Partial<INotification>) => {
+  state: NotificationsState,
+  email: string,
+  body: Omit<INotification, 'timestamp'>
+) => {
   const notification: INotification = {
-    type: body.type as INotification['type'],
-    action: body.action as INotification['action'],
-    message: replaceEmojis(body.message as INotification['message']),
+    type: body.type,
+    action: body.action,
+    message: replaceEmojis(body.message),
+    id: body.id,
     timestamp: new Date().toISOString(),
   };
-  requestUpdateNotifications(email, notification);
-  n.setNotifications([notification, ...n.notifications]);
-}
+  updateNotifications(email, notification);
+  state.setNotifications([notification, ...state.notifications]);
+};

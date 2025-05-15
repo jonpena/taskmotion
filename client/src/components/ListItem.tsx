@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ListProps } from '@shared/list.interface';
-import { requestDeleteList } from '@/services/requestDeleteList';
-import { requestUpdateList } from '@/services/requestUpdateList';
+import { deleteList } from '@/services/listService';
+import { updateList } from '@/services/listService';
 import { useAlertDialogStore } from '@/store/dialogStore';
 import { useListStore } from '@/store/listStore';
 import { useTaskStore } from '@/store/taskStore';
@@ -49,7 +49,7 @@ const ListItem = ({ list }: ListItemProps) => {
   const handleBlur = () => {
     if (listId && listName && listName !== previousName) {
       const formattedName = replaceEmojis(listName);
-      requestUpdateList(listId, { name: formattedName, tasks });
+      updateList(listId, { name: formattedName, tasks });
       setListName(formattedName);
       setPreviousName(formattedName);
       setListTitle(formattedName);
@@ -65,11 +65,12 @@ const ListItem = ({ list }: ListItemProps) => {
       const filterListCollection = lists.filter((l) => l.listId !== _listId);
       if (_listId === listId) navigate('/u/dashboard');
       setLists(filterListCollection);
-      requestDeleteList(_listId);
+      deleteList(_listId);
       createNotification(notificationsStore, email, {
         type: 'list',
         action: 'deleted',
-        message: list.name,
+        message: list.name ?? 'none',
+        id: _listId,
       });
     });
     setOpen(true);

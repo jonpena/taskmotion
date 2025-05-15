@@ -19,7 +19,7 @@ import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { SortableOverlay } from './SortableOverlay';
 import { Virtuoso } from 'react-virtuoso';
 import { useParams } from 'react-router-dom';
-import { requestUpdateList } from '@/services/requestUpdateList';
+import { updateList } from '@/services/listService';
 import { useDragStore } from '@/store/dragStore';
 import { useTaskStore } from '@/store/taskStore';
 import SortableItem from './SortableItem';
@@ -60,7 +60,7 @@ const SortableList = () => {
       const overIndex = tasks.findIndex(({ id }) => id === over.id);
       const newOrder = arrayMove(tasks, activeIndex, overIndex);
       setTasks(newOrder);
-      requestUpdateList(listId, { tasks: newOrder });
+      updateList(listId, { tasks: newOrder });
     }
     setActive(null);
     setIsDragging(false);
