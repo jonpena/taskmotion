@@ -44,8 +44,6 @@ export const CreateInput = ({
   const handleKeyPress = (e: React.KeyboardEvent) =>
     e.key === 'Enter' && onSubmit();
 
-  console.log(checked);
-
   return (
     <div
       className={cn(
