@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ListProps } from '@shared/list.interface';
+import { ListProps } from '@shared/interfaces/list.interface';
 import { getApiBaseUrl } from '@/utils/getApiBaseUrl';
 
 export const userLists = async (sessionToken: string): Promise<ListProps[]> => {
@@ -20,7 +20,7 @@ export const updateList = async (listId: string, body: ListProps) => {
   try {
     await axios.put(`${getApiBaseUrl()}api/lists/${listId}`, body);
   } catch (error: unknown) {
-    throw new Error(`Error al actualizar la lista`);
+    throw new Error('Error al actualizar la lista');
   }
 };
 

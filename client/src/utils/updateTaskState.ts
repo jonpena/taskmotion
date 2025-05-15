@@ -1,4 +1,4 @@
-import { TaskProps } from '@shared/task.interface';
+import { TaskProps } from '@shared/interfaces/task.interface';
 
 export const updateTaskState = (
   id: string,

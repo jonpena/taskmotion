@@ -1,4 +1,4 @@
-import { TaskProps } from '@shared/task.interface';
+import { TaskProps } from '@shared/interfaces/task.interface';
 import { useTaskState } from './useTaskState';
 import { useParams } from 'react-router-dom';
 import { useTaskStore } from '@/store/taskStore';

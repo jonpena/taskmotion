@@ -1,4 +1,4 @@
-import { ListProps } from '@shared/list.interface';
+import { ListProps } from '@shared/interfaces/list.interface';
 import { create } from 'zustand';
 
 interface ListState {

@@ -1,7 +1,7 @@
-import { MAX_TIMEOUT } from "@/constants/base";
-import { TaskProps } from "@shared/task.interface";
-import { useDebounce } from "@uidotdev/usehooks";
-import { useDeferredValue, useRef, useState } from "react";
+import { MAX_TIMEOUT } from '@/constants/base';
+import { TaskProps } from '@shared/interfaces/task.interface';
+import { useDebounce } from '@uidotdev/usehooks';
+import { useDeferredValue, useRef, useState } from 'react';
 
 // Hook para manejar el estado de la tarea
 export const useTaskState = (task: TaskProps) => {
@@ -46,6 +46,6 @@ export const useTaskState = (task: TaskProps) => {
     setIsGeneratingAI,
     deferredTaskName,
     debouncedChecked,
-    debouncedCountClick
+    debouncedCountClick,
   };
 };

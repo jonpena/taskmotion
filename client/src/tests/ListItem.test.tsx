@@ -4,9 +4,9 @@ import userEvent from '@testing-library/user-event';
 import { useListStore } from '@/store/listStore';
 import { useTaskStore } from '@/store/taskStore';
 import ListItem from '../components/ListItem';
-import { ListProps } from '@shared/list.interface';
+import { ListProps } from '@shared/interfaces/list.interface';
+import { TaskProps } from '@shared/interfaces/task.interface';
 import { useNavigate } from 'react-router-dom';
-import { TaskProps } from '@shared/task.interface';
 
 const mockTasks = [
   { id: '1', checked: false, name: 'Task 1', description: 'Description 1' },

@@ -2,7 +2,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { useSortable } from '@dnd-kit/sortable';
 import { TASK_MAXWIDTH, TASK_MINWIDTH } from '@/constants/base';
 import { Task } from '@/components/Task';
-import { TaskProps } from '@shared/task.interface';
+import { TaskProps } from '@shared/interfaces/task.interface';
 
 type SortableItemProps = {
   task: TaskProps;

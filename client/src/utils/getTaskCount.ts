@@ -1,5 +1,5 @@
-import { ListProps } from '@shared/list.interface';
-import { TaskProps } from '@shared/task.interface';
+import { ListProps } from '@shared/interfaces/list.interface';
+import { TaskProps } from '@shared/interfaces/task.interface';
 
 export const getTaskCount = (
   list: ListProps,

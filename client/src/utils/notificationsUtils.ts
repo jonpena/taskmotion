@@ -1,4 +1,4 @@
-import { INotification } from "@shared/notification.interface";
+import { INotification } from '@shared/interfaces/notification.interface';
 
 export const notificationsStyle = (action: INotification['action']) => {
   if (action === 'created') return 'bg-amber-400/10 text-amber-500';

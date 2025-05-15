@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ListProps } from '@shared/list.interface';
+import { ListProps } from '@shared/interfaces/list.interface';
 import { deleteList } from '@/services/listService';
 import { updateList } from '@/services/listService';
 import { useAlertDialogStore } from '@/store/dialogStore';

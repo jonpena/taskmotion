@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { getApiBaseUrl } from '@/utils/getApiBaseUrl';
-import { INotification } from '@shared/notification.interface';
+import { INotification } from '@shared/interfaces/notification.interface';
 
 export const getNotifications = async (
   email: string

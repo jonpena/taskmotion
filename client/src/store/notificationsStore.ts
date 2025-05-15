@@ -1,4 +1,4 @@
-import { INotification } from '@shared/notification.interface';
+import { INotification } from '@shared/interfaces/notification.interface';
 import { create } from 'zustand';
 
 export interface NotificationsState {

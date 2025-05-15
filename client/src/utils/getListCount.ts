@@ -1,4 +1,4 @@
-import { ListProps } from '@shared/list.interface';
+import { ListProps } from '@shared/interfaces/list.interface';
 import { format, isSameDay, subDays } from 'date-fns';
 
 export const getListCount = (lists: ListProps[]) => {

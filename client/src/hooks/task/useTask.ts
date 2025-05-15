@@ -4,7 +4,7 @@ import { useModalStore } from '@/store/modalStore';
 import { replaceEmojis } from '@/utils/replaceEmojis';
 import { format } from 'date-fns';
 import { updateTaskState } from '@/utils/updateTaskState';
-import { TaskProps } from '@shared/task.interface';
+import { TaskProps } from '@shared/interfaces/task.interface';
 import { useParams } from 'react-router-dom';
 import { useTaskState } from './useTaskState';
 import { useTaskHandlers } from './useTaskHandlers';
