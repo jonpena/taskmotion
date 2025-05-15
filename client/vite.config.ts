@@ -5,6 +5,7 @@ import type { UserConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import path from 'path';
 import { ManifestOptions, VitePWA } from 'vite-plugin-pwa';
+import tailwindcss from '@tailwindcss/vite';
 
 const manifest: Partial<ManifestOptions> = {
   display: 'standalone',
@@ -40,8 +41,9 @@ const manifest: Partial<ManifestOptions> = {
 export default defineConfig({
   plugins:
     process.env.NODE_ENV !== 'production'
-      ? [react()]
+      ? [tailwindcss(), react()]
       : [
+          tailwindcss(),
           react(),
           VitePWA({
             manifest,
