@@ -22,7 +22,7 @@ const App = () => {
   const { setLists } = useListStore();
   const { data } = useLists();
   const { setNotifications } = useNotificationsStore();
-  
+
   useAvoidZoom();
 
   useEffect(() => {
@@ -30,9 +30,10 @@ const App = () => {
   }, [data]);
 
   useEffect(() => {
-    requestNotifications(user?.email).then(res => {
-      setNotifications(res);
-    });
+    if (user.email)
+      requestNotifications(user.email).then((res) => {
+        setNotifications(res);
+      });
   }, [user]);
 
   return (
