@@ -75,45 +75,8 @@ const CreateTask = () => {
       placeholder='Create new task...'
       shortcutKey='e'
     >
-      <CalendarButton
-        date={date}
-        setDate={setDate}
-        // className={`opacity-0 group-focus-within:opacity-100 ${
-        //   !taskName && 'opacity-0'
-        // }`}
-      />
+      <CalendarButton date={date} setDate={setDate} />
     </CreateInput>
-
-    // <div className='relative group flex items-center w-full bg-gray-100 dark:bg-neutral-900 rounded-md px-2'>
-    //    <Checkbox
-    //     name='checked'
-    //     checked={checked}
-    //     className='transition-all duration-1000'
-    //     onChange={(e) => setChecked(e.target.checked)}
-    //     onKeyDown={(e) => e.key === 'Enter' && setChecked(!checked)}
-    //   />
-
-    //   <Input
-    //     type='text'
-    //     maxLength={MAX_CONTENT_TASK}
-    //     ref={inputRef}
-    //     placeholder='Create new task...'
-    //     className='text-neutral-600 dark:text-neutral-50 px-3 outline-none w-full h-12 border-none focus-visible:ring-0 focus-visible:placeholder:text-neutral-400 dark:focus-visible:placeholder:text-neutral-100 rounded-none shadow-none'
-    //     onKeyDown={handleKeyPress}
-    //     onChange={(e) => setTaskName(e.target.value.trimStart())}
-    //     value={taskName}
-    //   />
-
-    //   {!isSmallDevice && (
-    //     <ShortcutBadge keys='E' className={`${taskName && 'opacity-0'}`} />
-    //   )} */}
-
-    //   <AddButton
-    //     title='Create new task'
-    //     onMouseDown={handleClick}
-    //     onKeyDown={handleKeyDown}
-    //   />
-    // </div>
   );
 };
 
