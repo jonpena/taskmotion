@@ -212,7 +212,7 @@ export const Dashboard = () => {
               Recent Activity
             </CardTitle>
           </CardHeader>
-          <CardContent className='px-2'>
+          <CardContent className='px-1.5 lg:px-2'>
             <div className='mt-0 overflow-y-auto !h-[300px] xl:!h-[350px]'>
               {notifications?.length === 0 && (
                 <div className='flex items-center justify-center h-full'>
@@ -227,7 +227,7 @@ export const Dashboard = () => {
                   >
                     <div className='w-full'>
                       <div className='flex items-center justify-between'>
-                        <p className='text-neutral-700 dark:text-card-foreground font-medium text-sm '>
+                        <p className='text-neutral-700 dark:text-card-foreground font-medium text-xs lg:text-sm'>
                           {notification.message}
                         </p>
                         <Badge
