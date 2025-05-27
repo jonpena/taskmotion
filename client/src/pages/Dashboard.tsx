@@ -212,7 +212,7 @@ export const Dashboard = () => {
               Recent Activity
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className='px-2'>
             <div className='mt-0 overflow-y-auto !h-[300px] xl:!h-[350px]'>
               {notifications?.length === 0 && (
                 <div className='flex items-center justify-center h-full'>
