@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getApiBaseUrl } from '@/utils/getApiBaseUrl';
 import { AIDescriptionResponse } from '@/interfaces/dataAI.inteface';
 
-export const requestAIDescription = async (
+export const getAIDescription = async (
   taskName: string,
   description: string
 ): Promise<string> => {
