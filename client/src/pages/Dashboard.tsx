@@ -11,7 +11,6 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { useListStore } from '@/store/listStore';
-import { useTaskStore } from '@/store/taskStore';
 import { getListCount } from '@/utils/getListCount';
 import { Badge } from '@/components/ui/badge';
 import { useNotificationsStore } from '@/store/notificationsStore';
@@ -21,24 +20,24 @@ import { Clock } from 'lucide-react';
 
 export const Dashboard = () => {
   const { lists } = useListStore();
-  const { tasks } = useTaskStore();
   const { notifications } = useNotificationsStore();
   const [totalCompleted, setTotalCompleted] = useState(0);
 
-  const handleTabClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!data) setTotalCompleted(0);
-    let stats = data.last7DaysStats;
-    if (e.currentTarget.textContent !== 'Week') stats = data.lastMonthStats;
-    setTotalCompleted(stats.reduce((acc, c) => acc + c.tasks, 0));
-  };
-
-  const data = useMemo(() => getListCount(lists), [lists, tasks]);
+  const statsData = useMemo(() => getListCount(lists), [lists]);
 
   useEffect(() => {
-    setTotalCompleted(data.last7DaysStats.reduce((acc, c) => acc + c.tasks, 0));
-  }, [data]);
+    setTotalCompleted(
+      statsData.last7DaysStats.reduce((acc, c) => acc + c.tasks, 0)
+    );
+  }, [statsData]);
 
-  if (!data) return <div></div>;
+  const handleTabClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!statsData) setTotalCompleted(0);
+    let stats = statsData.last7DaysStats;
+    if (e.currentTarget.dataset.type !== 'Week')
+      stats = statsData.lastMonthStats;
+    setTotalCompleted(stats.reduce((acc, c) => acc + c.tasks, 0));
+  };
 
   return (
     <div className='py-8 pt-20 lg:pl-[360px] lg:pr-3 px-2'>
@@ -54,7 +53,7 @@ export const Dashboard = () => {
           </CardHeader>
           <CardContent>
             <div className='text-2xl font-bold text-neutral-700 dark:text-neutral-50'>
-              {data.total}
+              {statsData.total}
             </div>
           </CardContent>
         </Card>
@@ -63,14 +62,14 @@ export const Dashboard = () => {
             <CardTitle className='flex items-center gap-2 text-sm font-medium text-neutral-700 dark:text-neutral-50'>
               <span>Completed Tasks</span>
               <Badge
-                text={`${data.completedPercentage}%`}
+                text={`${statsData.completedPercentage}%`}
                 className='bg-green-500/10 text-green-500'
               />
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className='text-2xl font-bold text-green-500'>
-              {data.completed}
+              {statsData.completed}
             </div>
           </CardContent>
         </Card>
@@ -79,14 +78,14 @@ export const Dashboard = () => {
             <CardTitle className='flex items-center gap-2 text-sm font-medium text-neutral-700 dark:text-neutral-50'>
               <span>Pending Tasks</span>
               <Badge
-                text={`${data.pendingPercentage}%`}
+                text={`${statsData.pendingPercentage}%`}
                 className='bg-yellow-500/10 text-yellow-500'
               />
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className='text-2xl font-bold text-yellow-500'>
-              {data.pending}
+              {statsData.pending}
             </div>
           </CardContent>
         </Card>
@@ -95,14 +94,14 @@ export const Dashboard = () => {
             <CardTitle className='flex items-center gap-2 text-sm font-medium text-neutral-700 dark:text-neutral-50'>
               <span>Overdue Tasks</span>
               <Badge
-                text={`${data.overduePercentage}%`}
+                text={`${statsData.overduePercentage}%`}
                 className='bg-red-500/10 text-red-500'
               />
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className='text-2xl font-bold text-red-500'>
-              {data.overdue}
+              {statsData.overdue}
             </div>
           </CardContent>
         </Card>
@@ -117,10 +116,18 @@ export const Dashboard = () => {
                     Completed Tasks
                   </span>
                   <TabsList className='self-start'>
-                    <TabsTrigger value='week' onClick={handleTabClick}>
+                    <TabsTrigger
+                      data-type='week'
+                      value='week'
+                      onClick={handleTabClick}
+                    >
                       <span>Week</span>
                     </TabsTrigger>
-                    <TabsTrigger value='month' onClick={handleTabClick}>
+                    <TabsTrigger
+                      data-type='month'
+                      value='month'
+                      onClick={handleTabClick}
+                    >
                       Month
                     </TabsTrigger>
                   </TabsList>
@@ -137,7 +144,7 @@ export const Dashboard = () => {
             <CardContent>
               <TabsContent value='week'>
                 <ResponsiveContainer className='-mx-10 !w-[calc(100%+2.75rem)] !h-[300px] xl:!h-[350px]'>
-                  <BarChart data={data.last7DaysStats}>
+                  <BarChart data={statsData.last7DaysStats}>
                     <CartesianGrid
                       strokeDasharray='3 3'
                       className='stroke-muted'
@@ -171,7 +178,7 @@ export const Dashboard = () => {
               </TabsContent>
               <TabsContent value='month'>
                 <ResponsiveContainer className='-mx-10 !w-[calc(100%+2.75rem)] !h-[300px] xl:!h-[350px]'>
-                  <BarChart data={data.lastMonthStats}>
+                  <BarChart data={statsData.lastMonthStats}>
                     <CartesianGrid
                       strokeDasharray='3 3'
                       className='stroke-muted'
