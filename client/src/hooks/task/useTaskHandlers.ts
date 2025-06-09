@@ -10,7 +10,7 @@ import { updateListState } from '@/utils/updateListState';
 import { MAX_TIMEOUT, SIZE_ID } from '@/constants/base';
 import { nanoid } from 'nanoid';
 import { updateTaskState } from '@/utils/updateTaskState';
-import { requestAIDescription } from '@/services/requestAIDescription';
+import { getAIDescription } from '@/services/aiService';
 import { calculateHeight, resetHeight } from '@/utils/calculateHeight';
 import { replaceEmojis } from '@/utils/replaceEmojis';
 import { createNotification } from '@/utils/createNotification';
@@ -124,6 +124,7 @@ export const useTaskHandlers = (
     state.setCountClick(e.detail);
   };
 
+  // Handler para hacer doble clic en la tarea
   const handleDoubleClick = useCallback(() => {
     state.setIsFocused(true);
     setIsOpen(false);
@@ -137,6 +138,7 @@ export const useTaskHandlers = (
     setTask({ ...task, checked: state.checked });
   }, [task, state.checked, setIsOpen, setTask]);
 
+  // Handler para iniciar el tiempo de pulsación y actualizar el contador de clics
   const handleTouchStart = useCallback(() => {
     if (state.isFocused) return;
     const currentTime = Date.now();
@@ -147,6 +149,7 @@ export const useTaskHandlers = (
     );
   }, [state.lastTapTime, state.isFocused]);
 
+  // Handler para actualizar el contador de clics cuando se suelta el dedo
   const handleTouchEnd = useCallback(
     (e: React.TouchEvent) => {
       if (state.isFocused) return;
@@ -157,6 +160,7 @@ export const useTaskHandlers = (
     [state.touchStartTime, state.isFocused]
   );
 
+  // Handler para actualizar el nombre de la tarea cuando se cambia
   const handleBlur = useCallback(() => {
     if (listId && state.taskName && state.taskName !== state.previousName) {
       const taskNameFormatted = replaceEmojis(state.taskName);
@@ -173,11 +177,12 @@ export const useTaskHandlers = (
     resetHeight(state.textareaRef);
   }, [listId, state.taskName, tasks]);
 
+  // Handler para generar la descripción de la tarea utilizando la IA
   const handleGenerateAIDescription = async () => {
     if (!listId || !state.taskName) return;
     try {
       state.setIsGeneratingAI(true);
-      const newDescription = await requestAIDescription(
+      const newDescription = await getAIDescription(
         state.taskName,
         state.description
       );
