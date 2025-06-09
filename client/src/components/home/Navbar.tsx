@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Star, Moon, Sun } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useTheme } from '@/context/ThemeContext';
-import { requestGithubStar } from '@/services/requestGithubStar';
+import { getGithubStar } from '@/services/githubStarService';
 
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
@@ -12,7 +12,7 @@ const Navbar = () => {
   const [starCount, setStarCount] = useState(0);
 
   useEffect(() => {
-    requestGithubStar().then((value) => setStarCount(value));
+    getGithubStar().then((value) => setStarCount(value));
   }, []);
 
   const handleTheme = (isThemeDark: boolean) => {
