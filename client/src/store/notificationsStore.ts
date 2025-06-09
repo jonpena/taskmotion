@@ -1,9 +1,9 @@
-import { INotification } from '@shared/interfaces/notification.interface';
+import { Notification } from '@shared/interfaces/notification.interface';
 import { create } from 'zustand';
 
 export interface NotificationsState {
-  notifications: INotification[];
-  setNotifications: (notifications: INotification[]) => void;
+  notifications: Notification[];
+  setNotifications: (notifications: Notification[]) => void;
 }
 
 export const useNotificationsStore = create<NotificationsState>()((set) => ({

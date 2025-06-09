@@ -4,7 +4,7 @@ import {
   getNotifications,
   updateNotifications,
 } from '@server/services/notifications';
-import { INotification } from '@shared/interfaces/notification.interface';
+import { Notification } from '@shared/interfaces/notification.interface';
 import { deduplicateNotifications } from '@shared/utils/deduplicateNotifications';
 import { MAX_NOTIFICATIONS } from '@shared/constants/base';
 import { Hono } from 'hono';
@@ -21,7 +21,7 @@ notificationsApp.get('/:email', async (c) => {
   if (error) return c.json({ error }, 400);
 
   if (data && data.length > 0) {
-    const notifications = data[0].notifications as INotification[];
+    const notifications = data[0].notifications as Notification[];
 
     return c.json({ data: notifications }, 200);
   }
@@ -31,7 +31,7 @@ notificationsApp.get('/:email', async (c) => {
 // Update notifications
 notificationsApp.put('/:email', async (c) => {
   const email = c.req.param('email');
-  const body: INotification = await c.req.json();
+  const body: Notification = await c.req.json();
 
   // First check if notifications exist for this email
   const { data: existingData, error: existingError } = await getNotifications(
@@ -46,7 +46,7 @@ notificationsApp.put('/:email', async (c) => {
   // If notifications exist, append the new one
   if (existingData.length > 0) {
     // Assuming notifications is an array in the existing record
-    const existingNotifications: INotification[] =
+    const existingNotifications: Notification[] =
       existingData[0].notifications || [];
     const notifications = [body, ...existingNotifications];
     const removeNotifications = deduplicateNotifications(notifications);

@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { getApiBaseUrl } from '@/utils/getApiBaseUrl';
-import { INotification } from '@shared/interfaces/notification.interface';
+import { Notification } from '@shared/interfaces/notification.interface';
 
 export const getNotifications = async (
   email: string
-): Promise<INotification[]> => {
+): Promise<Notification[]> => {
   try {
     const { data } = await axios.get(
       `${getApiBaseUrl()}api/notifications/${email}`
@@ -17,8 +17,8 @@ export const getNotifications = async (
 
 export const updateNotifications = async (
   email: string,
-  body: INotification
-): Promise<INotification[]> => {
+  body: Notification
+): Promise<Notification[]> => {
   try {
     const { data } = await axios.put(
       `${getApiBaseUrl()}api/notifications/${email}`,

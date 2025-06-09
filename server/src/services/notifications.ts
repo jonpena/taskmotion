@@ -1,7 +1,7 @@
 import { getSupabase } from '@server/middleware/supabase';
 import { Context } from 'hono';
 import { BlankEnv, BlankInput } from 'hono/types';
-import { INotification } from '@shared/interfaces/notification.interface';
+import { Notification } from '@shared/interfaces/notification.interface';
 
 type ctx = Context<BlankEnv, '/', BlankInput>;
 
@@ -15,7 +15,7 @@ export const getNotifications = async (c: ctx, email: string) => {
 export const createNotification = async (
   c: ctx,
   email: string,
-  body: INotification
+  body: Notification
 ) => {
   return getSupabase(c)
     .from('notifications')
@@ -29,7 +29,7 @@ export const createNotification = async (
 export const updateNotifications = async (
   c: ctx,
   email: string,
-  body: INotification[]
+  body: Notification[]
 ) => {
   return getSupabase(c)
     .from('notifications')

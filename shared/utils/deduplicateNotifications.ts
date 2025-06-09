@@ -1,9 +1,9 @@
-import { INotification } from '../interfaces/notification.interface';
+import { Notification } from '../interfaces/notification.interface';
 
 export const deduplicateNotifications = (
-  notifications: INotification[]
-): INotification[] => {
-  const map = new Map<string, INotification>();
+  notifications: Notification[]
+): Notification[] => {
+  const map = new Map<string, Notification>();
 
   for (const notification of notifications) {
     const key = `${notification.id}-${notification.type}-${notification.action}`;
