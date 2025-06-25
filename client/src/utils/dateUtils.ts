@@ -5,9 +5,7 @@ export const dateStyle = (dateString: string) => {
 
   if (isToday(date)) return 'bg-amber-400/10 text-amber-500';
 
-  return isPast(startOfDay(date))
-    ? 'bg-red-400/10 text-red-500'
-    : 'bg-green-400/10 text-green-500';
+  return isPast(startOfDay(date)) ? 'bg-red-400/10 text-red-500' : 'bg-green-400/10 text-green-500';
 };
 
 export const dateText = (dateString: string) => {

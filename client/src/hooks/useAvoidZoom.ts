@@ -75,9 +75,7 @@ const useAvoidZoom = () => {
 
       if (isMacOS) {
         document.removeEventListener('gesturestart', (e) => e.preventDefault());
-        document.removeEventListener('gesturechange', (e) =>
-          e.preventDefault()
-        );
+        document.removeEventListener('gesturechange', (e) => e.preventDefault());
         document.removeEventListener('gestureend', (e) => e.preventDefault());
       }
     };

@@ -1,49 +1,41 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from 'recharts';
-import { useListStore } from '@/store/listStore';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { getListCount } from '@/utils/getListCount';
 import { Badge } from '@/components/ui/badge';
-import { useNotificationsStore } from '@/store/notificationsStore';
 import { formatDistanceToNow } from 'date-fns';
 import { notificationsStyle } from '@/utils/notificationsUtils';
 import { Clock } from 'lucide-react';
+import { useNotifications } from '@/hooks/useNotification';
+import { UserAuth } from '@/context/AuthContext';
+import { useLists } from '@/hooks/useLists';
 
 export const Dashboard = () => {
-  const { lists } = useListStore();
-  const { notifications } = useNotificationsStore();
+  const { lists } = useLists();
+  const { user } = UserAuth();
   const [totalCompleted, setTotalCompleted] = useState(0);
-
-  const statsData = useMemo(() => getListCount(lists), [lists]);
+  const { notifications } = useNotifications(user.email || '');
+  const statsData = useMemo(() => lists && getListCount(lists), [lists]);
 
   useEffect(() => {
-    setTotalCompleted(
-      statsData.last7DaysStats.reduce((acc, c) => acc + c.tasks, 0)
-    );
+    if (!statsData) return;
+    setTotalCompleted(statsData.last7DaysStats.reduce((acc, c) => acc + c.tasks, 0));
   }, [statsData]);
 
   const handleTabClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!statsData) setTotalCompleted(0);
+    if (!statsData) {
+      setTotalCompleted(0);
+      return;
+    }
     let stats = statsData.last7DaysStats;
-    if (e.currentTarget.dataset.type !== 'Week')
-      stats = statsData.lastMonthStats;
+    if (e.currentTarget.dataset.type !== 'Week') stats = statsData.lastMonthStats;
     setTotalCompleted(stats.reduce((acc, c) => acc + c.tasks, 0));
   };
 
   return (
     <div className='py-8 pt-20 lg:pl-[360px] lg:pr-3 px-2'>
-      <h1 className='text-3xl font-bold mb-6 text-neutral-700 dark:text-neutral-50'>
-        Dashboard
-      </h1>
+      <h1 className='text-3xl font-bold mb-6 text-neutral-700 dark:text-neutral-50'>Dashboard</h1>
       <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
         <Card className='bg-neutral-50 dark:bg-neutral-900'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
@@ -53,7 +45,7 @@ export const Dashboard = () => {
           </CardHeader>
           <CardContent>
             <div className='text-2xl font-bold text-neutral-700 dark:text-neutral-50'>
-              {statsData.total}
+              {statsData?.total || 0}
             </div>
           </CardContent>
         </Card>
@@ -62,15 +54,13 @@ export const Dashboard = () => {
             <CardTitle className='flex items-center gap-2 text-sm font-medium text-neutral-700 dark:text-neutral-50'>
               <span>Completed Tasks</span>
               <Badge
-                text={`${statsData.completedPercentage}%`}
+                text={`${statsData?.completedPercentage || 0}%`}
                 className='bg-green-500/10 text-green-500'
               />
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className='text-2xl font-bold text-green-500'>
-              {statsData.completed}
-            </div>
+            <div className='text-2xl font-bold text-green-500'>{statsData?.completed || 0}</div>
           </CardContent>
         </Card>
         <Card className='bg-neutral-50 dark:bg-neutral-900'>
@@ -78,15 +68,13 @@ export const Dashboard = () => {
             <CardTitle className='flex items-center gap-2 text-sm font-medium text-neutral-700 dark:text-neutral-50'>
               <span>Pending Tasks</span>
               <Badge
-                text={`${statsData.pendingPercentage}%`}
+                text={`${statsData?.pendingPercentage || 0}%`}
                 className='bg-yellow-500/10 text-yellow-500'
               />
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className='text-2xl font-bold text-yellow-500'>
-              {statsData.pending}
-            </div>
+            <div className='text-2xl font-bold text-yellow-500'>{statsData?.pending || 0}</div>
           </CardContent>
         </Card>
         <Card className='bg-neutral-50 dark:bg-neutral-900'>
@@ -94,15 +82,13 @@ export const Dashboard = () => {
             <CardTitle className='flex items-center gap-2 text-sm font-medium text-neutral-700 dark:text-neutral-50'>
               <span>Overdue Tasks</span>
               <Badge
-                text={`${statsData.overduePercentage}%`}
+                text={`${statsData?.overduePercentage || 0}%`}
                 className='bg-red-500/10 text-red-500'
               />
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className='text-2xl font-bold text-red-500'>
-              {statsData.overdue}
-            </div>
+            <div className='text-2xl font-bold text-red-500'>{statsData?.overdue || 0}</div>
           </CardContent>
         </Card>
       </div>
@@ -112,22 +98,12 @@ export const Dashboard = () => {
             <CardHeader className='h-16 flex flex-row items-center'>
               <CardTitle className='w-full text-neutral-700 flex justify-between items-center dark:text-neutral-50'>
                 <span className='flex items-center gap-x-2.5 dark:text-neutral-50'>
-                  <span className='hidden sm:inline-block'>
-                    Completed Tasks
-                  </span>
+                  <span className='hidden sm:inline-block'>Completed Tasks</span>
                   <TabsList className='self-start'>
-                    <TabsTrigger
-                      data-type='week'
-                      value='week'
-                      onClick={handleTabClick}
-                    >
+                    <TabsTrigger data-type='week' value='week' onClick={handleTabClick}>
                       <span>Week</span>
                     </TabsTrigger>
-                    <TabsTrigger
-                      data-type='month'
-                      value='month'
-                      onClick={handleTabClick}
-                    >
+                    <TabsTrigger data-type='month' value='month' onClick={handleTabClick}>
                       Month
                     </TabsTrigger>
                   </TabsList>
@@ -135,20 +111,15 @@ export const Dashboard = () => {
                 <Badge
                   text={totalCompleted.toString()}
                   className={`w-7 py-1 text-sm bg-neutral-500/10 self-center text-center
-                    ${
-                      totalCompleted === 0 ? 'text-red-500' : 'text-green-500'
-                    }`}
+                    ${totalCompleted === 0 ? 'text-red-500' : 'text-green-500'}`}
                 />
               </CardTitle>
             </CardHeader>
             <CardContent>
               <TabsContent value='week'>
                 <ResponsiveContainer className='-mx-10 !w-[calc(100%+2.75rem)] !h-[300px] xl:!h-[350px]'>
-                  <BarChart data={statsData.last7DaysStats}>
-                    <CartesianGrid
-                      strokeDasharray='3 3'
-                      className='stroke-muted'
-                    />
+                  <BarChart data={statsData?.last7DaysStats}>
+                    <CartesianGrid strokeDasharray='3 3' className='stroke-muted' />
                     <XAxis dataKey='name' className='text-muted-foreground' />
                     <YAxis className='text-muted-foreground' />
                     <Tooltip
@@ -178,11 +149,8 @@ export const Dashboard = () => {
               </TabsContent>
               <TabsContent value='month'>
                 <ResponsiveContainer className='-mx-10 !w-[calc(100%+2.75rem)] !h-[300px] xl:!h-[350px]'>
-                  <BarChart data={statsData.lastMonthStats}>
-                    <CartesianGrid
-                      strokeDasharray='3 3'
-                      className='stroke-muted'
-                    />
+                  <BarChart data={statsData?.lastMonthStats}>
+                    <CartesianGrid strokeDasharray='3 3' className='stroke-muted' />
                     <XAxis dataKey='name' className='text-muted-foreground' />
                     <YAxis className='text-muted-foreground' />
                     <Tooltip
@@ -215,16 +183,12 @@ export const Dashboard = () => {
         </Card>
         <Card className='bg-neutral-50 dark:bg-neutral-900'>
           <CardHeader>
-            <CardTitle className='text-neutral-700 dark:text-neutral-50'>
-              Recent Activity
-            </CardTitle>
+            <CardTitle className='text-neutral-700 dark:text-neutral-50'>Recent Activity</CardTitle>
           </CardHeader>
           <CardContent className='px-1.5 lg:px-2'>
-            <div className='mt-0 overflow-y-auto !h-[300px] xl:!h-[350px]'>
+            <div className='mt-0 overflow-y-auto !h-[300px] xl:!h-[366px]'>
               {notifications?.length === 0 && (
-                <div className='flex items-center justify-center h-full'>
-                  No recent activity.
-                </div>
+                <div className='flex items-center justify-center h-full'>No recent activity.</div>
               )}
               <ul className='space-y-2'>
                 {notifications?.map((notification, index) => (
@@ -239,18 +203,15 @@ export const Dashboard = () => {
                         </p>
                         <Badge
                           text={notification.action + ' ' + notification.type}
-                          className={`ml-2 ${notificationsStyle(
-                            notification.action
-                          )}`}
+                          className={`ml-2 ${notificationsStyle(notification.action)}`}
                         />
                       </div>
                       <div className='flex items-center mt-1 gap-1.5 text-xs text-foreground'>
                         <Clock className='h-3 w-3' />
                         <span>
-                          {formatDistanceToNow(
-                            new Date(notification.timestamp),
-                            { addSuffix: true }
-                          )}
+                          {formatDistanceToNow(new Date(notification.timestamp), {
+                            addSuffix: true,
+                          })}
                         </span>
                       </div>
                     </div>

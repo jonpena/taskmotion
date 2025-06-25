@@ -9,20 +9,16 @@ import {
   Over,
   DragStartEvent,
 } from '@dnd-kit/core';
-import {
-  SortableContext,
-  arrayMove,
-  sortableKeyboardCoordinates,
-} from '@dnd-kit/sortable';
+import { SortableContext, arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { SortableOverlay } from './SortableOverlay';
 import { Virtuoso } from 'react-virtuoso';
 import { useParams } from 'react-router-dom';
-import { updateList } from '@/services/listService';
 import { useDragStore } from '@/store/dragStore';
 import { useTaskStore } from '@/store/taskStore';
 import SortableItem from './SortableItem';
+import { useUpdateList } from '@/hooks/useLists';
 
 type handleDragEndProps = {
   active: Active;
@@ -34,11 +30,9 @@ const SortableList = () => {
   const [active, setActive] = useState<Active | null>(null);
   const { setIsDragging } = useDragStore();
   const { tasks, setTasks } = useTaskStore();
+  const updateList = useUpdateList();
 
-  const activeItem = useMemo(
-    () => tasks.find((item) => item.id === active?.id),
-    [active, tasks]
-  );
+  const activeItem = useMemo(() => tasks.find((item) => item.id === active?.id), [active, tasks]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -60,7 +54,7 @@ const SortableList = () => {
       const overIndex = tasks.findIndex(({ id }) => id === over.id);
       const newOrder = arrayMove(tasks, activeIndex, overIndex);
       setTasks(newOrder);
-      updateList(listId, { tasks: newOrder });
+      updateList.mutate({ listId, body: { tasks: newOrder } });
     }
     setActive(null);
     setIsDragging(false);
@@ -87,9 +81,7 @@ const SortableList = () => {
             )}
           />
         </SortableContext>
-        <SortableOverlay>
-          {activeItem ? <SortableItem task={activeItem} /> : null}
-        </SortableOverlay>
+        <SortableOverlay>{activeItem ? <SortableItem task={activeItem} /> : null}</SortableOverlay>
       </DndContext>
     </div>
   );

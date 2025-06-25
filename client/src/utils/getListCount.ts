@@ -13,9 +13,8 @@ export const getListCount = (lists: ListProps[]) => {
     const today = new Date();
     return (
       acc +
-      list.tasks.filter((task) =>
-        task.date ? !task.checked && !isSameDay(today, task.date) : 0
-      ).length
+      list.tasks.filter((task) => (task.date ? !task.checked && !isSameDay(today, task.date) : 0))
+        .length
     );
   }, 0);
 
@@ -28,8 +27,7 @@ export const getListCount = (lists: ListProps[]) => {
       return (
         acc +
         list.tasks.filter(
-          (task) =>
-            task.checked && task.date && isSameDay(new Date(task.date), date)
+          (task) => task.checked && task.date && isSameDay(new Date(task.date), date)
         ).length
       );
     }, 0);
@@ -49,9 +47,7 @@ export const getListCount = (lists: ListProps[]) => {
       const tasksForDay = lists.reduce((acc, list) => {
         return (
           acc +
-          list.tasks.filter(
-            (task) => task.date && isSameDay(new Date(task.date), date)
-          ).length
+          list.tasks.filter((task) => task.date && isSameDay(new Date(task.date), date)).length
         );
       }, 0);
 

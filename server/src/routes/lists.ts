@@ -101,11 +101,7 @@ listApp.delete('/:listId', async (c) => {
 
     const newLists = lists.filter((id) => id !== listId.toString());
 
-    const { error: updateUserError } = await updateUsersWithNewList(
-      c,
-      newLists,
-      user.id
-    );
+    const { error: updateUserError } = await updateUsersWithNewList(c, newLists, user.id);
 
     if (updateUserError) return c.json({ error: updateUserError }, 400);
   }

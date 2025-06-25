@@ -1,11 +1,7 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { Context } from 'hono';
 
-export const generateDescription = async (
-  c: Context,
-  task: string,
-  description: string = ''
-) => {
+export const generateDescription = async (c: Context, task: string, description: string = '') => {
   const genAI = new GoogleGenerativeAI(c.env.API_KEY);
 
   const generationConfig = {

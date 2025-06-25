@@ -2,10 +2,7 @@ import axios from 'axios';
 import { getApiBaseUrl } from '@/utils/getApiBaseUrl';
 import { AIDescriptionResponse } from '@/interfaces/dataAI.inteface';
 
-export const getAIDescription = async (
-  taskName: string,
-  description: string
-): Promise<string> => {
+export const getAIDescription = async (taskName: string, description: string): Promise<string> => {
   try {
     const { data } = await axios.get<AIDescriptionResponse>(
       `${getApiBaseUrl()}api/ai/generateDescription?task=${taskName}&description=${description}`

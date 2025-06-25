@@ -6,17 +6,10 @@ import { Notification } from '@shared/interfaces/notification.interface';
 type ctx = Context<BlankEnv, '/', BlankInput>;
 
 export const getNotifications = async (c: ctx, email: string) => {
-  return getSupabase(c)
-    .from('notifications')
-    .select(`*`)
-    .eq(`email`, `${email}`);
+  return getSupabase(c).from('notifications').select(`*`).eq(`email`, `${email}`);
 };
 
-export const createNotification = async (
-  c: ctx,
-  email: string,
-  body: Notification
-) => {
+export const createNotification = async (c: ctx, email: string, body: Notification) => {
   return getSupabase(c)
     .from('notifications')
     .insert({
@@ -26,11 +19,7 @@ export const createNotification = async (
     .select();
 };
 
-export const updateNotifications = async (
-  c: ctx,
-  email: string,
-  body: Notification[]
-) => {
+export const updateNotifications = async (c: ctx, email: string, body: Notification[]) => {
   return getSupabase(c)
     .from('notifications')
     .update({ notifications: body })

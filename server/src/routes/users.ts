@@ -10,10 +10,7 @@ userApp.use('*', supabaseMiddleware);
 userApp.post('/', zUserValidator, async (c) => {
   const body = await c.req.json();
 
-  const { data, error } = await getSupabase(c)
-    .from('users')
-    .insert(body)
-    .select();
+  const { data, error } = await getSupabase(c).from('users').insert(body).select();
 
   return c.json({ data, error });
 });

@@ -36,9 +36,7 @@ describe('CreateTask', () => {
   });
 
   it('renders input field with correct placeholder', () => {
-    expect(
-      screen.getByPlaceholderText(/Create new task.../i)
-    ).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/Create new task.../i)).toBeInTheDocument();
   });
 
   it('updates input value when typing', async () => {

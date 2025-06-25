@@ -8,33 +8,14 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 import { isEmptyObject } from '@/utils/isEmptyObject';
 import { Dashboard } from './pages/Dashboard';
 import useAvoidZoom from './hooks/useAvoidZoom';
-import { useListStore } from './store/listStore';
-import { useLists } from './hooks/useLists';
-import { useEffect } from 'react';
 import { Layout } from '@/layouts/Layout';
-import { useNotificationsStore } from './store/notificationsStore';
-import { getNotifications } from './services/notificationsService';
 
 const App = () => {
   const { user } = UserAuth();
   const location = useLocation();
   const isAuthenticated = !isEmptyObject(user);
-  const { setLists } = useListStore();
-  const { data } = useLists();
-  const { setNotifications } = useNotificationsStore();
 
   useAvoidZoom();
-
-  useEffect(() => {
-    if (data) setLists(data);
-  }, [data]);
-
-  useEffect(() => {
-    if (user.email)
-      getNotifications(user.email).then((res) => {
-        setNotifications(res);
-      });
-  }, [user]);
 
   return (
     <Routes>
@@ -54,10 +35,7 @@ const App = () => {
       <Route
         path='/'
         element={
-          <ProtectedRoute
-            isAuthenticated={isAuthenticated}
-            redirect={location.pathname}
-          >
+          <ProtectedRoute isAuthenticated={isAuthenticated} redirect={location.pathname}>
             <Layout />
           </ProtectedRoute>
         }

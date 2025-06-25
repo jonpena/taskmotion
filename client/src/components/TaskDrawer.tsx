@@ -53,10 +53,7 @@ export const TaskDrawer = () => {
         <div className='p-6 space-y-6'>
           <div className='space-y-4'>
             <div>
-              <label
-                htmlFor='name'
-                className='text-sm font-medium text-muted-foreground'
-              >
+              <label htmlFor='name' className='text-sm font-medium text-muted-foreground'>
                 Task name
               </label>
               <div
@@ -101,10 +98,7 @@ export const TaskDrawer = () => {
             </div>
 
             <div>
-              <label
-                htmlFor='description'
-                className='text-sm font-medium text-muted-foreground'
-              >
+              <label htmlFor='description' className='text-sm font-medium text-muted-foreground'>
                 Description
               </label>
               <div className='mt-1.5 relative'>
@@ -119,11 +113,7 @@ export const TaskDrawer = () => {
 
                 <IAButton
                   isLoading={isGeneratingAI}
-                  title={
-                    description
-                      ? 'Enhance Description'
-                      : 'Generate AI description'
-                  }
+                  title={description ? 'Enhance Description' : 'Generate AI description'}
                   onClick={handleGenerateAIDescription}
                   disabled={isGeneratingAI}
                 />

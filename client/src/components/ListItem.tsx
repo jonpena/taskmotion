@@ -1,20 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ListProps } from '@shared/interfaces/list.interface';
-import { deleteList } from '@/services/listService';
-import { updateList } from '@/services/listService';
 import { useAlertDialogStore } from '@/store/dialogStore';
-import { useListStore } from '@/store/listStore';
 import { useTaskStore } from '@/store/taskStore';
 import { getTaskCount } from '@/utils/getTaskCount';
 import { Trash2 } from 'lucide-react';
 import { Tooltip } from '@/components/ui/tooltip';
 import { replaceEmojis } from '@/utils/replaceEmojis';
 import { useDebounce } from '@uidotdev/usehooks';
-import { useLists } from '@/hooks/useLists';
-import { createNotification } from '@/utils/createNotification';
 import { UserAuth } from '@/context/AuthContext';
-import { useNotificationsStore } from '@/store/notificationsStore';
+import { useUpdateNotifications } from '@/hooks/useNotification';
+import { createNotification } from '@/utils/createNotification';
+import { useDeleteList, useLists, useUpdateList } from '@/hooks/useLists';
 
 type ListItemProps = {
   list: ListProps;
@@ -24,7 +21,6 @@ const ListItem = ({ list }: ListItemProps) => {
   const { listId } = useParams();
   const navigate = useNavigate();
   const { tasks } = useTaskStore();
-  const { lists, setLists } = useListStore();
   const inputRef = useRef(null!) as React.MutableRefObject<HTMLInputElement>;
   const [countTasks, setCountTasks] = useState(0);
   const [isFocused, setIsFocused] = useState(false);
@@ -33,9 +29,11 @@ const ListItem = ({ list }: ListItemProps) => {
   const [listName, setListName] = useState(list.name);
   const [previousName, setPreviousName] = useState(list.name);
   const listNameDebounced = useDebounce(listName, 200);
-  const { refreshLists } = useLists();
   const { email } = UserAuth().user;
-  const notificationsStore = useNotificationsStore();
+  const updateNotifications = useUpdateNotifications();
+  const { lists } = useLists();
+  const updateList = useUpdateList();
+  const deleteList = useDeleteList();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setListName(e.target.value.trimStart());
@@ -49,29 +47,33 @@ const ListItem = ({ list }: ListItemProps) => {
   const handleBlur = () => {
     if (listId && listName && listName !== previousName) {
       const formattedName = replaceEmojis(listName);
-      updateList(listId, { name: formattedName, tasks });
+      updateList.mutate({
+        listId,
+        body: { name: formattedName, tasks },
+      });
       setListName(formattedName);
       setPreviousName(formattedName);
       setListTitle(formattedName);
     } else setListName(previousName);
     setIsFocused(false);
-    refreshLists();
   };
 
   const handleDeleteList = (e: React.MouseEvent, _listId: string) => {
     e.preventDefault();
     e.stopPropagation();
     setHandleDelete(() => {
-      const filterListCollection = lists.filter((l) => l.listId !== _listId);
+      if (!lists) return;
       if (_listId === listId) navigate('/u/dashboard');
-      setLists(filterListCollection);
-      deleteList(_listId);
-      createNotification(notificationsStore, email, {
+      deleteList.mutate({ listId: _listId });
+
+      const body = createNotification({
         type: 'list',
         action: 'deleted',
         message: list.name ?? 'none',
         id: _listId,
       });
+
+      updateNotifications.mutate({ email, body });
     });
     setOpen(true);
   };

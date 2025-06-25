@@ -2,41 +2,34 @@ import { TaskProps } from '@shared/interfaces/task.interface';
 import { useTaskState } from './useTaskState';
 import { useParams } from 'react-router-dom';
 import { useTaskStore } from '@/store/taskStore';
-import { useListStore } from '@/store/listStore';
 import { useModalStore } from '@/store/modalStore';
 import { ChangeEvent, useCallback } from 'react';
-import { updateList } from '@/services/listService';
-import { updateListState } from '@/utils/updateListState';
 import { MAX_TIMEOUT, SIZE_ID } from '@/constants/base';
 import { nanoid } from 'nanoid';
 import { updateTaskState } from '@/utils/updateTaskState';
 import { getAIDescription } from '@/services/aiService';
 import { calculateHeight, resetHeight } from '@/utils/calculateHeight';
 import { replaceEmojis } from '@/utils/replaceEmojis';
-import { createNotification } from '@/utils/createNotification';
 import { UserAuth } from '@/context/AuthContext';
-import { useNotificationsStore } from '@/store/notificationsStore';
-
+import { useUpdateNotifications } from '../useNotification';
+import { createNotification } from '@/utils/createNotification';
+import { useLists, useUpdateList } from '@/hooks/useLists';
 // Hook para manejar los handlers de la tarea
-export const useTaskHandlers = (
-  task: TaskProps,
-  state: ReturnType<typeof useTaskState>
-) => {
+export const useTaskHandlers = (task: TaskProps, state: ReturnType<typeof useTaskState>) => {
   const { listId } = useParams();
   const { tasks, setTasks } = useTaskStore();
-  const { lists, setLists } = useListStore();
   const { setIsOpen, setTask } = useModalStore();
   const { email } = UserAuth().user;
-  const notificationsStore = useNotificationsStore();
+  const updateNotifications = useUpdateNotifications();
+  const { lists } = useLists();
+  const updateList = useUpdateList();
 
   const updateTaskAndLists = useCallback(
     (updatedTasks: TaskProps[]) => {
       if (!listId) return;
-      updateList(listId, { tasks: updatedTasks });
-      setTasks(updatedTasks);
-      setLists(updateListState(listId, lists, updatedTasks));
+      updateList.mutate({ listId, body: { tasks: updatedTasks } });
     },
-    [listId, setLists, setTasks, lists]
+    [listId, setTasks, lists]
   );
 
   const handleDuplicate = useCallback(() => {
@@ -52,12 +45,13 @@ export const useTaskHandlers = (
       const removeTask = tasks.filter((t) => t.id !== task.id);
       setTasks(removeTask);
 
+      if (!lists) return;
       const currentIndex = lists.findIndex((l) => l.listId === listId);
       const currentList = [...lists];
 
       if (currentIndex !== -1) {
         currentList[currentIndex].tasks = removeTask;
-        updateList(listId, { tasks: removeTask });
+        updateList.mutate({ listId, body: { tasks: removeTask } });
       }
 
       const moveList = [...lists];
@@ -65,7 +59,10 @@ export const useTaskHandlers = (
 
       if (moveIndex !== -1) {
         moveList[moveIndex].tasks = [task, ...lists[moveIndex].tasks];
-        updateList(listIdMove, { tasks: moveList[moveIndex].tasks });
+        updateList.mutate({
+          listId: listIdMove,
+          body: { tasks: moveList[moveIndex].tasks },
+        });
       }
     },
     [task, listId, tasks]
@@ -76,16 +73,17 @@ export const useTaskHandlers = (
       if (!listId) return;
       e.preventDefault();
       e.stopPropagation();
-      const updatedTasks = tasks.filter(
-        (elem: TaskProps) => elem.id !== task.id
-      );
+      const updatedTasks = tasks.filter((elem: TaskProps) => elem.id !== task.id);
       updateTaskAndLists(updatedTasks);
-      createNotification(notificationsStore, email, {
+
+      const body = createNotification({
         type: 'task',
         action: 'deleted',
         message: task.name,
         id: task.id,
       });
+
+      updateNotifications.mutate({ email, body });
     },
     [listId, tasks, updateTaskAndLists]
   );
@@ -111,12 +109,13 @@ export const useTaskHandlers = (
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
     state.setChecked(e.target.checked);
     if (e.target.checked) {
-      createNotification(notificationsStore, email, {
+      const body = createNotification({
         type: 'task',
         action: 'completed',
         message: task.name,
         id: task.id,
       });
+      updateNotifications.mutate({ email, body });
     }
   };
 
@@ -144,9 +143,7 @@ export const useTaskHandlers = (
     const currentTime = Date.now();
     state.setTouchStartTime(currentTime);
     const tapLength = currentTime - state.lastTapTime;
-    state.setLastTapTime(
-      tapLength < MAX_TIMEOUT && tapLength > 0 ? 0 : currentTime
-    );
+    state.setLastTapTime(tapLength < MAX_TIMEOUT && tapLength > 0 ? 0 : currentTime);
   }, [state.lastTapTime, state.isFocused]);
 
   // Handler para actualizar el contador de clics cuando se suelta el dedo
@@ -182,10 +179,7 @@ export const useTaskHandlers = (
     if (!listId || !state.taskName) return;
     try {
       state.setIsGeneratingAI(true);
-      const newDescription = await getAIDescription(
-        state.taskName,
-        state.description
-      );
+      const newDescription = await getAIDescription(state.taskName, state.description);
       const updatedTasks = updateTaskState(task.id, tasks, {
         description: newDescription,
       });

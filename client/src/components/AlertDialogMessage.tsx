@@ -38,9 +38,7 @@ export function AlertDialogMessage() {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => setOpen(false)}>
-            Cancel
-          </AlertDialogCancel>
+          <AlertDialogCancel onClick={() => setOpen(false)}>Cancel</AlertDialogCancel>
           <AlertDialogAction
             className='!bg-red-600 !hover:bg-red-700 dark:text-neutral-200'
             autoFocus

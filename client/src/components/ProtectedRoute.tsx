@@ -6,11 +6,7 @@ type ProtectedRouteProps = {
   children: React.ReactNode | React.ReactNode[];
 };
 
-const ProtectedRoute = ({
-  isAuthenticated,
-  redirect,
-  children,
-}: ProtectedRouteProps) => {
+const ProtectedRoute = ({ isAuthenticated, redirect, children }: ProtectedRouteProps) => {
   if (!isAuthenticated) return <Navigate to={redirect} replace />;
 
   return children;

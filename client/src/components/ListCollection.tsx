@@ -1,4 +1,3 @@
-import { useListStore } from '@/store/listStore';
 import ListItem from './ListItem';
 import CreateList from './CreateList';
 import { AlertDialogMessage } from './AlertDialogMessage';
@@ -7,9 +6,10 @@ import { useEffect, useState } from 'react';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { BurgerButton } from './buttons/BurgerButton';
 import { DashboardButton } from './buttons/DashboardButton';
+import { useLists } from '@/hooks/useLists';
 
 export const ListCollection = () => {
-  const lists = useListStore((state) => state.lists);
+  const { lists } = useLists();
   const isSmallDevice = useMediaQuery('only screen and (max-width : 1023px)');
   const [open, setOpen] = useState(!isSmallDevice);
   const [animationParent] = useAutoAnimate();
@@ -24,9 +24,7 @@ export const ListCollection = () => {
       <div
         onClick={() => setOpen(false)}
         className={`
-          lg:backdrop-blur-none ${
-            open ? 'backdrop-blur-sm visible' : 'invisible'
-          }
+          lg:backdrop-blur-none ${open ? 'backdrop-blur-sm visible' : 'invisible'}
           fixed top-0 pt-16 lg:pt-1 lg:top-15 z-[60] w-full lg:w-0 transition-all duration-300`}
       >
         <ul

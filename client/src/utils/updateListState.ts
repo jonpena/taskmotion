@@ -6,7 +6,5 @@ export const updateListState = (
   lists: ListProps[],
   updatedTasks: TaskProps[]
 ): ListProps[] => {
-  return [...lists].map((l: ListProps) =>
-    l.listId === id ? { ...l, tasks: updatedTasks } : l
-  );
+  return [...lists].map((l: ListProps) => (l.listId === id ? { ...l, tasks: updatedTasks } : l));
 };

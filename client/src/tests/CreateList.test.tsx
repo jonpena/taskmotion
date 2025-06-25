@@ -36,9 +36,7 @@ describe('CreateList', () => {
   });
 
   it('renders input field with correct placeholder', () => {
-    expect(
-      screen.getByPlaceholderText(/Create new list.../i)
-    ).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/Create new list.../i)).toBeInTheDocument();
   });
 
   it('updates input value when typing', async () => {

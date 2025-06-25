@@ -18,12 +18,7 @@ export const getListInUser = async (c: ctx, lists: any) => {
     .in('listId', lists);
 };
 
-export const updateListsInUser = async (
-  c: ctx,
-  user: UserProps,
-  listId: string,
-  email: string
-) => {
+export const updateListsInUser = async (c: ctx, user: UserProps, listId: string, email: string) => {
   return getSupabase(c)
     .from('users')
     .update({
@@ -45,17 +40,10 @@ export const updateList = async (c: ctx, listId: string, body: ListProps) => {
 };
 
 export const getUsersByListId = async (c: ctx, listId: string) => {
-  return getSupabase(c)
-    .from('users')
-    .select('*')
-    .filter('lists', 'like', `%${listId}%`);
+  return getSupabase(c).from('users').select('*').filter('lists', 'like', `%${listId}%`);
 };
 
-export const updateUsersWithNewList = async (
-  c: ctx,
-  lists: string[],
-  id: string
-) => {
+export const updateUsersWithNewList = async (c: ctx, lists: string[], id: string) => {
   return getSupabase(c).from('users').update({ lists }).eq('id', id);
 };
 

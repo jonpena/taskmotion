@@ -10,19 +10,16 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useListStore } from '@/store/listStore';
 import { useParams } from 'react-router-dom';
+import { useLists } from '@/hooks/useLists';
 
 type OptionTaskButton = {
   handleDuplicate: () => void;
   handleMoveTo: (listIdMove?: string) => void;
 };
 
-export const OptionTaskButton = ({
-  handleDuplicate,
-  handleMoveTo,
-}: OptionTaskButton) => {
-  const { lists } = useListStore();
+export const OptionTaskButton = ({ handleDuplicate, handleMoveTo }: OptionTaskButton) => {
+  const { lists } = useLists();
   const { listId } = useParams();
 
   return (
@@ -50,12 +47,9 @@ export const OptionTaskButton = ({
           [scrollbar-width:thin]'
           >
             {lists
-              .filter((_) => _.listId !== listId)
+              ?.filter((_) => _.listId !== listId)
               .map((l) => (
-                <DropdownMenuItem
-                  key={l.listId}
-                  onClick={() => handleMoveTo(l.listId)}
-                >
+                <DropdownMenuItem key={l.listId} onClick={() => handleMoveTo(l.listId)}>
                   <span className='truncate'>{l.name}</span>
                 </DropdownMenuItem>
               ))}

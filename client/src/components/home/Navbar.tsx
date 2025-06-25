@@ -25,16 +25,8 @@ const Navbar = () => {
     <header className='fixed w-full z-50'>
       <nav className='backdrop-blur-lg bg-background dark:bg-background border-gray-200 py-2.5'>
         <div className='flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto'>
-          <a
-            href='/'
-            className='flex items-center'
-            aria-label='Taskmotion Home'
-          >
-            <img
-              src='/favicon-128x128.png'
-              className='w-8 mr-2'
-              alt='Taskmotion Logo'
-            />
+          <a href='/' className='flex items-center' aria-label='Taskmotion Home'>
+            <img src='/favicon-128x128.png' className='w-8 mr-2' alt='Taskmotion Logo' />
             <span className='self-center text-xl font-semibold whitespace-nowrap dark:text-white text-neutral-600 hidden sm:inline-block'>
               Taskmotion
             </span>

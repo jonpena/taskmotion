@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Modal } from '@/components/ui/modal';
 import { useNavigate } from 'react-router-dom';
@@ -37,12 +31,7 @@ const Login = () => {
             className='flex items-center justify-center gap-2'
             onClick={signInWithGithub}
           >
-            <svg
-              width='24px'
-              height='24px'
-              viewBox='0 0 24 24'
-              xmlns='http://www.w3.org/2000/svg'
-            >
+            <svg width='24px' height='24px' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
               <title>github</title>
               <rect width='24' height='24' fill='none' />
               <path

@@ -1,10 +1,4 @@
-import {
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '@/supabase/supabase.config';
 import { UserProps } from '@/interfaces/user.interface';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -33,8 +27,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
           redirectTo: window.location.origin,
         },
       });
-      if (error)
-        throw new Error('A ocurrido un error durante la autenticación');
+      if (error) throw new Error('A ocurrido un error durante la autenticación');
       return data;
     } catch (error) {
       throw new Error('A ocurrido un error durante la autenticación');
@@ -49,8 +42,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
           redirectTo: window.location.origin,
         },
       });
-      if (error)
-        throw new Error('A ocurrido un error durante la autenticación');
+      if (error) throw new Error('A ocurrido un error durante la autenticación');
       return data;
     } catch (error) {
       throw new Error('A ocurrido un error durante la autenticación');
@@ -60,34 +52,29 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const signout = async () => {
     const { error } = await supabase.auth.signOut();
 
-    if (error)
-      throw new Error('A ocurrido un error durante el cierre de sesión');
+    if (error) throw new Error('A ocurrido un error durante el cierre de sesión');
   };
 
   useEffect(() => {
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (_, session) => {
-        if (session === null) {
-          navigate(location.pathname.includes('login') ? '/login' : '/');
-          setUser({} as UserProps);
-        } else {
-          setUser({
-            email: session.user.user_metadata.email,
-            fullname: session.user.user_metadata.full_name,
-            picture: session.user.user_metadata.picture,
-          });
-        }
+    const { data: authListener } = supabase.auth.onAuthStateChange(async (_, session) => {
+      if (session === null) {
+        navigate(location.pathname.includes('login') ? '/login' : '/');
+        setUser({} as UserProps);
+      } else {
+        setUser({
+          email: session.user.user_metadata.email,
+          fullname: session.user.user_metadata.full_name,
+          picture: session.user.user_metadata.picture,
+        });
       }
-    );
+    });
     return () => {
       authListener.subscription;
     };
   }, []);
 
   return (
-    <AuthContext.Provider
-      value={{ signInWithGoogle, signInWithGithub, signout, user }}
-    >
+    <AuthContext.Provider value={{ signInWithGoogle, signInWithGithub, signout, user }}>
       {children}
     </AuthContext.Provider>
   );

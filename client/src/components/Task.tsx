@@ -84,10 +84,7 @@ export const Task = ({ task, attributes, listeners }: TaskComponentProps) => {
 
       <DeleteButton onClick={handleDelete} onTouchEnd={handleDelete} />
 
-      <OptionTaskButton
-        handleDuplicate={handleDuplicate}
-        handleMoveTo={handleMoveTo}
-      />
+      <OptionTaskButton handleDuplicate={handleDuplicate} handleMoveTo={handleMoveTo} />
     </div>
   );
 };

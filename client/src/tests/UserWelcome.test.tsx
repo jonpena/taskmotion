@@ -29,8 +29,6 @@ describe('UserWelcome', () => {
   it('should render greeting message', () => {
     render(<UserWelcome />);
     const formatedDate = format(new Date(), 'EEEE, MMMM d');
-    expect(
-      screen.getByText(`Good morning! Today is ${formatedDate}`)
-    ).toBeInTheDocument();
+    expect(screen.getByText(`Good morning! Today is ${formatedDate}`)).toBeInTheDocument();
   });
 });

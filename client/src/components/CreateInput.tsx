@@ -41,8 +41,7 @@ export const CreateInput = ({
     }
   }, [keydown]);
 
-  const handleKeyPress = (e: React.KeyboardEvent) =>
-    e.key === 'Enter' && onSubmit();
+  const handleKeyPress = (e: React.KeyboardEvent) => e.key === 'Enter' && onSubmit();
 
   return (
     <div
@@ -72,10 +71,7 @@ export const CreateInput = ({
       />
 
       {!isSmallDevice && shortcutKey && (
-        <ShortcutBadge
-          keys={shortcutKey.toUpperCase()}
-          className={`${value && 'opacity-0'}`}
-        />
+        <ShortcutBadge keys={shortcutKey.toUpperCase()} className={`${value && 'opacity-0'}`} />
       )}
 
       {children}

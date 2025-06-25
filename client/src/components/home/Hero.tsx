@@ -9,8 +9,7 @@ const Hero = () => {
       <div className='md:col-span-2 bg-gradient-to-br from-primary to-primary/80 rounded-xl p-8 text-primary-foreground'>
         <h1 className='text-4xl font-bold mb-4'>Organize Your Life</h1>
         <p className='text-lg mb-6 text-primary-foreground/90'>
-          Transform your daily tasks into achievable goals with our intuitive
-          todo app.
+          Transform your daily tasks into achievable goals with our intuitive todo app.
         </p>
         <button
           onClick={() => navigate('/login')}
@@ -33,33 +32,27 @@ const Hero = () => {
       <div className='bg-card/60 dark:bg-neutral-950/60  backdrop-blur-lg rounded-xl p-6 text-card-foreground border border-border/50'>
         <ListTodo className='h-8 w-8 text-primary mb-4' />
         <h3 className='text-xl font-semibold mb-2'>Smart Lists</h3>
-        <p className='text-muted-foreground'>
-          Organize tasks with intelligent categorization
-        </p>
+        <p className='text-muted-foreground'>Organize tasks with intelligent categorization</p>
       </div>
 
       <div className='bg-card/60 dark:bg-neutral-950/60  backdrop-blur-lg rounded-xl p-6 text-card-foreground border border-border/50'>
         <Target className='h-8 w-8 text-primary mb-4' />
         <h3 className='text-xl font-semibold mb-2'>Goal Tracking</h3>
-        <p className='text-muted-foreground'>
-          Set and achieve your personal milestones
-        </p>
+        <p className='text-muted-foreground'>Set and achieve your personal milestones</p>
       </div>
 
       <div className='bg-card/60 dark:bg-neutral-950/60  backdrop-blur-lg rounded-xl p-6 text-card-foreground border border-border/50'>
         <Zap className='h-8 w-8 text-primary mb-4' />
         <h3 className='text-xl font-semibold mb-2'>Quick Actions</h3>
-        <p className='text-muted-foreground'>
-          Complete tasks with minimal interaction
-        </p>
+        <p className='text-muted-foreground'>Complete tasks with minimal interaction</p>
       </div>
 
       {/* Testimonial - Updated styling */}
       <div className='md:col-span-2 bg-card/60 dark:bg-neutral-950/60  backdrop-blur-lg rounded-xl p-6 text-card-foreground border border-border/50'>
         <Star className='h-6 w-6 text-yellow-500 mb-4' />
         <p className='text-lg mb-4'>
-          "This todo app has completely transformed how I manage my daily tasks.
-          The interface is beautiful and intuitive!"
+          "This todo app has completely transformed how I manage my daily tasks. The interface is
+          beautiful and intuitive!"
         </p>
         <p className='font-semibold'>- Jonathan Peña</p>
         <p className='text-sm text-muted-foreground'>Full Stack Developer</p>
@@ -69,9 +62,7 @@ const Hero = () => {
       <div className='bg-card/60 dark:bg-neutral-950/60  backdrop-blur-lg rounded-xl p-6 text-card-foreground border border-border/50'>
         <Calendar className='h-8 w-8 text-primary mb-4' />
         <h3 className='text-xl font-semibold mb-2'>Calendar View</h3>
-        <p className='text-muted-foreground'>
-          Visualize your tasks in a beautiful calendar layout
-        </p>
+        <p className='text-muted-foreground'>Visualize your tasks in a beautiful calendar layout</p>
       </div>
     </main>
   );

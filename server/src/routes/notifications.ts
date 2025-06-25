@@ -34,10 +34,7 @@ notificationsApp.put('/:email', async (c) => {
   const body: Notification = await c.req.json();
 
   // First check if notifications exist for this email
-  const { data: existingData, error: existingError } = await getNotifications(
-    c,
-    email
-  );
+  const { data: existingData, error: existingError } = await getNotifications(c, email);
 
   if (existingError) return c.json({ error: existingError }, 400);
 
@@ -46,8 +43,7 @@ notificationsApp.put('/:email', async (c) => {
   // If notifications exist, append the new one
   if (existingData.length > 0) {
     // Assuming notifications is an array in the existing record
-    const existingNotifications: Notification[] =
-      existingData[0].notifications || [];
+    const existingNotifications: Notification[] = existingData[0].notifications || [];
     const notifications = [body, ...existingNotifications];
     const removeNotifications = deduplicateNotifications(notifications);
     const temp = removeNotifications.slice(0, MAX_NOTIFICATIONS);
