@@ -4,10 +4,15 @@ import userEvent from '@testing-library/user-event';
 import CreateTask from '@/components/CreateTask';
 import { useMediaQuery } from '@uidotdev/usehooks';
 
-vi.mock('@/store/listStore', () => ({
-  useListStore: () => ({
-    lists: [],
-    setLists: vi.fn(),
+vi.mock('@/hooks/useNotification', () => ({
+  useUpdateNotifications: vi.fn().mockReturnValue({
+    mutate: vi.fn(),
+  }),
+}));
+
+vi.mock('@/hooks/useLists', () => ({
+  useUpdateList: () => ({
+    mutate: vi.fn(),
   }),
 }));
 

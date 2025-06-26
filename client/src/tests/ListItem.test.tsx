@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { useListStore } from '@/store/listStore';
 import { useTaskStore } from '@/store/taskStore';
 import ListItem from '../components/ListItem';
 import { ListProps } from '@shared/interfaces/list.interface';
@@ -25,10 +24,23 @@ vi.mock('@/store/listStore');
 vi.mock('@/store/taskStore');
 vi.mock('@/services/listService');
 
-vi.mocked(useListStore).mockReturnValue({
-  lists: [mockList],
-  setLists: vi.fn(),
-});
+vi.mock('@/hooks/useNotification', () => ({
+  useUpdateNotifications: vi.fn().mockReturnValue({
+    mutate: vi.fn(),
+  }),
+}));
+
+vi.mock('@/hooks/useLists', () => ({
+  useLists: () => ({
+    lists: [],
+  }),
+  useUpdateList: vi.fn().mockReturnValue({
+    mutate: vi.fn(),
+  }),
+  useDeleteList: vi.fn().mockReturnValue({
+    mutate: vi.fn(),
+  }),
+}));
 
 vi.mocked(useTaskStore).mockReturnValue({
   tasks: mockTasks,

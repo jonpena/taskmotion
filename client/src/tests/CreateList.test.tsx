@@ -5,10 +5,18 @@ import CreateList from '@/components/CreateList';
 import { useMediaQuery } from '@uidotdev/usehooks';
 import { useNavigate } from 'react-router-dom';
 
-vi.mock('@/store/listStore', () => ({
-  useListStore: () => ({
+vi.mock('@/hooks/useNotification', () => ({
+  useUpdateNotifications: vi.fn().mockReturnValue({
+    mutate: vi.fn(),
+  }),
+}));
+
+vi.mock('@/hooks/useLists', () => ({
+  useLists: () => ({
     lists: [],
-    setLists: vi.fn(),
+  }),
+  useCreateList: vi.fn().mockReturnValue({
+    mutate: vi.fn(),
   }),
 }));
 
