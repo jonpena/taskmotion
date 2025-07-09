@@ -1,5 +1,5 @@
 import { Context, Hono } from 'hono';
-import { generateDescription } from '@server/services/ai';
+import { generateDescription } from '@/services/ai';
 
 export const aiApp = new Hono();
 

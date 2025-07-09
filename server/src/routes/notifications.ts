@@ -1,9 +1,9 @@
-import { supabaseMiddleware } from '@server/middleware/supabase';
+import { supabaseMiddleware } from '@/middleware/supabase';
 import {
   createNotification,
   getNotifications,
   updateNotifications,
-} from '@server/services/notifications';
+} from '@/services/notifications';
 import { Notification } from '@shared/interfaces/notification.interface';
 import { deduplicateNotifications } from '@shared/utils/deduplicateNotifications';
 import { MAX_NOTIFICATIONS } from '@shared/constants/base';

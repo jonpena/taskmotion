@@ -1,8 +1,8 @@
 import { Hono } from 'hono';
-import { getSupabase, supabaseMiddleware } from '../middleware/supabase';
-import { zListValidator } from '../validators/list.validator';
-import { UserProps } from '../interfaces/user.interface';
-import { ListProps } from '../../../shared/interfaces/list.interface';
+import { getSupabase, supabaseMiddleware } from '@/middleware/supabase';
+import { zListValidator } from '@/validators/list.validator';
+import { UserProps } from '@/types/user.types';
+import { ListProps } from '@shared/interfaces/list.interface';
 import {
   createNewList,
   deleteList,

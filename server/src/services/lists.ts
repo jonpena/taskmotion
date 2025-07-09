@@ -1,7 +1,7 @@
 import { BlankEnv, BlankInput } from 'hono/types';
-import { getSupabase } from '../middleware/supabase';
+import { getSupabase } from '@/middleware/supabase';
 import { Context } from 'hono';
-import { UserProps } from '@server/interfaces/user.interface';
+import { UserProps } from '@/types/user.types';
 import { ListProps } from '@shared/interfaces/list.interface';
 
 type ctx = Context<BlankEnv, '/', BlankInput>;

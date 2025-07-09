@@ -1,4 +1,4 @@
-import { getSupabase } from '@server/middleware/supabase';
+import { getSupabase } from '@/middleware/supabase';
 import { Context } from 'hono';
 import { BlankEnv, BlankInput } from 'hono/types';
 import { Notification } from '@shared/interfaces/notification.interface';

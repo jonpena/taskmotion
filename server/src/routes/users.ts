@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
-import { zUserValidator } from '../validators/user.validator';
-import { getSupabase, supabaseMiddleware } from '../middleware/supabase';
+import { zUserValidator } from '@/validators/user.validator';
+import { getSupabase, supabaseMiddleware } from '@/middleware/supabase';
 
 export const userApp = new Hono();
 
