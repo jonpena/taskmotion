@@ -25,6 +25,6 @@
       "@shared/*": ["../shared/*"]
     }
   },
-  "include": ["src", "declarations.d.ts", "src/interfaces", "../shared/*"],
+  "include": ["src", "declarations.d.ts", "src/types", "../shared/*"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
