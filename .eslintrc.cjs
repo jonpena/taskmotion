@@ -6,7 +6,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
     'plugin:import/recommended',
-    'plugin:import/typescript', // importante para resolver imports TS
+    'plugin:import/typescript',
   ],
   plugins: ['react-refresh'],
   parser: '@typescript-eslint/parser',
@@ -16,7 +16,6 @@ module.exports = {
   settings: {
     'import/resolver': {
       typescript: {
-        // Puedes poner uno o varios tsconfig
         project: ['./client/tsconfig.json', './server/tsconfig.json', './shared/tsconfig.json'],
       },
     },
