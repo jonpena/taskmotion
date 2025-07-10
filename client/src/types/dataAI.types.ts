@@ -1,32 +1,32 @@
-interface Part {
+type Part = {
   text: string;
-}
+};
 
-interface Content {
+type Content = {
   parts: Part[];
   role: string;
-}
+};
 
-interface Candidate {
+type Candidate = {
   content: Content;
   finishReason: string;
   avgLogprobs: number;
-}
+};
 
-interface UsageMetadata {
+type UsageMetadata = {
   promptTokenCount: number;
   candidatesTokenCount: number;
   totalTokenCount: number;
-}
+};
 
-interface Response {
+type Response = {
   candidates: Candidate[];
   usageMetadata: UsageMetadata;
   modelVersion: string;
-}
+};
 
-export interface AIDescriptionResponse {
+export type AIDescriptionResponse = {
   result: {
     response: Response;
   };
-}
+};

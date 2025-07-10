@@ -1,4 +1,4 @@
-export interface DashboardAnalytics {
+export type DashboardAnalytics = {
   totalTasks: number;
   completedTasks: number;
   pendingTasks: number;
@@ -13,4 +13,4 @@ export interface DashboardAnalytics {
     message: string;
     timestamp: string;
   }[];
-}
+};
