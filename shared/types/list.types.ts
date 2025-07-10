@@ -1,8 +1,8 @@
-import { TaskProps } from './task.interface';
+import { TaskProps } from './task.types';
 
-export interface ListProps {
+export type ListProps = {
   listId?: string;
   name?: string;
   tasks: TaskProps[];
   created_at?: string;
-}
+};
