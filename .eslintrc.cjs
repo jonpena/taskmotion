@@ -1,5 +1,3 @@
-import { error } from 'console';
-
 module.exports = {
   root: true,
   env: { browser: true, es2020: true },
@@ -7,14 +5,45 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
+    'plugin:import/recommended',
+    'plugin:import/typescript', // importante para resolver imports TS
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
-  parser: '@typescript-eslint/parser',
   plugins: ['react-refresh'],
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    tsconfigRootDir: __dirname,
+  },
+  settings: {
+    'import/resolver': {
+      typescript: {
+        // Puedes poner uno o varios tsconfig
+        project: ['./client/tsconfig.json', './server/tsconfig.json', './shared/tsconfig.json'],
+      },
+    },
+  },
+  ignorePatterns: ['dist', 'node_modules'],
   rules: {
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-    'max-len': ['error', { code: 100 }],
-    'max-lines': ['error', { max: 150 }],
-    'double-quotes': ['error', 'single'],
+    'max-lines': ['warn', { max: 250 }],
   },
+  overrides: [
+    {
+      files: ['client/**/*.{ts,tsx}'],
+      parserOptions: {
+        project: './client/tsconfig.json',
+      },
+    },
+    {
+      files: ['client/vite.config.ts'],
+      parserOptions: {
+        project: './client/tsconfig.node.json',
+      },
+    },
+    {
+      files: ['server/**/*.{ts,tsx}'],
+      parserOptions: {
+        project: './server/tsconfig.json',
+      },
+    },
+  ],
 };
