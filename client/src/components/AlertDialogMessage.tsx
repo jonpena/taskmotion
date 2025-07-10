@@ -24,7 +24,7 @@ export function AlertDialogMessage() {
 
   useEffect(() => {
     if (keydown && open && keydown === 'escape') setOpen(false);
-  }, [keydown]);
+  }, [keydown, open, setOpen]);
 
   return (
     <AlertDialog open={open}>

@@ -4,10 +4,12 @@ import {
   getNotifications,
   updateNotifications,
 } from '@/services/notifications';
-import { Notification } from '@shared/interfaces/notification.interface';
+import { Notification } from '@shared/types/notification.types';
 import { deduplicateNotifications } from '@shared/utils/deduplicateNotifications';
 import { MAX_NOTIFICATIONS } from '@shared/constants/base';
 import { Hono } from 'hono';
+import { PostgrestSingleResponse } from '@supabase/supabase-js';
+import { NotificationRecord } from '@shared/types/notification-record.types';
 
 export const notificationsApp = new Hono();
 
@@ -38,7 +40,7 @@ notificationsApp.put('/:email', async (c) => {
 
   if (existingError) return c.json({ error: existingError }, 400);
 
-  let result: any;
+  let result: PostgrestSingleResponse<NotificationRecord[]>;
 
   // If notifications exist, append the new one
   if (existingData.length > 0) {

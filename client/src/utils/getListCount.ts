@@ -1,4 +1,4 @@
-import { ListProps } from '@shared/interfaces/list.interface';
+import { ListProps } from '@shared/types/list.types';
 import { format, isSameDay, subDays } from 'date-fns';
 
 export const getListCount = (lists: ListProps[]) => {
@@ -62,7 +62,7 @@ export const getListCount = (lists: ListProps[]) => {
   const pendingAux = Math.round((pending * 100) / total);
   const overdueAux = 100 - completedAux - pendingAux;
 
-  let completedPercentage = isNaN(completedAux) ? 100 : completedAux;
+  const completedPercentage = isNaN(completedAux) ? 100 : completedAux;
   const pendingPercentage = isNaN(pendingAux) ? 0 : pendingAux;
   const overduePercentage = isNaN(overdueAux) ? 0 : overdueAux;
 

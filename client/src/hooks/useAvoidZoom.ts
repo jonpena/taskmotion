@@ -34,7 +34,7 @@ const useAvoidZoom = () => {
     // Desactivar el comportamiento de "doble-tap para zoom" en móviles
     const disableTouchZoom = () => {
       // Agregar una meta tag viewport para desactivar el zoom del usuario
-      let viewportMeta = document.querySelector('meta[name="viewport"]');
+      const viewportMeta = document.querySelector('meta[name="viewport"]');
 
       viewportMeta?.setAttribute(
         'content',

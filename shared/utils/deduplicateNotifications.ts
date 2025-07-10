@@ -1,4 +1,4 @@
-import { Notification } from '../interfaces/notification.interface';
+import { Notification } from '../types/notification.types';
 
 export const deduplicateNotifications = (notifications: Notification[]): Notification[] => {
   const map = new Map<string, Notification>();

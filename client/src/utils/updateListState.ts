@@ -1,5 +1,5 @@
-import { TaskProps } from '@shared/interfaces/task.interface';
-import { ListProps } from '@shared/interfaces/list.interface';
+import { TaskProps } from '@shared/types/task.types';
+import { ListProps } from '@shared/types/list.types';
 
 export const updateListState = (
   id: string,

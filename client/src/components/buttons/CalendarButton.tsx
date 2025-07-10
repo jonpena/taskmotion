@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Tooltip } from '../ui/tooltip';
 import { Calendar } from '../ui/calendar';
 import { CalendarIcon } from 'lucide-react';
@@ -47,7 +47,7 @@ export const CalendarButton = ({
 
   useEffect(() => {
     if (keydown && isCalendarVisible && keydown === 'escape') setIsCalendarVisible(false);
-  }, [keydown]);
+  }, [isCalendarVisible, keydown]);
 
   return (
     <div className={cn(`flex flex-col items-start relative`, className)}>

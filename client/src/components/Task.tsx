@@ -1,4 +1,4 @@
-import { TaskProps } from '@shared/interfaces/task.interface';
+import { TaskProps } from '@shared/types/task.types';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { TextInput } from '@/components/ui/text-input';

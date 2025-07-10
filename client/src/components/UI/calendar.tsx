@@ -1,3 +1,4 @@
+/* eslint-disable no-empty-pattern */
 import * as React from 'react';
 import { DayPicker } from 'react-day-picker';
 

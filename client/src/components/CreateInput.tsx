@@ -39,7 +39,7 @@ export const CreateInput = ({
     if (keydown === `ctrl+${shortcutKey?.toLowerCase()}`) {
       inputRef?.current?.focus();
     }
-  }, [keydown]);
+  }, [inputRef, keydown, shortcutKey]);
 
   const handleKeyPress = (e: React.KeyboardEvent) => e.key === 'Enter' && onSubmit();
 

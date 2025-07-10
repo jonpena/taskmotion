@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '@/supabase/supabase.config';
-import { UserProps } from '@/interfaces/user.interface';
+import { UserProps } from '@/types/user.types';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const AuthContext = createContext({
@@ -71,7 +71,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       authListener.subscription;
     };
-  }, []);
+  }, [location.pathname, navigate]);
 
   return (
     <AuthContext.Provider value={{ signInWithGoogle, signInWithGithub, signout, user }}>

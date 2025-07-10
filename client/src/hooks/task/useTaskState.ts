@@ -1,5 +1,5 @@
 import { MAX_TIMEOUT } from '@/constants/base';
-import { TaskProps } from '@shared/interfaces/task.interface';
+import { TaskProps } from '@shared/types/task.types';
 import { useDebounce } from '@uidotdev/usehooks';
 import { useDeferredValue, useRef, useState } from 'react';
 

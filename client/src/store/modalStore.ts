@@ -1,4 +1,4 @@
-import { TaskProps } from '@shared/interfaces/task.interface';
+import { TaskProps } from '@shared/types/task.types';
 import { create } from 'zustand';
 
 interface ModalState {

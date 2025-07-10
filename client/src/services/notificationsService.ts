@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { getApiBaseUrl } from '@/utils/getApiBaseUrl';
-import { Notification } from '@shared/interfaces/notification.interface';
+import { Notification } from '@shared/types/notification.types';
 
 export const getNotifications = async (email: string): Promise<Notification[]> => {
   try {

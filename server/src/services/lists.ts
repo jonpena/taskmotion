@@ -2,7 +2,7 @@ import { BlankEnv, BlankInput } from 'hono/types';
 import { getSupabase } from '@/middleware/supabase';
 import { Context } from 'hono';
 import { UserProps } from '@/types/user.types';
-import { ListProps } from '@shared/interfaces/list.interface';
+import { ListProps } from '@shared/types/list.types';
 
 type ctx = Context<BlankEnv, '/', BlankInput>;
 
@@ -10,7 +10,7 @@ export const getUserByEmail = async (c: ctx, email: string) => {
   return getSupabase(c).from('users').select(`*`).eq(`email`, `${email}`);
 };
 
-export const getListInUser = async (c: ctx, lists: any) => {
+export const getListInUser = async (c: ctx, lists: string[]) => {
   return getSupabase(c)
     .from('lists')
     .select('*')

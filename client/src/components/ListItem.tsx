@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ListProps } from '@shared/interfaces/list.interface';
+import { ListProps } from '@shared/types/list.types';
 import { useAlertDialogStore } from '@/store/dialogStore';
 import { useTaskStore } from '@/store/taskStore';
 import { getTaskCount } from '@/utils/getTaskCount';
@@ -108,12 +108,12 @@ const ListItem = ({ list }: ListItemProps) => {
 
   useEffect(() => {
     setCountTasks(getTaskCount(list, tasks, listId));
-  }, [list, tasks]);
+  }, [list, listId, tasks]);
 
   useEffect(() => {
     if (listNameDebounced === list.name) return;
     setListTitle(listNameDebounced as string);
-  }, [listNameDebounced]);
+  }, [list.name, listNameDebounced, setListTitle]);
 
   return (
     <li

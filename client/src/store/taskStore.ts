@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { TaskProps } from '@shared/interfaces/task.interface';
+import { TaskProps } from '@shared/types/task.types';
 
 interface TaskState {
   tasks: TaskProps[];

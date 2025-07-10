@@ -26,7 +26,7 @@ export const TaskList = () => {
     if (!findList && lists.length !== 0) navigate('/u/dashboard');
     setListTitle(findList?.name ?? '');
     setTasks(findList?.tasks || []);
-  }, [listId, lists]);
+  }, [listId, lists, navigate, setListTitle, setTasks]);
 
   return tasks.length > 0 ? <SortableList /> : <EmptyList />;
 };

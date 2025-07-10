@@ -1,15 +1,23 @@
 import { getSupabase } from '@/middleware/supabase';
 import { Context } from 'hono';
 import { BlankEnv, BlankInput } from 'hono/types';
-import { Notification } from '@shared/interfaces/notification.interface';
+import { Notification } from '@shared/types/notification.types';
+import { NotificationRecord } from '@shared/types/notification-record.types';
+import { PostgrestSingleResponse } from '@supabase/supabase-js';
 
 type ctx = Context<BlankEnv, '/', BlankInput>;
 
+// GET ALL NOTIFICATIONS FOR A USER
 export const getNotifications = async (c: ctx, email: string) => {
-  return getSupabase(c).from('notifications').select(`*`).eq(`email`, `${email}`);
+  return getSupabase(c).from('notifications').select('*').eq('email', email);
 };
 
-export const createNotification = async (c: ctx, email: string, body: Notification) => {
+// CREATE A NEW NOTIFICATION
+export const createNotification = async (
+  c: ctx,
+  email: string,
+  body: Notification
+): Promise<PostgrestSingleResponse<NotificationRecord[]>> => {
   return getSupabase(c)
     .from('notifications')
     .insert({
@@ -19,7 +27,12 @@ export const createNotification = async (c: ctx, email: string, body: Notificati
     .select();
 };
 
-export const updateNotifications = async (c: ctx, email: string, body: Notification[]) => {
+// UPDATE NOTIFICATIONS FOR A USER
+export const updateNotifications = async (
+  c: ctx,
+  email: string,
+  body: Notification[]
+): Promise<PostgrestSingleResponse<NotificationRecord[]>> => {
   return getSupabase(c)
     .from('notifications')
     .update({ notifications: body })

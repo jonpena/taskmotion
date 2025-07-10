@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ListProps } from '@shared/interfaces/list.interface';
+import { ListProps } from '@shared/types/list.types';
 import { getApiBaseUrl } from '@/utils/getApiBaseUrl';
 
 const api = axios.create({

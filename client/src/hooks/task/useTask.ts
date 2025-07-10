@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 import { useTaskStore } from '@/store/taskStore';
 import { useModalStore } from '@/store/modalStore';
 import { replaceEmojis } from '@/utils/replaceEmojis';
 import { format } from 'date-fns';
 import { updateTaskState } from '@/utils/updateTaskState';
-import { TaskProps } from '@shared/interfaces/task.interface';
+import { TaskProps } from '@shared/types/task.types';
 import { useParams } from 'react-router-dom';
 import { useTaskState } from './useTaskState';
 import { useTaskHandlers } from './useTaskHandlers';

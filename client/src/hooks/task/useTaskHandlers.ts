@@ -1,4 +1,5 @@
-import { TaskProps } from '@shared/interfaces/task.interface';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { TaskProps } from '@shared/types/task.types';
 import { useTaskState } from './useTaskState';
 import { useParams } from 'react-router-dom';
 import { useTaskStore } from '@/store/taskStore';

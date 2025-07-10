@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
-import { ListProps } from '@shared/interfaces/list.interface';
+import { ListProps } from '@shared/types/list.types';
 
 const listSchema: z.ZodType<ListProps> = z.object({
   name: z.string(),

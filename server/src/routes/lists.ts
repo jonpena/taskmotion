@@ -2,7 +2,8 @@ import { Hono } from 'hono';
 import { getSupabase, supabaseMiddleware } from '@/middleware/supabase';
 import { zListValidator } from '@/validators/list.validator';
 import { UserProps } from '@/types/user.types';
-import { ListProps } from '@shared/interfaces/list.interface';
+import { ListProps } from '@shared/types/list.types';
+import { jwtDecode } from 'jwt-decode';
 import {
   createNewList,
   deleteList,
@@ -14,17 +15,22 @@ import {
   updateUsersWithNewList,
 } from '../services/lists';
 
-import { jwtDecode } from 'jwt-decode';
-
 export const listApp = new Hono();
 
 listApp.use('*', supabaseMiddleware);
+
+type JwtPayload = {
+  user_metadata: {
+    full_name: string;
+    email: string;
+  };
+};
 
 // GET A LIST OF USERS USING GOOGLE TOKEN
 listApp.get('/:token', async (c) => {
   const token = c.req.param('token');
 
-  const decoded = jwtDecode(token) as any;
+  const decoded = jwtDecode<JwtPayload>(token);
 
   const users = await getUserByEmail(c, decoded.user_metadata.email);
 

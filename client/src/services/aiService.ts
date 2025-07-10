@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { getApiBaseUrl } from '@/utils/getApiBaseUrl';
-import { AIDescriptionResponse } from '@/interfaces/dataAI.inteface';
+import { AIDescriptionResponse } from '@/types/dataAI.types';
 
 export const getAIDescription = async (taskName: string, description: string): Promise<string> => {
   try {

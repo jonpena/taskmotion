@@ -3,8 +3,8 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useTaskStore } from '@/store/taskStore';
 import ListItem from '../components/ListItem';
-import { ListProps } from '@shared/interfaces/list.interface';
-import { TaskProps } from '@shared/interfaces/task.interface';
+import { ListProps } from '@shared/types/list.types';
+import { TaskProps } from '@shared/types/task.types';
 import { useNavigate } from 'react-router-dom';
 
 const mockTasks = [

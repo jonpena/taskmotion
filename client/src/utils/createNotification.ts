@@ -1,4 +1,4 @@
-import { Notification } from '@shared/interfaces/notification.interface';
+import { Notification } from '@shared/types/notification.types';
 import { replaceEmojis } from './replaceEmojis';
 
 export const createNotification = (body: Omit<Notification, 'timestamp'>) => {
